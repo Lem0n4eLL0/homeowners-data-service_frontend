@@ -1,0 +1,4 @@
+echo 'Running linter and prettier'
+npm run lint:fix
+npm run lint:css:fix
+npm run format

@@ -1,0 +1,14 @@
+node_modules
+dist
+build
+coverage
+*.min.css
+*.min.scss
+*.js
+*.jsx
+*.ts
+*.tsx
+*.json
+*.md
+*.html
+src/styles/normalize.css

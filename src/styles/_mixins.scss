@@ -1,0 +1,7 @@
+@use 'sass:map';
+
+@mixin typography($style) {
+  font-size: map.get($style, size);
+  line-height: map.get($style, line-height);
+  font-weight: map.get($style, weight);
+}

@@ -1,0 +1,52 @@
+# Java
+backend/**/*.java
+
+# Папки с зависимостями
+**/node_modules
+
+# Собранный код
+frontend/dist
+frontend/build
+frontend/.out
+backend/target
+
+# Система контроля версий
+.git
+.gitignore
+
+# Husky
+.husky
+
+# Отчёты о тестах
+frontend/coverage
+
+# Минифицированные файлы
+*.min.js
+*.min.css
+
+# Файлы конфигурации (опционально)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Статические файлы (опционально)
+public
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+
+# Файлы IDE (опционально)
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Логи и временные файлы
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
