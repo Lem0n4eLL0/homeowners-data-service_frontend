@@ -1,0 +1,68 @@
+# .github/workflows/deploy.yml (в репо фронтенда)
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  REGISTRY: ghcr.io
+  OWNER: ${{ github.repository_owner }}
+  API_URL: https://api.brigada-kanbanov.ru  # ← переменная для удобства
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install & Build
+        run: |
+          npm ci
+          # Передаём правильный API URL для поддоменов
+          REACT_APP_API_URL=${{ env.API_URL }} npm run build
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/frontend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/frontend:${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo ${{ secrets.CR_PAT }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+            cd /opt/myapp
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull frontend
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-deps frontend
+            docker image prune -f
