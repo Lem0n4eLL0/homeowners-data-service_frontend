@@ -40,6 +40,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.CR_PAT }}
 
+      - name: Set lowercase owner
+        run: echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
+
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
@@ -47,8 +50,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/frontend:latest
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/frontend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/frontend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/frontend:${{ github.sha }}
 
   deploy:
     needs: build-and-push
