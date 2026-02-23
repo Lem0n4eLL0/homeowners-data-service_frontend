@@ -62,7 +62,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo ${{ secrets.CR_PAT }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
-            cd /opt/myapp
+            cd /opt/homeowners/homeowners-data-service
             docker compose -f docker-compose.yml -f docker-compose.prod.yml pull frontend
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-deps frontend
             docker image prune -f
