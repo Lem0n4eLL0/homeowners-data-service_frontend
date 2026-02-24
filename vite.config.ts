@@ -21,6 +21,12 @@ export default defineConfig({
     sourcemap: true,
     target: 'es2016',
   },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
+    },
+  },
   test: {
     projects: [
       {

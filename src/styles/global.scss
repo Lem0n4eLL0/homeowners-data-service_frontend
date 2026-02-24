@@ -1,4 +1,6 @@
+@use './variables' as *;
+
 body {
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: $main-font;
   height: 100%;
 }
