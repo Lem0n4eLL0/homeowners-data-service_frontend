@@ -26,6 +26,12 @@ export const DisabledTextInput: Story = {
   },
 };
 
+export const TextInputHeigth: Story = {
+  args: {
+    elementHeight: 48,
+  },
+};
+
 export const PasswordInput: Story = {
   args: {
     type: 'password',
