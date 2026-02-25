@@ -18,6 +18,7 @@ const config: StorybookConfig = {
         alias: {
           '@': fileURLToPath(new URL('../src', import.meta.url)),
           '@styles': fileURLToPath(new URL('../src/styles', import.meta.url)),
+          '@utils': fileURLToPath(new URL('../src/utils', import.meta.url)),
         },
       },
     });

@@ -1,0 +1,41 @@
+@use '@styles/_variables.scss' as *;
+
+.button {
+  width: 100%;
+  padding: 16px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition-property: background-color, color, border-color;
+  transition-duration: 0.15s;
+
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+
+  &_blue {
+    background-color: $color-bg-accent;
+    color: $color-text-secondary;
+    height: 56px;
+
+    &:hover,
+    &:focus-visible {
+      background-color: $color-action-blue;
+    }
+  }
+
+  &_error {
+    background-color: inherit;
+    color: $color-text-accent-2;
+    border: 2px solid $color-border-accent-2;
+
+    &:hover,
+    &:focus-visible {
+      background-color: $color-border-accent-2;
+      color: $color-text-secondary;
+    }
+  }
+}
