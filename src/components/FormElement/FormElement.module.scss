@@ -27,42 +27,6 @@
   }
 }
 
-.input_field {
-  width: 100%;
-  max-height: 52px;
-  background-color: inherit;
-  border: 1px solid $color-border-light;
-  border-radius: 4px;
-  padding: 16px 20px;
-  color: $color-text-primary;
-  font-size: 14px;
-  transition: border-color 0.2s ease;
-
-  &::placeholder {
-    color: $color-text-primary-2;
-  }
-
-  &:disabled {
-    color: $color-text-primary-2;
-  }
-
-  &:hover,
-  &:focus,
-  &:focus-visible {
-    border-color: $color-border-accent;
-
-    &:disabled {
-      color: $color-text-primary-2;
-      border-color: $color-border-light;
-    }
-  }
-
-  &:focus,
-  &:focus-visible {
-    outline: none;
-  }
-}
-
 .field_error {
   width: 100%;
   font-size: 14px;
