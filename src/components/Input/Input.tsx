@@ -20,7 +20,7 @@ export const Input = (props: IInput) => {
       default:
         return;
     }
-  }, []);
+  }, [type]);
   return (
     <input
       type={type}

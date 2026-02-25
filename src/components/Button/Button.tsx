@@ -20,7 +20,7 @@ export const Button = (props: IButton) => {
       default:
         return;
     }
-  }, []);
+  }, [option]);
 
   return (
     <button className={clsx(style['button'], className)} style={{ width: width }} {...rest}>
