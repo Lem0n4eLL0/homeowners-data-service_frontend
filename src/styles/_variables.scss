@@ -33,6 +33,7 @@ $color-bg-accent-3: $blue-300;
 
 // --- Границы ---
 $color-border-light: $neutral-200;
+$color-border-light-2: #e0e0e0;
 $color-border-accent: $blue-500;
 $color-border-accent-2: $red-800;
 
@@ -52,3 +53,8 @@ $icon-lightning-color: #ffcb15;
 $icon-check-mark-color: $blue-500;
 $icon-file-color: $blue-500;
 $icon-plus-color: $blue-500;
+
+// === Effects ===
+$transition-duration-extra-small: 0.1s;
+$transition-duration-small: 0.15s;
+$transition-duration-medium: 0.2s;

@@ -10,7 +10,7 @@
   padding: 16px 20px;
   color: $color-text-primary;
   font-size: 14px;
-  transition: border-color 0.2s ease;
+  transition: border-color $transition-duration-medium ease;
 
   &::placeholder {
     color: $color-text-primary-2;

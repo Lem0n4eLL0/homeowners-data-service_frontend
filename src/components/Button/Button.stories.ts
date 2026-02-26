@@ -39,13 +39,3 @@ export const DeleteButton: Story = {
     width: 140,
   },
 };
-
-export const DisableDeleteButton: Story = {
-  args: {
-    option: 'errorButton',
-    name: 'error',
-    children: 'Удалить',
-    width: 140,
-    disabled: true,
-  },
-};
