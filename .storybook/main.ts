@@ -20,6 +20,8 @@ const config: StorybookConfig = {
           '@styles': fileURLToPath(new URL('../src/styles', import.meta.url)),
           '@utils': fileURLToPath(new URL('../src/utils', import.meta.url)),
           '@assets': fileURLToPath(new URL('../src/assets', import.meta.url)),
+          '@pages': fileURLToPath(new URL('../src/components/pages', import.meta.url)),
+          '@layouts': fileURLToPath(new URL('../src/components/layouts', import.meta.url)),
         },
       },
       define: {

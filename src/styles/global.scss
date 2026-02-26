@@ -2,5 +2,10 @@
 
 body {
   font-family: $main-font;
+  line-height: 24px;
+  height: 100vh;
+}
+
+#root {
   height: 100%;
 }
