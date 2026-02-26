@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, useMemo } from 'react';
 import commonStyle from '@styles/common.module.scss';
+import style from './Input.module.scss';
 import clsx from 'clsx';
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
@@ -17,6 +18,8 @@ export const Input = (props: IInput) => {
       case 'email':
       case 'phone':
         return commonStyle['form_field'];
+      case 'checkbox':
+        return style['field_checkbox'];
       default:
         return;
     }
@@ -24,7 +27,7 @@ export const Input = (props: IInput) => {
   return (
     <input
       type={type}
-      className={clsx(inputBaseClassName, extraClassName)}
+      className={clsx(inputBaseClassName, extraClassName, style['field'])}
       style={{ width: elementWidth, height: elementHeight }}
       {...rest}
     />
