@@ -24,11 +24,28 @@ export const BlueButton: Story = {
   },
 };
 
+export const DisableBlueButton: Story = {
+  args: {
+    option: 'blueButton',
+    disabled: true,
+  },
+};
+
 export const DeleteButton: Story = {
   args: {
     option: 'errorButton',
     name: 'error',
     children: 'Удалить',
     width: 140,
+  },
+};
+
+export const DisableDeleteButton: Story = {
+  args: {
+    option: 'errorButton',
+    name: 'error',
+    children: 'Удалить',
+    width: 140,
+    disabled: true,
   },
 };

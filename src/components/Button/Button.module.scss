@@ -16,6 +16,10 @@
     outline: none;
   }
 
+  &:disabled {
+    cursor: default;
+  }
+
   &_blue {
     background-color: $color-bg-accent;
     color: $color-text-secondary;
@@ -24,6 +28,11 @@
     &:hover,
     &:focus-visible {
       background-color: $color-action-blue;
+    }
+
+    &:disabled {
+      background-color: $color-bg-accent-3;
+      color: $color-text-secondary-2;
     }
   }
 

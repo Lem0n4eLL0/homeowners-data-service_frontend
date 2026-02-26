@@ -7,6 +7,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@styles/(.*)$': '<rootDir>/src/styles/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^@assets/(.*)$': '<rootDir>/src/assets/$1',
   },
 
   testMatch: [
