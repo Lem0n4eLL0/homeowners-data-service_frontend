@@ -19,7 +19,13 @@ const config: StorybookConfig = {
           '@': fileURLToPath(new URL('../src', import.meta.url)),
           '@styles': fileURLToPath(new URL('../src/styles', import.meta.url)),
           '@utils': fileURLToPath(new URL('../src/utils', import.meta.url)),
+          '@assets': fileURLToPath(new URL('../src/assets', import.meta.url)),
         },
+      },
+      define: {
+        ...config.define,
+        'process.env.APP_STORE_URL': JSON.stringify(process.env.APP_STORE_URL),
+        'process.env.GOOGLE_PLAY_URL': JSON.stringify(process.env.GOOGLE_PLAY_URL),
       },
     });
   },
