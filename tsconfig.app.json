@@ -10,7 +10,8 @@
       "@utils/*": ["./src/utils/*"],
       "@assets/*": ["./src/assets/*"],
       "@pages/*": ["./src/components/pages/*"],
-      "@layouts/*": ["./src/components/layouts/*"]
+      "@layouts/*": ["./src/components/layouts/*"],
+      "@features/*": ["./src/features/*"]
     }
   },
   "include": ["src/**/*"],
