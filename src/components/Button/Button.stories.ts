@@ -10,7 +10,6 @@ const meta = {
     type: 'button',
     name: 'test',
     children: 'Тестовая кнопка',
-    width: 260,
   },
 } satisfies Meta<typeof Button>;
 
@@ -20,22 +19,32 @@ type Story = StoryObj<typeof meta>;
 
 export const BlueButton: Story = {
   args: {
-    option: 'blueButton',
+    option: 'BlueButton',
+    width: 260,
   },
 };
 
 export const DisableBlueButton: Story = {
   args: {
-    option: 'blueButton',
+    option: 'BlueButton',
     disabled: true,
+    width: 260,
   },
 };
 
 export const DeleteButton: Story = {
   args: {
-    option: 'errorButton',
+    option: 'DeleteButton',
     name: 'error',
     children: 'Удалить',
     width: 140,
+  },
+};
+
+export const LinkButton: Story = {
+  args: {
+    option: 'LinkButton',
+    name: 'link',
+    children: 'Поменять номер',
   },
 };

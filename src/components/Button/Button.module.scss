@@ -37,7 +37,7 @@
     }
   }
 
-  &_error {
+  &_delete {
     background-color: inherit;
     color: $color-text-accent-2;
     border: 2px solid $color-border-accent-2;
@@ -47,5 +47,18 @@
       background-color: $color-border-accent-2;
       color: $color-text-secondary;
     }
+  }
+}
+
+.button_link {
+  background-color: inherit;
+  border: none;
+  font-size: 16px;
+  color: $color-text-accent;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    color: $color-action-blue;
   }
 }
