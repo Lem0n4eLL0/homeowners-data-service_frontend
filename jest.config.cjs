@@ -10,6 +10,7 @@ module.exports = {
     '^@assets/(.*)$': '<rootDir>/src/assets/$1',
     '^@pages/(.*)$': '<rootDir>/src/components/pages/$1',
     '^@layouts/(.*)$': '<rootDir>/src/components/layouts/$1',
+    '^@features/(.*)$': '<rootDir>/src/features/$1',
   },
 
   testMatch: [

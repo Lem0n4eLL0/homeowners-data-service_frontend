@@ -29,6 +29,7 @@ export default defineConfig({
       '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
       '@pages': fileURLToPath(new URL('./src/components/pages', import.meta.url)),
       '@layouts': fileURLToPath(new URL('./src/components/layouts', import.meta.url)),
+      '@features': fileURLToPath(new URL('./src/features', import.meta.url)),
     },
   },
   test: {
