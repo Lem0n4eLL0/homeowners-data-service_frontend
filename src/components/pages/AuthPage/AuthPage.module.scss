@@ -21,6 +21,14 @@
     margin-bottom: 40px;
   }
 
+  &__title {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 48px;
+    text-align: center;
+    color: $color-text-primary;
+  }
+
   &__form {
     width: 100%;
     margin-bottom: 24px;
@@ -35,16 +43,10 @@
     margin-bottom: 28px;
   }
 
-  &__demo {
-    font-weight: 500;
-    text-decoration: none;
-  }
-
   &__line {
     background-color: $color-border-light-2;
   }
 
-  &__demo,
   &__link {
     color: $color-text-accent;
     text-align: center;
@@ -53,22 +55,5 @@
     &:hover {
       color: $color-action-blue;
     }
-  }
-}
-
-.form {
-  &__title {
-    font-weight: 600;
-    font-size: 28px;
-    line-height: 48px;
-    margin-bottom: 44px;
-    text-align: center;
-    color: $color-text-primary;
-  }
-
-  &__fields {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
   }
 }

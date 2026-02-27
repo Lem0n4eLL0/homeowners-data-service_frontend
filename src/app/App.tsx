@@ -1,16 +1,18 @@
 import { Route, Routes } from 'react-router';
 import { MainLayout } from '@layouts/MainLayout';
-import { AuthStepOne } from '@pages/AuthStepOne';
+import { AuthPage } from '@pages/AuthPage';
 
 const App = () => {
   return (
     <Routes>
       <Route
-        index
+        path="/"
         element={<MainLayout header={<div>Header</div>} footer={<div>Footer</div>} />}
-      ></Route>
+      >
+        <Route index element={<div>Hello, world!</div>} />
+      </Route>
       <Route path="/" element={<MainLayout />}>
-        <Route path="auth-step-one" element={<AuthStepOne />}></Route>
+        <Route path="auth" element={<AuthPage />}></Route>
       </Route>
       <Route path="*" element={<div>Error 404</div>}></Route>
     </Routes>

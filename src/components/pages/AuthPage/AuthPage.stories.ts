@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
-import { AuthStepOne } from './AuthStepOne';
+import { AuthPage } from './AuthPage';
 
 const meta = {
-  title: 'AuthStepOne',
-  component: AuthStepOne,
+  title: 'AuthPage',
+  component: AuthPage,
   tags: ['autodocs'],
-} satisfies Meta<typeof AuthStepOne>;
+} satisfies Meta<typeof AuthPage>;
 
 export default meta;
 
