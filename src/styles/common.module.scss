@@ -36,3 +36,13 @@
     outline: none;
   }
 }
+
+.base_link {
+  color: $color-text-accent;
+  text-align: center;
+  transition: color $transition-duration-extra-small;
+
+  &:hover {
+    color: $color-action-blue;
+  }
+}

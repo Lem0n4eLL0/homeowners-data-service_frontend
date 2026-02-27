@@ -8,10 +8,12 @@ type AuthSteps = 'AuthStepOne' | 'AuthStepTwo' | 'AuthCompleted';
 
 type AuthState = {
   stepState: AuthSteps;
+  isBlockedCodeMessage: boolean;
 };
 
 const initialState: AuthState = {
   stepState: 'AuthStepOne',
+  isBlockedCodeMessage: false,
 };
 
 const authSlice = createSlice({
@@ -21,12 +23,17 @@ const authSlice = createSlice({
     setStepState: (state, action: PayloadAction<AuthSteps>) => {
       state.stepState = action.payload;
     },
+    setIsBlockedCodeMessage: (state, action: PayloadAction<boolean>) => {
+      state.isBlockedCodeMessage = action.payload;
+    },
   },
   selectors: {
     selectStepState: store => store.stepState,
+    selectIsBlockedCodeMessage: store => store.isBlockedCodeMessage,
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { selectStepState } = authSlice.selectors;
-export const { setStepState } = authSlice.actions;
+export const { selectStepState, selectIsBlockedCodeMessage } = authSlice.selectors;
+
+export const { setStepState, setIsBlockedCodeMessage } = authSlice.actions;

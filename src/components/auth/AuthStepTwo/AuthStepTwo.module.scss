@@ -1,0 +1,61 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  padding: 44px 0 20px;
+  color: $color-text-primary;
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 38px;
+  }
+
+  &__description {
+    font-size: 16px;
+  }
+
+  &__agreement {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.agreement__description {
+  font-size: 12px;
+  line-height: 16px;
+  color: $color-text-primary-2;
+}
+
+.agreement__checkbox {
+  width: min-content;
+}
+
+.content__change-phone-button {
+  align-self: flex-end;
+}
+
+.content__timer {
+  align-self: center;
+}
+
+.content__send-code-button {
+  font-weight: 500;
+}
+
+.form {
+  &_verification_code {
+    margin-bottom: 24px;
+  }
+
+  &__password_input {
+    margin-bottom: 12px;
+  }
+
+  &__send_code_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+}
