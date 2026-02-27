@@ -4,6 +4,13 @@ module.exports = {
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(css|scss|sass)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@styles/(.*)$': '<rootDir>/src/styles/$1',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^@assets/(.*)$': '<rootDir>/src/assets/$1',
+    '^@pages/(.*)$': '<rootDir>/src/components/pages/$1',
+    '^@layouts/(.*)$': '<rootDir>/src/components/layouts/$1',
+    '^@features/(.*)$': '<rootDir>/src/features/$1',
   },
 
   testMatch: [

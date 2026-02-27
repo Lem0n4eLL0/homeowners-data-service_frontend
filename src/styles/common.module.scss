@@ -1,0 +1,48 @@
+@use './variables' as *;
+
+.form_field {
+  width: 100%;
+  height: 100%;
+  max-height: 52px;
+  background-color: inherit;
+  border: 1px solid $color-border-light;
+  border-radius: 4px;
+  padding: 16px 20px;
+  color: $color-text-primary;
+  font-size: 14px;
+  transition: border-color $transition-duration-medium ease;
+
+  &::placeholder {
+    color: $color-text-primary-2;
+  }
+
+  &:disabled {
+    color: $color-text-primary-2;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border-color: $color-border-accent;
+
+    &:disabled {
+      color: $color-text-primary-2;
+      border-color: $color-border-light;
+    }
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.base_link {
+  color: $color-text-accent;
+  text-align: center;
+  transition: color $transition-duration-extra-small;
+
+  &:hover {
+    color: $color-action-blue;
+  }
+}

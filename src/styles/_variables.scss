@@ -1,0 +1,60 @@
+// === Fonts ===
+$main-font: 'Montserrat', sans-serif;
+
+// === Palette ===
+$neutral-100: #fff;
+$neutral-150: #f5f5f5;
+$neutral-200: #e4dcd3;
+$neutral-400: #666;
+$neutral-450: #464646;
+$neutral-900: #212121;
+$blue-100: #ebf5ff;
+$blue-300: #99b8d6;
+$blue-500: #004f9e;
+$red-700: #ef2626;
+$red-800: #9e0010;
+
+// === Colors ===
+// --- Текст ---
+$color-text-primary: $neutral-900;
+$color-text-primary-2: $neutral-400;
+$color-text-secondary: $neutral-100;
+$color-text-secondary-2: $neutral-450;
+$color-text-accent: $blue-500;
+$color-text-accent-2: $red-800;
+$color-text-error: $red-700;
+
+// --- Фон ---
+$color-bg-primary: $neutral-100;
+$color-bg-secondary: $neutral-150;
+$color-bg-accent: $blue-500;
+$color-bg-accent-2: $blue-100;
+$color-bg-accent-3: $blue-300;
+
+// --- Границы ---
+$color-border-light: $neutral-200;
+$color-border-light-2: #e0e0e0;
+$color-border-accent: $blue-500;
+$color-border-accent-2: $red-800;
+
+// --- Actions ---
+$color-action-blue: #005fbe;
+$color-outline: $neutral-900;
+
+// === SVG ===
+// --- Colors ---
+$icon-exit-color: $neutral-900;
+$icon-list-polygon-color: $neutral-900;
+$icon-hot-water-color: #dc1c1c;
+$icon-cold-water-color: #2b6db0;
+$icon-star-mark-color: $red-700;
+$icon-gas-color: #14b0f2;
+$icon-lightning-color: #ffcb15;
+$icon-check-mark-color: $blue-500;
+$icon-file-color: $blue-500;
+$icon-plus-color: $blue-500;
+
+// === Effects ===
+$transition-duration-extra-small: 0.1s;
+$transition-duration-small: 0.15s;
+$transition-duration-medium: 0.2s;

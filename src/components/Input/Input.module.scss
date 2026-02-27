@@ -1,0 +1,8 @@
+@use '@styles/_variables.scss' as *;
+
+.field {
+  &_checkbox {
+    width: 24px;
+    height: 24px;
+  }
+}

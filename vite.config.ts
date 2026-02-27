@@ -21,6 +21,17 @@ export default defineConfig({
     sourcemap: true,
     target: 'es2016',
   },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
+      '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
+      '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+      '@pages': fileURLToPath(new URL('./src/components/pages', import.meta.url)),
+      '@layouts': fileURLToPath(new URL('./src/components/layouts', import.meta.url)),
+      '@features': fileURLToPath(new URL('./src/features', import.meta.url)),
+    },
+  },
   test: {
     projects: [
       {

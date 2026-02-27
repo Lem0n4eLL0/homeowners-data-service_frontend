@@ -5,7 +5,13 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@pages/*": ["./src/components/pages/*"],
+      "@layouts/*": ["./src/components/layouts/*"],
+      "@features/*": ["./src/features/*"]
     }
   },
   "include": ["src/**/*"],
