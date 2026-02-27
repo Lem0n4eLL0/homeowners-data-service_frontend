@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, useMemo } from 'react';
 import style from './Button.module.scss';
-type ButtonOption = 'blueButton' | 'errorButton';
+type ButtonOption = 'BlueButton' | 'DeleteButton' | 'LinkButton';
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   option: ButtonOption;
@@ -9,21 +9,23 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = (props: IButton) => {
-  const { children, option, width, ...rest } = props;
+  const { children, option, width, className, ...rest } = props;
 
-  const className = useMemo(() => {
+  const extraClassName = useMemo(() => {
     switch (option) {
-      case 'blueButton':
-        return style['button_blue'];
-      case 'errorButton':
-        return style['button_error'];
+      case 'BlueButton':
+        return clsx(style['button'], style['button_blue']);
+      case 'DeleteButton':
+        return clsx(style['button'], style['button_delete']);
+      case 'LinkButton':
+        return style['button_link'];
       default:
         return;
     }
   }, [option]);
 
   return (
-    <button className={clsx(style['button'], className)} style={{ width: width }} {...rest}>
+    <button className={clsx(className, extraClassName)} style={{ width: width }} {...rest}>
       {children}
     </button>
   );

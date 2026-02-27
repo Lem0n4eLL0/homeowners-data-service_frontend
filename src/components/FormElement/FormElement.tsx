@@ -7,13 +7,14 @@ interface IFormElement {
   isRequired?: boolean;
   width?: number | string;
   error?: string;
+  extraClassName?: string;
 }
 
 export const FormElement = (props: IFormElement) => {
-  const { children, label, width, error, isRequired = false } = props;
+  const { children, label, width, error, extraClassName, isRequired = false } = props;
 
   return (
-    <div className={style['content']}>
+    <div className={clsx(extraClassName, style['content'])}>
       <label className={style['label']} style={{ width: width }}>
         {label !== undefined && (
           <span

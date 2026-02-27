@@ -46,14 +46,4 @@
   &__line {
     background-color: $color-border-light-2;
   }
-
-  &__link {
-    color: $color-text-accent;
-    text-align: center;
-    transition: color $transition-duration-extra-small;
-
-    &:hover {
-      color: $color-action-blue;
-    }
-  }
 }
