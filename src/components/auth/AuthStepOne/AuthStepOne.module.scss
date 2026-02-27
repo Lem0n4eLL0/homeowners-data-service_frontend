@@ -1,0 +1,43 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+  width: 100%;
+  font-size: 16px;
+  padding: 44px 0 20px;
+
+  &__form {
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  &__demo {
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  &__line {
+    background-color: $color-border-light-2;
+  }
+
+  &__demo {
+    color: $color-text-accent;
+    text-align: center;
+    transition: color $transition-duration-extra-small;
+
+    &:hover {
+      color: $color-action-blue;
+    }
+  }
+}
+
+.form {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
