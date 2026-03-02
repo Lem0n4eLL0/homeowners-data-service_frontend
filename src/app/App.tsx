@@ -3,18 +3,21 @@ import { MainLayout } from '@layouts/MainLayout';
 import { AuthPage } from '@pages/AuthPage';
 
 const App = () => {
+  // git commit -m 'Настройка основыных путей (клиентский роутинг)'
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<MainLayout header={<div>Header</div>} footer={<div>Footer</div>} />}
-      >
-        <Route index element={<div>Hello, world!</div>} />
+      <Route element={<MainLayout header={<div>Header</div>} />}>
+        <Route path="readings" element={<div>Показания</div>} />
+        <Route path="accruals" element={<div>Начисления</div>} />
+        <Route path="applications" element={<div>Заявки</div>} />
+        <Route path="services" element={<div>Услуги</div>} />
+        <Route path="profile" element={<div>Профиль</div>} />
+        <Route path="news" element={<div>Новости</div>} />
       </Route>
-      <Route path="/" element={<MainLayout />}>
+      <Route element={<MainLayout />}>
         <Route path="auth" element={<AuthPage />}></Route>
       </Route>
-      <Route path="*" element={<div>Error 404</div>}></Route>
+      <Route path="*" element={<div>Error page</div>}></Route>
     </Routes>
   );
 };
