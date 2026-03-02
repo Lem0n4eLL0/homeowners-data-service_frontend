@@ -1,11 +1,11 @@
-import { Time } from '../../../features/Timer/Time';
-import useTimer from '../../../hooks/useTimer';
+import { Time } from '@features/Timer/Time';
+import useTimer from '@/hooks/useTimer';
 import {
   selectIsBlockedCodeMessage,
   selectStepState,
   setIsBlockedCodeMessage,
-} from '../../../services/slices/auth';
-import { useAppDispatch, useAppSelector } from '../../../services/store';
+} from '@/services/slices/auth';
+import { useAppDispatch, useAppSelector } from '@/services/store';
 import { useEffect } from 'react';
 import { AuthStepOne } from '../AuthStepOne';
 import { AuthStepTwo } from '../AuthStepTwo';
