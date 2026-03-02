@@ -2,8 +2,8 @@ import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
 import { Input } from '@/components/Input';
 import { SyntheticEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../services/store';
-import { selectIsBlockedCodeMessage, setStepState } from '../../../services/slices/auth';
+import { useAppDispatch, useAppSelector } from '@/services/store';
+import { selectIsBlockedCodeMessage, setStepState } from '@/services/slices/auth';
 import { FormElement } from '@/components/FormElement';
 
 export const AuthStepOne = () => {
