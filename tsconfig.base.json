@@ -15,7 +15,8 @@
       "@assets/*": ["./src/assets/*"],
       "@pages/*": ["./src/components/pages/*"],
       "@layouts/*": ["./src/components/layouts/*"],
-      "@features/*": ["./src/features/*"]
+      "@features/*": ["./src/features/*"],
+      "@api/*": ["./src/api/*"]
     },
 
     "types": ["node"],

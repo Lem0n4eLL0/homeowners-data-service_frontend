@@ -11,6 +11,7 @@ module.exports = {
     '^@pages/(.*)$': '<rootDir>/src/components/pages/$1',
     '^@layouts/(.*)$': '<rootDir>/src/components/layouts/$1',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
+    '^@api/(.*)$': '<rootDir>/src/api/$1',
   },
 
   testMatch: [
