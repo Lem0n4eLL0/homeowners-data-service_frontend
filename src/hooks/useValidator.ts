@@ -17,6 +17,16 @@ export type ReturnValidatorErrors<T> = Partial<{
 
 export type ValidatorResult<T> = [isValid: boolean, errors: ReturnValidatorErrors<T>];
 
+export function composeValidators<T>(...validators: ValidationFunc<T>[]): ValidationFunc<T> {
+  return (value: T) => {
+    for (const validator of validators) {
+      const result = validator(value);
+      if (!result[0]) return result;
+    }
+    return [true, { message: '' }];
+  };
+}
+
 interface IValidator<T extends object> {
   initialValue: T;
   scheme: ValidationScheme<T>;
@@ -50,7 +60,7 @@ function useValidator<T extends object>({ initialValue, scheme, validateOnChange
       });
       return [isValid, validateErrors];
     },
-    [value, scheme]
+    [scheme]
   );
 
   const [isValid, errors] = useMemo(() => {
