@@ -1,8 +1,9 @@
+import { ErrorField } from '../ErrorField';
 import style from './FormElement.module.scss';
 import clsx from 'clsx';
 
 interface IFormElement {
-  children: React.ReactNode;
+  children: React.ReactNode | ((props: { isError: boolean }) => React.ReactNode);
   label?: string;
   isRequired?: boolean;
   width?: number | string;
@@ -12,7 +13,7 @@ interface IFormElement {
 
 export const FormElement = (props: IFormElement) => {
   const { children, label, width, error, extraClassName, isRequired = false } = props;
-
+  const isError = !!error;
   return (
     <div className={clsx(extraClassName, style['content'])}>
       <label className={style['label']} style={{ width: width }}>
@@ -26,9 +27,9 @@ export const FormElement = (props: IFormElement) => {
             {label}
           </span>
         )}
-        {children}
+        {typeof children === 'function' ? children({ isError }) : children}
       </label>
-      {error !== undefined && <span className={style['field_error']}>{error}</span>}
+      {isError && <ErrorField>{error}</ErrorField>}
     </div>
   );
 };

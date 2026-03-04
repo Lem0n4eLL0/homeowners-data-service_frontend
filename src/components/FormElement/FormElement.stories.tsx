@@ -9,7 +9,7 @@ const meta = {
 
   args: {
     width: 300,
-    children: <Input name="test" type="text" placeholder="Введите фимилию" />,
+    children: <Input name="test" type="text" placeholder="Введите имя" />,
   },
 } satisfies Meta<typeof FormElement>;
 

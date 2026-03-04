@@ -4,13 +4,14 @@ import style from './Input.module.scss';
 import clsx from 'clsx';
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
+  isError?: boolean;
   elementWidth?: number | string;
   elementHeight?: number | string;
   extraClassName?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
-  const { type, elementWidth, elementHeight, extraClassName, ...rest } = props;
+  const { type, elementWidth, elementHeight, extraClassName, isError, ...rest } = props;
   const inputBaseClassName = useMemo(() => {
     switch (type) {
       case 'text':
@@ -28,7 +29,12 @@ export const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
     <input
       type={type}
       ref={ref}
-      className={clsx(inputBaseClassName, extraClassName, style['field'])}
+      className={clsx(
+        inputBaseClassName,
+        extraClassName,
+        style['field'],
+        isError && commonStyle['form_field__error']
+      )}
       style={{ width: elementWidth, height: elementHeight }}
       {...rest}
     />

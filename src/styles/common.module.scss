@@ -35,6 +35,15 @@
   &:focus-visible {
     outline: none;
   }
+
+  &__error {
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      border-color: $error-color;
+    }
+    border-color: $error-color;
+  }
 }
 
 .base_link {

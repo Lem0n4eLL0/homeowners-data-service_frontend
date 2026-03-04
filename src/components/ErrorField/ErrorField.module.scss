@@ -1,0 +1,9 @@
+@use '@styles/_variables.scss' as *;
+
+.error {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  word-break: break-all;
+  color: $color-text-error;
+}
