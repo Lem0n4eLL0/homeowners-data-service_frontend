@@ -6,3 +6,6 @@ export const READY_REQUEST_STATUS: RequestStatus = {
   status: 'READY',
   error: undefined,
 };
+
+// Регулярные выражения
+export const PHONE_REGEXP = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
