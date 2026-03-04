@@ -1,18 +1,23 @@
 import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
 import { Input } from '@/components/Input';
-import { SyntheticEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '@/services/store';
-import { selectIsBlockedCodeMessage, setStepState } from '@/services/slices/auth';
+import { SyntheticEvent, useEffect, useRef } from 'react';
+import { useAppDispatch } from '@/services/store';
+import { sendVerificationCodeAuth } from '@/services/slices/auth';
 import { FormElement } from '@/components/FormElement';
 
 export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
-  const isBlockedCodeMessage = useAppSelector(selectIsBlockedCodeMessage);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(setStepState('AuthStepTwo'));
+    void dispatch(sendVerificationCodeAuth({ phone: '89171647381' }));
   };
 
   return (
@@ -20,9 +25,9 @@ export const AuthStepOne = () => {
       <form name="auth_form_step_1" onSubmit={onSubmit} className={style['content__form']}>
         <div className={style['form__fields']}>
           <FormElement>
-            <Input type="phone" name="phone_filed" placeholder="Номер телефона" />
+            <Input type="phone" name="phone_filed" ref={inputRef} placeholder="Номер телефона" />
           </FormElement>
-          <Button option="BlueButton" disabled={isBlockedCodeMessage}>
+          <Button type="submit" option="BlueButton">
             Далее
           </Button>
         </div>
