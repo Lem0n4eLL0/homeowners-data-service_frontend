@@ -1,5 +1,5 @@
 import { typedKeys } from '@/utils/utils';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 export type ValidationFunc<T> = (value: T) => [boolean, ValidatorError];
 
@@ -31,50 +31,72 @@ interface IValidator<T extends object> {
   initialValue: T;
   scheme: ValidationScheme<T>;
   validateOnChange?: boolean;
+  validateIsToched?: boolean;
 }
 
-function useValidator<T extends object>({ initialValue, scheme, validateOnChange }: IValidator<T>) {
+function useValidator<T extends object>(props: IValidator<T>) {
+  const { initialValue, scheme, validateOnChange, validateIsToched } = props;
   const [value, setValue] = useState<T>(initialValue);
+  const [isValid, setIsValid] = useState<boolean>(true);
+  const [errors, setErrors] = useState<ReturnValidatorErrors<T>>({});
+  const [isTouched, setIsTouched] = useState<Partial<Record<keyof T, boolean>>>({});
 
   const updateField = <K extends keyof T>(key: K, newValue: T[K]) => {
-    setValue(prev => ({
-      ...prev,
+    const newValueObj = {
+      ...value,
       [key]: newValue,
-    }));
+    };
+
+    const newTouched = {
+      ...isTouched,
+      [key]: true,
+    };
+
+    setValue(newValueObj);
+    setIsTouched(newTouched);
+    console.log(newValueObj);
+    if (validateOnChange) {
+      const result = runValidation(newValueObj, newTouched);
+      setIsValid(result[0]);
+      setErrors(result[1]);
+    }
   };
 
-  const validate = useCallback(
-    (val: T): ValidatorResult<T> => {
-      const validateErrors: ReturnValidatorErrors<T> = {};
-      let isValid = true;
+  const runValidation = (
+    val: T,
+    isTouched: Partial<Record<keyof T, boolean>>,
+    isValidateAll: boolean = false
+  ): ValidatorResult<T> => {
+    const validateErrors: ReturnValidatorErrors<T> = {};
+    let isValid = true;
 
-      typedKeys(scheme).forEach(key => {
-        const validator = scheme[key];
-        if (!validator) return;
-        const [fieldIsValid, error] = validator(val[key]);
+    typedKeys(scheme).forEach(key => {
+      if (!isValidateAll && validateIsToched && !isTouched[key]) return;
 
-        if (!fieldIsValid) {
-          isValid = false;
-          validateErrors[key] = error;
-        }
-      });
-      return [isValid, validateErrors];
-    },
-    [scheme]
-  );
+      const validator = scheme[key];
+      if (!validator) return;
+      const [fieldIsValid, error] = validator(val[key]);
 
-  const [isValid, errors] = useMemo(() => {
-    if (!validateOnChange) {
-      return [true, {} as ReturnValidatorErrors<T>];
-    }
-    return validate(value);
-  }, [value, validateOnChange, validate]);
+      if (!fieldIsValid) {
+        isValid = false;
+        validateErrors[key] = error;
+      }
+    });
+    return [isValid, validateErrors];
+  };
+
+  const validate = (isValidateAll: boolean = false): ValidatorResult<T> => {
+    const result = runValidation(value, isTouched, isValidateAll);
+    setErrors(result[1]);
+    setIsValid(result[0]);
+    return result;
+  };
 
   return {
     value,
     isValid,
     errors,
-    validate: () => validate(value),
+    validate,
     updateField,
   };
 }

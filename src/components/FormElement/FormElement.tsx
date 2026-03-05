@@ -3,11 +3,11 @@ import style from './FormElement.module.scss';
 import clsx from 'clsx';
 
 interface IFormElement {
-  children: React.ReactNode | ((props: { isError: boolean }) => React.ReactNode);
+  children: React.ReactNode | ((isError: boolean) => React.ReactNode);
   label?: string;
   isRequired?: boolean;
   width?: number | string;
-  error?: string;
+  error?: string | undefined;
   extraClassName?: string;
 }
 
@@ -27,7 +27,7 @@ export const FormElement = (props: IFormElement) => {
             {label}
           </span>
         )}
-        {typeof children === 'function' ? children({ isError }) : children}
+        {typeof children === 'function' ? children(isError) : children}
       </label>
       {isError && <ErrorField>{error}</ErrorField>}
     </div>

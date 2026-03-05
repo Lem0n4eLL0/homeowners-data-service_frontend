@@ -8,4 +8,4 @@ export const READY_REQUEST_STATUS: RequestStatus = {
 };
 
 // Регулярные выражения
-export const PHONE_REGEXP = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+export const PHONE_REGEXP = /^\+?\(?[0-9]{3}\)?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;

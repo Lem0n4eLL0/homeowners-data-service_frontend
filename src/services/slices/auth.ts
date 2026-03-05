@@ -85,7 +85,6 @@ const authSlice = createSlice({
     }),
 
     backToStepOne: create.reducer(state => {
-      state.data = { phone: undefined };
       state.stepState = 'AuthStepOne';
       state.statuses.sendCodeStatus = READY_REQUEST_STATUS;
       state.statuses.verifyCodeStatus = READY_REQUEST_STATUS;

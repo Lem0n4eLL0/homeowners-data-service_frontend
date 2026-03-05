@@ -43,7 +43,7 @@ export const AuthStepTwo = () => {
   };
 
   // Запрос на отправку кода
-  const sendCodeAgain = async (e: SyntheticEvent) => {
+  const sendCodeAgain = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (phone) {
       await dispatch(sendVerificationCodeAuth({ phone }));
@@ -56,7 +56,7 @@ export const AuthStepTwo = () => {
   };
 
   // Запрос на подтвержедение кода
-  const verifyCode = (e: SyntheticEvent) => {
+  const verifyCode = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     void dispatch(verificationCodeAuth({ phone: '', code: '' }));
   };
@@ -89,18 +89,23 @@ export const AuthStepTwo = () => {
               type="submit"
               form="auth_form_send_code"
               option="LinkButton"
-              name="send_again_code_message_button"
+              name="send_code_button"
               className={style['content__send-code-button']}
             >
               Повторно отправить пароль
             </Button>
           )}
         </div>
-        <Button type="submit" form="auth_form_verify_code" option="BlueButton">
+        <Button
+          type="submit"
+          name="verify_code_button"
+          form="auth_form_verify_code"
+          option="BlueButton"
+        >
           Войти
         </Button>
       </div>
-      {isUserExist && (
+      {!isUserExist && (
         <div className={style['content__agreement']}>
           <FormElement extraClassName={style['agreement__checkbox']}>
             <Input type="checkbox" name="agreement" />
@@ -121,13 +126,13 @@ export const AuthStepTwo = () => {
         id="auth_form_send_code"
         name="auth_form_send_code"
         className={commonStyle['hidden']}
-        onSubmit={void sendCodeAgain}
+        onSubmit={e => void sendCodeAgain(e)}
       ></form>
       <form
         id="auth_form_verify_code"
         name="auth_form_verify_code"
         className={commonStyle['hidden']}
-        onSubmit={void verifyCode}
+        onSubmit={e => void verifyCode(e)}
       ></form>
     </div>
   );

@@ -1,15 +1,31 @@
 import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
 import { Input } from '@/components/Input';
-import { SyntheticEvent, useEffect, useRef } from 'react';
-import { useAppDispatch } from '@/services/store';
-import { sendVerificationCodeAuth } from '@/services/slices/auth';
+import { ChangeEvent, SyntheticEvent, useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '@/services/store';
+import { selectDataAuth, sendVerificationCodeAuth } from '@/services/slices/auth';
 import { FormElement } from '@/components/FormElement';
+import useValidator, { ValidationScheme } from '@/hooks/useValidator';
+import { SendVerificationCodeRequest } from '@/api/apiTypes';
+import { likeRegExp } from '@/features/Validator/ValidationFunctions';
+import { PHONE_REGEXP } from '@/common/constants';
+
+const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
+  phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
+};
 
 export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
+  const { phone } = useAppSelector(selectDataAuth);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const { isValid, value, errors, validate, updateField } =
+    useValidator<SendVerificationCodeRequest>({
+      initialValue: { phone: phone ?? '' },
+      scheme: sendVerificationCodeFormScheme,
+      validateIsToched: true,
+      validateOnChange: true,
+    });
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -17,17 +33,36 @@ export const AuthStepOne = () => {
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    void dispatch(sendVerificationCodeAuth({ phone: '89171647381' }));
+
+    const [isValide] = validate(true);
+    if (!isValide) return;
+
+    void dispatch(sendVerificationCodeAuth(value));
+  };
+
+  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updateField('phone', value);
   };
 
   return (
     <div className={style['content']}>
       <form name="auth_form_step_1" onSubmit={onSubmit} className={style['content__form']}>
         <div className={style['form__fields']}>
-          <FormElement>
-            <Input type="phone" name="phone_filed" ref={inputRef} placeholder="Номер телефона" />
+          <FormElement error={errors.phone?.message}>
+            {isError => (
+              <Input
+                type="phone"
+                name="phone_filed"
+                value={value.phone}
+                ref={inputRef}
+                placeholder="Номер телефона"
+                isError={isError}
+                onChange={onChangePhone}
+              />
+            )}
           </FormElement>
-          <Button type="submit" option="BlueButton">
+          <Button type="submit" option="BlueButton" disabled={!isValid}>
             Далее
           </Button>
         </div>
