@@ -4,6 +4,15 @@
   padding: 44px 0 20px;
   color: $color-text-primary;
 
+  &__title {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 48px;
+    text-align: center;
+    color: $color-text-primary;
+    margin-bottom: 20px;
+  }
+
   &__info {
     display: flex;
     flex-direction: column;

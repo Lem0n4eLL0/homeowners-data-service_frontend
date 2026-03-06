@@ -1,15 +1,12 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 import { Input } from '../Input';
 import style from './PhoneInput.module.scss';
 import { phoneFormatter } from '@/utils/utils';
+import { IBaseInput } from '../Input/Input';
 
-interface IPhoneInput extends InputHTMLAttributes<HTMLInputElement> {
+interface IPhoneInput extends IBaseInput {
   type: 'phone';
   value: string;
-  isError?: boolean;
-  elementWidth?: number | string;
-  elementHeight?: number | string;
-  extraClassName?: string;
 }
 
 export const PHONE_PLACEHOLDER = '+7 (000) 000-00-00';

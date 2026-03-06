@@ -38,7 +38,7 @@ export const PhoneInputThreeNumbers: Story = {
   },
 };
 
-export const PhoneInputForeNumbers: Story = {
+export const PhoneInputFourNumbers: Story = {
   args: {
     value: '1234',
   },

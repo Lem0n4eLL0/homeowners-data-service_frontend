@@ -1,4 +1,4 @@
-import { ErrorField } from '../ErrorField';
+import { ErrorField } from '../../ErrorField';
 import style from './FormElement.module.scss';
 import clsx from 'clsx';
 

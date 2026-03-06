@@ -3,14 +3,14 @@ import commonStyle from '@styles/common.module.scss';
 import style from './Input.module.scss';
 import clsx from 'clsx';
 
-interface IInput extends InputHTMLAttributes<HTMLInputElement> {
+export interface IBaseInput extends InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
   elementWidth?: number | string;
   elementHeight?: number | string;
   extraClassName?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, IInput>((props, ref) => {
+export const Input = forwardRef<HTMLInputElement, IBaseInput>((props, ref) => {
   const { type, elementWidth, elementHeight, extraClassName, isError, ...rest } = props;
   const inputBaseClassName = useMemo(() => {
     switch (type) {

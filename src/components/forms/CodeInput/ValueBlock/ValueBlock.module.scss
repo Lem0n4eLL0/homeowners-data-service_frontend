@@ -1,0 +1,41 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  position: relative;
+  width: 40px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg-secondary-2;
+  border-radius: 4px;
+  box-shadow: $shadow-1;
+  font-size: 36px;
+  line-height: 16px;
+  color: $color-text-primary;
+  transition-property: background-color box-shadow;
+  transition-duration: $transition-duration-extra-small;
+
+  &__focused {
+    background-color: $color-bg-secondary;
+    box-shadow: $shadow-2;
+  }
+
+  &__line {
+    position: absolute;
+    background-color: $line-color-1;
+    bottom: 11px;
+    animation: blink 1s step-end infinite;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}

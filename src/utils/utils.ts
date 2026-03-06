@@ -26,6 +26,17 @@ export const phoneFormatter = (value: string): string => {
     }
     return pre + postfix;
   }, result);
-  console.log(result);
+  return result;
+};
+
+export const codeFormatter = (value: string): Array<string> => {
+  let result = [] as Array<string>;
+
+  result = value
+    .split('')
+    .filter(el => {
+      return !isNaN(+el) && el !== ' ';
+    })
+    .slice(0, 6);
   return result;
 };

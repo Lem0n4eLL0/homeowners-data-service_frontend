@@ -1,14 +1,14 @@
 import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
-import { ChangeEvent, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { selectDataAuth, sendVerificationCodeAuth } from '@/services/slices/auth';
-import { FormElement } from '@/components/FormElement';
+import { FormElement } from '@/components/forms/FormElement';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import { SendVerificationCodeRequest } from '@/api/apiTypes';
 import { likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { PHONE_REGEXP } from '@/common/constants';
-import { PhoneInput } from '@/components/PhoneInput/PhoneInput';
+import { PhoneInput } from '@/components/forms/PhoneInput/PhoneInput';
 import { phoneFormatter } from '@/utils/utils';
 
 const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
@@ -18,7 +18,6 @@ const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeReque
 export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
   const { phone } = useAppSelector(selectDataAuth);
-  const [isShowError, setIsShowError] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const { isValid, value, errors, validate, updateField } =
@@ -50,9 +49,10 @@ export const AuthStepOne = () => {
 
   return (
     <div className={style['content']}>
+      <h1 className={style['content__title']}>Вход в личный кабинет</h1>
       <form name="auth_form_step_1" onSubmit={onSubmit} className={style['content__form']}>
         <div className={style['form__fields']}>
-          <FormElement error={isShowError ? errors.phone?.message : undefined}>
+          <FormElement>
             {isError => (
               <PhoneInput
                 type="phone"

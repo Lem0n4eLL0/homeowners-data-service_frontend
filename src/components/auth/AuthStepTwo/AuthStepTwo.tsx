@@ -1,7 +1,7 @@
-import { Input } from '@/components/Input';
+import { Input } from '@/components/forms/Input';
 import style from './AuthStepTwo.module.scss';
 import commonStyle from '@styles/common.module.scss';
-import { FormElement } from '@/components/FormElement';
+import { FormElement } from '@/components/forms/FormElement';
 import { Timer } from '@/components/Timer';
 import { Button } from '@/components/Button';
 import { useAppDispatch, useAppSelector } from '@/services/store';
@@ -63,6 +63,7 @@ export const AuthStepTwo = () => {
 
   return (
     <div className={style['content']}>
+      <h1 className={style['content__title']}>Вход в личный кабинет</h1>
       <div className={style['content__info']}>
         <span className={style['content__description']}>
           Пожалуйста, введите одноразовый пароль отправленный на номер {phone}
