@@ -1,6 +1,7 @@
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
-import { baseHeaders, checkResponse, fetchWithCheckResponse } from './apiHelp';
+import { baseHeaders, checkResponse, fetchWithCheckResponse, fetchWithRefresh } from './apiHelp';
 import {
+  GetMeResponce,
   HTTP_METHODS,
   RefreshTokenResponce,
   SendVerificationCodeRequest,
@@ -8,6 +9,7 @@ import {
   VerificationCodeRequest,
 } from './apiTypes';
 import {
+  getMeResponceMapper,
   refreshTokenResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
@@ -52,6 +54,15 @@ export const verificationCode = (body: VerificationCodeRequest) => {
     const mappedRes = verificationCodeResponceMapper(res);
     localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, mappedRes.token);
     return mappedRes;
+  });
+};
+
+export const getMe = () => {
+  return fetchWithRefresh<GetMeResponce>(`${URL_API}/accounts/me`, {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return getMeResponceMapper(res);
   });
 };
 

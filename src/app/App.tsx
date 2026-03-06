@@ -2,8 +2,24 @@ import { Navigate, Route, Routes } from 'react-router';
 import { MainLayout } from '@layouts/MainLayout';
 import { AuthPage } from '@pages/AuthPage';
 import { AuthProtector } from '@/components/protectors/AuthProtector';
+import { useLayoutEffect } from 'react';
+import { useAppDispatch } from '@/services/store';
+import { getMe } from '@/api/api';
+import { setStepState } from '@/services/slices/auth';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useLayoutEffect(() => {
+    getMe()
+      .then(() => {
+        dispatch(setStepState('AuthCompleted'));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Routes>
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>

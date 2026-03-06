@@ -1,4 +1,5 @@
 import {
+  GetMeResponce,
   RefreshTokenResponce,
   RequestError,
   SendVerificationCodeRequest,
@@ -7,6 +8,7 @@ import {
   VerificationCodeResponce,
 } from '../apiTypes';
 import {
+  DTOGetMeResponce,
   DTORefreshTokenResponce,
   DTORequestError,
   DTOSendVerificationCodeRequest,
@@ -52,6 +54,14 @@ export const verificationCodeResponceMapper = (
 ): VerificationCodeResponce => {
   return {
     token: dto.token,
+  };
+};
+
+export const getMeResponceMapper = (dto: DTOGetMeResponce): GetMeResponce => {
+  return {
+    id: dto.id,
+    phone: dto.phone,
+    email: dto.email,
   };
 };
 
