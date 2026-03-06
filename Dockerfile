@@ -6,8 +6,8 @@ RUN npm ci
 COPY . .
 
 # Передаём переменную из GitHub Actions
-ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ARG VITE_APP_API_URL
+ENV VITE_APP_API_URL=$VITE_APP_API_URL
 
 RUN npm run build
 
