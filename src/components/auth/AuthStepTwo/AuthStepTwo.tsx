@@ -15,9 +15,24 @@ import {
 } from '@/services/slices/auth';
 import useTimer from '@/hooks/useTimer';
 import { Time } from '@/features/Timer/Time';
-import { TIMER_SEND_CODE_MESSAGE_TIME_S } from '@/common/constants';
-import { SyntheticEvent, useEffect, useMemo, useRef } from 'react';
+import {
+  CHECK_CODE_REGEXP,
+  PHONE_REGEXP,
+  TIMER_SEND_CODE_MESSAGE_TIME_S,
+} from '@/common/constants';
+import { ChangeEvent, SyntheticEvent, useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
+import { CodeInput } from '@/components/forms/CodeInput';
+import useValidator, { ValidationScheme } from '@/hooks/useValidator';
+import { VerificationCodeRequest } from '@/api/apiTypes';
+import { isSet, likeRegExp } from '@/features/Validator/ValidationFunctions';
+import { codeFormatter } from '@/utils/utils';
+
+const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {
+  phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
+  code: likeRegExp(CHECK_CODE_REGEXP, 'Неверный формат кода'),
+  personalDataConsent: isSet(),
+};
 
 export const AuthStepTwo = () => {
   const dispatch = useAppDispatch();
@@ -28,18 +43,36 @@ export const AuthStepTwo = () => {
   const initialTime = useMemo(() => new Time(TIMER_SEND_CODE_MESSAGE_TIME_S), []);
   const { state, time, timer } = useTimer({ time: initialTime });
 
+  const { isValid, value, errors, validate, updateField } = useValidator<VerificationCodeRequest>({
+    initialValue: {
+      phone: phone ?? '',
+      code: '',
+      personalDataConsent: isUserExist,
+    },
+    scheme: sendVerificationCodeFormScheme,
+    isInitValidate: true,
+    validateIsToched: false,
+    validateOnChange: true,
+  });
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
     timer.start();
   }, []);
 
   const changePhoneNumber = () => {
     dispatch(backToStepOne());
+  };
+
+  const onChangeCode = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = codeFormatter(e.target.value);
+    updateField('code', value.join(''));
+  };
+
+  const onChangeAgreement = (e: ChangeEvent<HTMLInputElement>) => {
+    updateField('personalDataConsent', e.target.checked);
   };
 
   // Запрос на отправку кода
@@ -58,7 +91,7 @@ export const AuthStepTwo = () => {
   // Запрос на подтвержедение кода
   const verifyCode = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    void dispatch(verificationCodeAuth({ phone: '', code: '' }));
+    void dispatch(verificationCodeAuth(value));
   };
 
   return (
@@ -79,9 +112,7 @@ export const AuthStepTwo = () => {
       </div>
 
       <div className={clsx(style['form_verification_code'])}>
-        <FormElement extraClassName={style['form__password_input']}>
-          <Input type="text" ref={inputRef} placeholder="Одноразовый пароль" />
-        </FormElement>
+        <CodeInput value={value.code} onChange={onChangeCode} ref={inputRef} />
         <div className={style['form__send_code_wrapper']}>
           {state === 'Process' ? (
             <Timer value={time} accuracy={'minuts'} extraClassName={style['content__timer']} />
@@ -102,6 +133,7 @@ export const AuthStepTwo = () => {
           name="verify_code_button"
           form="auth_form_verify_code"
           option="BlueButton"
+          disabled={!isValid}
         >
           Войти
         </Button>
@@ -109,7 +141,12 @@ export const AuthStepTwo = () => {
       {!isUserExist && (
         <div className={style['content__agreement']}>
           <FormElement extraClassName={style['agreement__checkbox']}>
-            <Input type="checkbox" name="agreement" />
+            <Input
+              type="checkbox"
+              name="agreement"
+              checked={value.personalDataConsent}
+              onChange={onChangeAgreement}
+            />
           </FormElement>
           <span className={style['agreement__description']}>
             Я согласен c{' '}

@@ -7,7 +7,7 @@ export function typedKeys<T extends object>(obj: T) {
   return Object.keys(obj) as (keyof T)[];
 }
 
-export const phoneFormatter = (value: string): string => {
+export const phoneFormatterView = (value: string): string => {
   // format: +7 (000) 000-00-00
   let result = '';
   let numArray = value.split('').filter(el => !isNaN(+el) && el !== ' ');
@@ -26,6 +26,18 @@ export const phoneFormatter = (value: string): string => {
     }
     return pre + postfix;
   }, result);
+  return result;
+};
+
+export const phoneFormatterValue = (value: string): string => {
+  // format: +70000000000
+  let result = '';
+  const numArray = value.split('').filter(el => !isNaN(+el) && el !== ' ');
+
+  if (numArray.length === 0) return '';
+  else result = '+7';
+
+  result += numArray.slice(1, 11).join('');
   return result;
 };
 

@@ -55,7 +55,6 @@ function useValidator<T extends object>(props: IValidator<T>) {
 
     setValue(newValueObj);
     setIsTouched(newTouched);
-    console.log(newValueObj);
     if (validateOnChange) {
       const result = runValidation(newValueObj, newTouched);
       setIsValid(result[0]);
@@ -83,6 +82,7 @@ function useValidator<T extends object>(props: IValidator<T>) {
         validateErrors[key] = error;
       }
     });
+    console.log([isValid, validateErrors]);
     return [isValid, validateErrors];
   };
 

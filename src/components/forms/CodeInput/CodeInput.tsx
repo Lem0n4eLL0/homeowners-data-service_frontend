@@ -7,7 +7,7 @@ import { Line } from '@/components/shells/Line';
 
 interface ICodeInput {
   value: string;
-  onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   width?: string | number;
 }
 

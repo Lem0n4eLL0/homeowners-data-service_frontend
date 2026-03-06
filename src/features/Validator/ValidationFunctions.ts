@@ -21,6 +21,12 @@ export const isLength =
     return [isValid, { message: `Длина значения должна быть равна ${length}` }];
   };
 
+export const isSet =
+  (message?: string): ValidationFunc<boolean | undefined> =>
+  (value: boolean | undefined) => {
+    return [value ?? true, { message: message ?? `Обязательно для заполнения` }];
+  };
+
 export const likeRegExp =
   (regExp: RegExp, message?: string): ValidationFunc<string> =>
   value => {

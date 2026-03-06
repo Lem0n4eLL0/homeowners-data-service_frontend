@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
-import { ChangeEvent, SyntheticEvent, useEffect, useRef } from 'react';
+import { SyntheticEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { selectDataAuth, sendVerificationCodeAuth } from '@/services/slices/auth';
 import { FormElement } from '@/components/forms/FormElement';
@@ -9,7 +9,6 @@ import { SendVerificationCodeRequest } from '@/api/apiTypes';
 import { likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { PHONE_REGEXP } from '@/common/constants';
 import { PhoneInput } from '@/components/forms/PhoneInput/PhoneInput';
-import { phoneFormatter } from '@/utils/utils';
 
 const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -42,9 +41,8 @@ export const AuthStepOne = () => {
     void dispatch(sendVerificationCodeAuth(value));
   };
 
-  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    updateField('phone', phoneFormatter(value));
+  const changePhoneHandler = (value: string) => {
+    updateField('phone', value);
   };
 
   return (
@@ -60,7 +58,7 @@ export const AuthStepOne = () => {
                 value={value.phone}
                 ref={inputRef}
                 isError={isError}
-                onChange={onChangePhone}
+                onChangeValue={changePhoneHandler}
               />
             )}
           </FormElement>

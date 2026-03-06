@@ -58,7 +58,7 @@ export type RefreshTokenResponce = {
 export type VerificationCodeRequest = {
   phone: string;
   code: string;
-  personalDataConsent?: boolean;
+  personalDataConsent?: boolean | undefined;
 };
 
 export type VerificationCodeResponce = {
