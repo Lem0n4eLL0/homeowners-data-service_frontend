@@ -52,7 +52,7 @@ export const refreshToken = () => {
 export const sendVerificationCode = (
   body: SendVerificationCodeRequest
 ): Promise<SendVerificationCodeResponce> => {
-  return Promise.resolve({ accountExists: true });
+  return Promise.resolve({ accountExists: false });
 };
 
 export const verificationCode = (

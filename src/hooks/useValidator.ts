@@ -1,5 +1,5 @@
 import { typedKeys } from '@/utils/utils';
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 export type ValidationFunc<T> = (value: T) => [boolean, ValidatorError];
 
@@ -30,12 +30,13 @@ export function composeValidators<T>(...validators: ValidationFunc<T>[]): Valida
 interface IValidator<T extends object> {
   initialValue: T;
   scheme: ValidationScheme<T>;
+  isInitValidate?: boolean;
   validateOnChange?: boolean;
   validateIsToched?: boolean;
 }
 
 function useValidator<T extends object>(props: IValidator<T>) {
-  const { initialValue, scheme, validateOnChange, validateIsToched } = props;
+  const { initialValue, scheme, isInitValidate, validateOnChange, validateIsToched } = props;
   const [value, setValue] = useState<T>(initialValue);
   const [isValid, setIsValid] = useState<boolean>(true);
   const [errors, setErrors] = useState<ReturnValidatorErrors<T>>({});
@@ -91,6 +92,11 @@ function useValidator<T extends object>(props: IValidator<T>) {
     setIsValid(result[0]);
     return result;
   };
+
+  useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (isInitValidate) validate(true);
+  }, []);
 
   return {
     value,

@@ -1,0 +1,18 @@
+@use '@styles/_variables.scss' as *;
+
+.phone {
+  &__wrapper {
+    position: relative;
+
+    // &::after {
+    //   content: '+7 (000) 000-00-00';
+    //   width: 100%;
+    //   display: inline-block;
+    //   top: 14px;
+    //   left: 21px;
+    //   position: absolute;
+    //   font-size: 14px;
+    //   color: $color-text-primary-2;
+    // }
+  }
+}
