@@ -14,7 +14,6 @@ export const AuthPage = () => {
           alt="Центр экологических технологий"
           className={style['content__logo']}
         />
-        <h1 className={style['content__title']}>Вход в личный кабинет</h1>
         <AuthFlow />
         <div className={style['content__additional-info']}>
           <Line extraClassName={style['content__line']} />

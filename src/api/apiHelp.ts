@@ -1,7 +1,7 @@
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
 import { DTORequestError } from './dto/dto';
 import { errorMapper } from './dto/mappers';
-import { ErrorCode, RequestError } from './apiTypes';
+import { RequestError } from './apiTypes';
 import { refreshToken } from './api';
 
 export const baseHeaders = {
@@ -29,7 +29,7 @@ export const fetchWithCheckResponse = <T>(info: RequestInfo, options: RequestIni
 
 export const fetchWithAccess = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {
   const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS);
-  if (accessToken && options.headers) {
+  if (options.headers) {
     (options.headers as { [key: string]: string })['Authorization'] = `Bearer ${accessToken}`;
   }
   return fetch(info, options).then(res => checkResponse<T>(res));
@@ -37,13 +37,13 @@ export const fetchWithAccess = <T>(info: RequestInfo, options: RequestInit): Pro
 
 export const fetchWithRefresh = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {
   return fetchWithAccess<T>(info, options).catch((e: RequestError) => {
-    if (e.errorCode === ErrorCode.TOKEN_EXPIRED) {
+    if (e.errorCode === 'AUTHORIZATION_ERROR') {
       refreshToken()
         .then(() => {
           return fetchWithAccess<T>(info, options);
         })
         .catch((e: RequestError) => {
-          if (e.errorCode === ErrorCode.REFRESH_TOKEN_EXPIRED) {
+          if (e.errorCode === 'REFRESH_TOKEN_EXPIRED') {
             // Функция logout
             localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, '');
             // Возможно удалить куки refreshToken

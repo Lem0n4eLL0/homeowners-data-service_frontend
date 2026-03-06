@@ -32,7 +32,7 @@ export type RequestError = {
   path: string;
   status: number;
   error: string;
-  errorCode: ErrorCode;
+  errorCode: string;
   message: string;
 };
 
@@ -58,9 +58,15 @@ export type RefreshTokenResponce = {
 export type VerificationCodeRequest = {
   phone: string;
   code: string;
-  personalDataConsent?: boolean;
+  personalDataConsent?: boolean | undefined;
 };
 
 export type VerificationCodeResponce = {
   token: string;
+};
+
+export type GetMeResponce = {
+  id: string;
+  phone: string;
+  email: string;
 };

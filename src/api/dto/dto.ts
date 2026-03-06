@@ -20,12 +20,18 @@ export type DTOVerificationCodeResponce = {
   token: string;
 };
 
+export type DTOGetMeResponce = {
+  id: string;
+  phone: string;
+  email: string;
+};
+
 export type DTORequestError = {
   timestamp: string;
   path: string;
   status: number;
   error: string;
-  errorCode: number;
+  errorCode: string;
   message: string;
   requestId: string;
 };

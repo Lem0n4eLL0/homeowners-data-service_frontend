@@ -1,20 +1,22 @@
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
-import { baseHeaders, checkResponse, fetchWithCheckResponse } from './apiHelp';
+import { baseHeaders, checkResponse, fetchWithCheckResponse, fetchWithRefresh } from './apiHelp';
 import {
+  GetMeResponce,
   HTTP_METHODS,
   RefreshTokenResponce,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
   VerificationCodeRequest,
 } from './apiTypes';
-import { DTOSendVerificationCodeResponce, DTOVerificationCodeResponce } from './dto/dto';
 import {
+  getMeResponceMapper,
   refreshTokenResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
   verificationCodeRequestMapper,
   verificationCodeResponceMapper,
 } from './dto/mappers';
+import { DTOSendVerificationCodeResponce, DTOVerificationCodeResponce } from './dto/dto';
 
 export const URL_API = import.meta.env.VITE_APP_API_URL || '';
 
@@ -54,3 +56,25 @@ export const verificationCode = (body: VerificationCodeRequest) => {
     return mappedRes;
   });
 };
+
+export const getMe = () => {
+  return fetchWithRefresh<GetMeResponce>(`${URL_API}/accounts/me`, {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return getMeResponceMapper(res);
+  });
+};
+
+// Тестовые
+// export const sendVerificationCode = (
+//   body: SendVerificationCodeRequest
+// ): Promise<SendVerificationCodeResponce> => {
+//   return Promise.resolve({ accountExists: true });
+// };
+
+// export const verificationCode = (
+//   body: VerificationCodeRequest
+// ): Promise<VerificationCodeResponce> => {
+//   return Promise.resolve({ token: 'accessToken' });
+// };

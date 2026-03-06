@@ -27,6 +27,7 @@ $color-text-error: $red-700;
 // --- Фон ---
 $color-bg-primary: $neutral-100;
 $color-bg-secondary: $neutral-150;
+$color-bg-secondary-2: #f2f2f2;
 $color-bg-accent: $blue-500;
 $color-bg-accent-2: $blue-100;
 $color-bg-accent-3: $blue-300;
@@ -40,6 +41,7 @@ $color-border-accent-2: $red-800;
 // --- Actions ---
 $color-action-blue: #005fbe;
 $color-outline: $neutral-900;
+$error-color: $red-700;
 
 // === SVG ===
 // --- Colors ---
@@ -58,3 +60,10 @@ $icon-plus-color: $blue-500;
 $transition-duration-extra-small: 0.1s;
 $transition-duration-small: 0.15s;
 $transition-duration-medium: 0.2s;
+
+// === Shadow ===
+$shadow-1: -1px 1px 4px rgb(0, 0, 0, 0.25);
+$shadow-2: -1px 1px 4px rgb(0, 0, 0, 0.2);
+
+// === Lines ===
+$line-color-1: $neutral-900;

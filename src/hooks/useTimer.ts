@@ -21,6 +21,7 @@ function useTimer(props: TimerProps): UseTimerReturn {
 
   const [currentTime, setCurrentTime] = useState<Time>(time);
   const [currentState, setCurrentState] = useState<TimerState>('Ready');
+
   const timer = useMemo<ITimer>(
     () =>
       new Timer(
@@ -39,7 +40,6 @@ function useTimer(props: TimerProps): UseTimerReturn {
       ),
     [time, endTime, duration, changeIntervalms]
   );
-
   return {
     state: currentState,
     time: currentTime,

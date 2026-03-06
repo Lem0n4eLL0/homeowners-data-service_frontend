@@ -53,6 +53,14 @@ export const PhoneInput: Story = {
   },
 };
 
+export const ErrorInput: Story = {
+  args: {
+    isError: true,
+    type: 'phone',
+    placeholder: 'Введите телефон',
+  },
+};
+
 export const Checkbox: Story = {
   args: {
     type: 'checkbox',

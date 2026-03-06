@@ -1,5 +1,6 @@
 import { sendVerificationCode, verificationCode } from '@/api/api';
 import { RequestError, RequestStatus } from '@/api/apiTypes';
+import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const createSlice = buildCreateSlice({
@@ -18,7 +19,6 @@ type AuthState = {
     sendCodeStatus: RequestStatus;
     verifyCodeStatus: RequestStatus;
   };
-  isBlockedCodeMessage: boolean;
 };
 
 const initialState: AuthState = {
@@ -28,10 +28,9 @@ const initialState: AuthState = {
     phone: undefined,
   },
   statuses: {
-    sendCodeStatus: { status: 'READY' },
-    verifyCodeStatus: { status: 'READY' },
+    sendCodeStatus: READY_REQUEST_STATUS,
+    verifyCodeStatus: READY_REQUEST_STATUS,
   },
-  isBlockedCodeMessage: false,
 };
 
 const authSlice = createSlice({
@@ -39,7 +38,8 @@ const authSlice = createSlice({
   initialState,
   reducers: create => ({
     sendVerificationCode: create.asyncThunk(sendVerificationCode, {
-      pending: state => {
+      pending: (state, action) => {
+        state.data.phone = action.meta.arg.phone;
         state.statuses.sendCodeStatus.status = 'PENDING';
         state.statuses.sendCodeStatus.error = undefined;
       },
@@ -74,20 +74,46 @@ const authSlice = createSlice({
     setStepState: create.reducer((state, action: PayloadAction<AuthSteps>) => {
       state.stepState = action.payload;
     }),
-    setIsBlockedCodeMessage: create.reducer((state, action: PayloadAction<boolean>) => {
-      state.isBlockedCodeMessage = action.payload;
+
+    setPhone: create.reducer((state, action: PayloadAction<string>) => {
+      state.data.phone = action.payload;
+    }),
+
+    resetStatuses: create.reducer(state => {
+      state.statuses.sendCodeStatus = READY_REQUEST_STATUS;
+      state.statuses.verifyCodeStatus = READY_REQUEST_STATUS;
+    }),
+
+    backToStepOne: create.reducer(state => {
+      state.stepState = 'AuthStepOne';
+      state.statuses.sendCodeStatus = READY_REQUEST_STATUS;
+      state.statuses.verifyCodeStatus = READY_REQUEST_STATUS;
     }),
   }),
 
   selectors: {
     selectStepState: store => store.stepState,
-    selectIsBlockedCodeMessage: store => store.isBlockedCodeMessage,
     selectIsAuthCompleted: store => store.stepState === 'AuthCompleted',
+    selectIsAccountExists: store => store.accountExists,
+    selectStatuses: store => store.statuses,
+    selectData: store => store.data,
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { selectStepState, selectIsBlockedCodeMessage, selectIsAuthCompleted } =
-  authSlice.selectors;
+export const {
+  selectStepState,
+  selectIsAuthCompleted,
+  selectIsAccountExists,
+  selectStatuses: selectStatusesAuth,
+  selectData: selectDataAuth,
+} = authSlice.selectors;
 
-export const { setStepState, setIsBlockedCodeMessage } = authSlice.actions;
+export const {
+  sendVerificationCode: sendVerificationCodeAuth,
+  verificationCode: verificationCodeAuth,
+  resetStatuses: resetStatusesAuth,
+  backToStepOne,
+  setStepState,
+  setPhone,
+} = authSlice.actions;
