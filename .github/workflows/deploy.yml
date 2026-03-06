@@ -31,7 +31,7 @@ jobs:
         run: |
           npm ci
           # Передаём правильный API URL для поддоменов
-          VITE_APP_API_URL=${{ env.VITE_APP_API_URL }} npm run build
+          VITE_APP_API_URL=${{ env.API_URL }} npm run build
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -49,6 +49,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
+          build-args: VITE_APP_API_URL=${{ env.API_URL }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/frontend:latest
             ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/frontend:${{ github.sha }}

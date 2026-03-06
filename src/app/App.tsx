@@ -20,7 +20,6 @@ const App = () => {
       });
   }, []);
 
-  console.log('test');
   return (
     <Routes>
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
