@@ -21,7 +21,7 @@ import { DTOSendVerificationCodeResponce, DTOVerificationCodeResponce } from './
 export const URL_API = import.meta.env.VITE_APP_API_URL || '';
 
 export const refreshToken = () => {
-  return fetch(`${URL_API}/auth/refresh`, {
+  return fetch(`${URL_API}api/v1/auth/refresh`, {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
   })
@@ -36,7 +36,7 @@ export const refreshToken = () => {
 export const sendVerificationCode = (
   body: SendVerificationCodeRequest
 ): Promise<SendVerificationCodeResponce> => {
-  return fetch(`${URL_API}/auth/sms/request`, {
+  return fetch(`${URL_API}api/v1/auth/sms/request`, {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(sendVerificationCodeRequestMapper(body)),
@@ -46,7 +46,7 @@ export const sendVerificationCode = (
 };
 
 export const verificationCode = (body: VerificationCodeRequest) => {
-  return fetchWithCheckResponse<DTOVerificationCodeResponce>(`${URL_API}/auth/sms/verify`, {
+  return fetchWithCheckResponse<DTOVerificationCodeResponce>(`${URL_API}api/v1/auth/sms/verify`, {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(verificationCodeRequestMapper(body)),
@@ -58,7 +58,7 @@ export const verificationCode = (body: VerificationCodeRequest) => {
 };
 
 export const getMe = () => {
-  return fetchWithRefresh<GetMeResponce>(`${URL_API}/accounts/me`, {
+  return fetchWithRefresh<GetMeResponce>(`${URL_API}api/v1/accounts/me`, {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
   }).then(res => {
