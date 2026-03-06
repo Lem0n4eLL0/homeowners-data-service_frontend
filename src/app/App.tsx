@@ -1,20 +1,44 @@
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import { MainLayout } from '@layouts/MainLayout';
 import { AuthPage } from '@pages/AuthPage';
+import { AuthProtector } from '@/components/protectors/AuthProtector';
+import { useLayoutEffect } from 'react';
+import { useAppDispatch } from '@/services/store';
+import { getMe } from '@/api/api';
+import { setStepState } from '@/services/slices/auth';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useLayoutEffect(() => {
+    getMe()
+      .then(() => {
+        dispatch(setStepState('AuthCompleted'));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<MainLayout header={<div>Header</div>} footer={<div>Footer</div>} />}
-      >
-        <Route index element={<div>Hello, world!</div>} />
+      <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
+        <Route element={<MainLayout header={<div>Header</div>} />}>
+          <Route index element={<Navigate to="/profile" replace />} />
+          <Route path="readings" element={<div>Показания</div>} />
+          <Route path="accruals" element={<div>Начисления</div>} />
+          <Route path="applications" element={<div>Заявки</div>} />
+          <Route path="services" element={<div>Услуги</div>} />
+          <Route path="profile" element={<div>Профиль</div>} />
+          <Route path="news" element={<div>Новости</div>} />
+        </Route>
       </Route>
-      <Route path="/" element={<MainLayout />}>
-        <Route path="auth" element={<AuthPage />}></Route>
+      <Route element={<AuthProtector isRedirectAuthorized={true} redirectPath="/profile" />}>
+        <Route element={<MainLayout />}>
+          <Route path="auth" element={<AuthPage />}></Route>
+        </Route>
       </Route>
-      <Route path="*" element={<div>Error 404</div>}></Route>
+      <Route path="*" element={<div>Error page</div>}></Route>
     </Routes>
   );
 };

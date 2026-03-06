@@ -8,6 +8,17 @@
     "rootDir": "./" /* Specify the root folder within your source files. */,
     "baseUrl": "." /* Specify the base directory to resolve non-relative module names. */,
 
+    "paths": {
+      "@/*": ["./src/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@pages/*": ["./src/components/pages/*"],
+      "@layouts/*": ["./src/components/layouts/*"],
+      "@features/*": ["./src/features/*"],
+      "@api/*": ["./src/api/*"]
+    },
+
     "types": ["node"],
     "lib": [
       "DOM",

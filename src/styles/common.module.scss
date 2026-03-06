@@ -35,6 +35,15 @@
   &:focus-visible {
     outline: none;
   }
+
+  &__error {
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      border-color: $error-color;
+    }
+    border-color: $error-color;
+  }
 }
 
 .base_link {
@@ -45,4 +54,14 @@
   &:hover {
     color: $color-action-blue;
   }
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
 }

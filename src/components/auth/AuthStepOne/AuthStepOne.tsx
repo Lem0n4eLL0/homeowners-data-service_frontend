@@ -1,28 +1,68 @@
 import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
-import { Input } from '@/components/Input';
-import { SyntheticEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../services/store';
-import { selectIsBlockedCodeMessage, setStepState } from '../../../services/slices/auth';
-import { FormElement } from '@/components/FormElement';
+import { SyntheticEvent, useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '@/services/store';
+import { selectDataAuth, sendVerificationCodeAuth } from '@/services/slices/auth';
+import { FormElement } from '@/components/forms/FormElement';
+import useValidator, { ValidationScheme } from '@/hooks/useValidator';
+import { SendVerificationCodeRequest } from '@/api/apiTypes';
+import { likeRegExp } from '@/features/Validator/ValidationFunctions';
+import { PHONE_REGEXP } from '@/common/constants';
+import { PhoneInput } from '@/components/forms/PhoneInput/PhoneInput';
+
+const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
+  phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
+};
 
 export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
-  const isBlockedCodeMessage = useAppSelector(selectIsBlockedCodeMessage);
+  const { phone } = useAppSelector(selectDataAuth);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { isValid, value, errors, validate, updateField } =
+    useValidator<SendVerificationCodeRequest>({
+      initialValue: { phone: phone ?? '' },
+      scheme: sendVerificationCodeFormScheme,
+      isInitValidate: true,
+      validateIsToched: true,
+      validateOnChange: true,
+    });
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(setStepState('AuthStepTwo'));
+
+    const [isValide] = validate(true);
+    if (!isValide) return;
+
+    void dispatch(sendVerificationCodeAuth(value));
+  };
+
+  const changePhoneHandler = (value: string) => {
+    updateField('phone', value);
   };
 
   return (
     <div className={style['content']}>
+      <h1 className={style['content__title']}>Вход в личный кабинет</h1>
       <form name="auth_form_step_1" onSubmit={onSubmit} className={style['content__form']}>
         <div className={style['form__fields']}>
           <FormElement>
-            <Input type="phone" name="phone_filed" placeholder="Номер телефона" />
+            {isError => (
+              <PhoneInput
+                type="phone"
+                name="phone_filed"
+                value={value.phone}
+                ref={inputRef}
+                isError={isError}
+                onChangeValue={changePhoneHandler}
+              />
+            )}
           </FormElement>
-          <Button option="BlueButton" disabled={isBlockedCodeMessage}>
+          <Button type="submit" option="BlueButton" disabled={!isValid}>
             Далее
           </Button>
         </div>

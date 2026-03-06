@@ -30,6 +30,7 @@ export default defineConfig({
       '@pages': fileURLToPath(new URL('./src/components/pages', import.meta.url)),
       '@layouts': fileURLToPath(new URL('./src/components/layouts', import.meta.url)),
       '@features': fileURLToPath(new URL('./src/features', import.meta.url)),
+      '@api': fileURLToPath(new URL('./src/api', import.meta.url)),
     },
   },
   test: {

@@ -5,13 +5,21 @@ type Orientation = 'vertical' | 'horizontal';
 interface ILine {
   orientation?: Orientation;
   size?: number | string;
-  weigth?: number;
+  weigth?: number | string;
   color?: string;
+  borderRadius?: string;
   extraClassName?: string;
 }
 
 export const Line = (props: ILine) => {
-  const { orientation = 'horizontal', size = '100%', weigth = 1, color, extraClassName } = props;
+  const {
+    orientation = 'horizontal',
+    size = '100%',
+    weigth = 1,
+    color,
+    borderRadius,
+    extraClassName,
+  } = props;
 
   const [lineWeigth, lineHeigth] = useMemo(() => {
     switch (orientation) {
@@ -25,7 +33,12 @@ export const Line = (props: ILine) => {
   return (
     <div
       className={extraClassName}
-      style={{ width: lineWeigth, height: lineHeigth, backgroundColor: color }}
+      style={{
+        width: lineWeigth,
+        height: lineHeigth,
+        backgroundColor: color,
+        borderRadius: borderRadius,
+      }}
     ></div>
   );
 };
