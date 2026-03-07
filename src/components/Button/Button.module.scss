@@ -47,6 +47,12 @@
       background-color: $color-border-accent-2;
       color: $color-text-secondary;
     }
+
+    &:disabled {
+      background-color: inherit;
+      color: $color-text-primary-2;
+      border-color: $color-text-primary-2;
+    }
   }
 }
 
