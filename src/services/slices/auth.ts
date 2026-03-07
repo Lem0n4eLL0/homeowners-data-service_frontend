@@ -79,9 +79,11 @@ const authSlice = createSlice({
       state.data.phone = action.payload;
     }),
 
-    resetStatuses: create.reducer(state => {
-      state.statuses.sendCodeStatus = READY_REQUEST_STATUS;
-      state.statuses.verifyCodeStatus = READY_REQUEST_STATUS;
+    resetErrorStatuses: create.reducer(state => {
+      if (state.statuses.sendCodeStatus.status === 'ERROR')
+        state.statuses.sendCodeStatus = READY_REQUEST_STATUS;
+      if (state.statuses.verifyCodeStatus.status === 'ERROR')
+        state.statuses.verifyCodeStatus = READY_REQUEST_STATUS;
     }),
 
     backToStepOne: create.reducer(state => {
@@ -112,7 +114,7 @@ export const {
 export const {
   sendVerificationCode: sendVerificationCodeAuth,
   verificationCode: verificationCodeAuth,
-  resetStatuses: resetStatusesAuth,
+  resetErrorStatuses: resetErrorStatusesAuth,
   backToStepOne,
   setStepState,
   setPhone,

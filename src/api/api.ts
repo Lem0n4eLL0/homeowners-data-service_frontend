@@ -70,7 +70,16 @@ export const getMe = () => {
 // export const sendVerificationCode = (
 //   body: SendVerificationCodeRequest
 // ): Promise<SendVerificationCodeResponce> => {
-//   return Promise.resolve({ accountExists: true });
+//   // return Promise.resolve({ accountExists: true });
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       // Имитация ошибки
+//       reject({ message: 'Ошибка отправки сообщения очень длянное как раз для теста помещается ли сообщение вот это да' });
+
+//       // Имитация успеха (если нужно):
+//       // resolve({ accountExists: true });
+//     }, 1000);
+//   });
 // };
 
 // export const verificationCode = (
