@@ -7,6 +7,7 @@ import { Button } from '@/components/Button';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import {
   backToStepOne,
+  resetErrorStatusesAuth,
   selectDataAuth,
   selectIsAccountExists,
   selectStatusesAuth,
@@ -20,13 +21,15 @@ import {
   PHONE_REGEXP,
   TIMER_SEND_CODE_MESSAGE_TIME_S,
 } from '@/common/constants';
-import { ChangeEvent, SyntheticEvent, useEffect, useMemo, useRef } from 'react';
+import { ChangeEvent, SyntheticEvent, useLayoutEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { CodeInput } from '@/components/forms/CodeInput';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import { VerificationCodeRequest } from '@/api/apiTypes';
 import { isSet, likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { codeFormatter } from '@/utils/utils';
+import { ErrorField } from '@/components/ErrorField';
+import { PageRequestError } from '@/common/commonTypes';
 
 const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -37,13 +40,13 @@ const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> 
 export const AuthStepTwo = () => {
   const dispatch = useAppDispatch();
   const { phone } = useAppSelector(selectDataAuth);
-  const { sendCodeStatus } = useAppSelector(selectStatusesAuth);
+  const { sendCodeStatus, verifyCodeStatus } = useAppSelector(selectStatusesAuth);
   const isUserExist = useAppSelector(selectIsAccountExists);
 
   const initialTime = useMemo(() => new Time(TIMER_SEND_CODE_MESSAGE_TIME_S), []);
   const { state, time, timer } = useTimer({ time: initialTime });
 
-  const { isValid, value, errors, validate, updateField } = useValidator<VerificationCodeRequest>({
+  const { isValid, value, updateField } = useValidator<VerificationCodeRequest>({
     initialValue: {
       phone: phone ?? '',
       code: '',
@@ -57,7 +60,12 @@ export const AuthStepTwo = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  const requestError: PageRequestError = {
+    isError: sendCodeStatus.status === 'ERROR' || verifyCodeStatus.status === 'ERROR',
+    error: sendCodeStatus.error || verifyCodeStatus.error,
+  };
+
+  useLayoutEffect(() => {
     inputRef.current?.focus();
     timer.start();
   }, []);
@@ -68,6 +76,9 @@ export const AuthStepTwo = () => {
 
   const onChangeCode = (e: ChangeEvent<HTMLInputElement>) => {
     const value = codeFormatter(e.target.value);
+    if (requestError.isError) {
+      dispatch(resetErrorStatusesAuth());
+    }
     updateField('code', value.join(''));
   };
 
@@ -83,8 +94,6 @@ export const AuthStepTwo = () => {
       if (sendCodeStatus.status !== 'ERROR') {
         timer.start();
       }
-    } else {
-      console.log('По какой-то причине номер телефона отсутствует на втором шаге авторизации');
     }
   };
 
@@ -111,9 +120,19 @@ export const AuthStepTwo = () => {
         </Button>
       </div>
 
-      <div className={clsx(style['form_verification_code'])}>
+      <div
+        className={clsx(
+          style['form_verification_code'],
+          isUserExist && style['form_verification_code_account_exists']
+        )}
+      >
         <CodeInput value={value.code} onChange={onChangeCode} ref={inputRef} />
-        <div className={style['form__send_code_wrapper']}>
+        <div
+          className={clsx(
+            style['form__send_code_wrapper'],
+            requestError.isError && style['form__send_code_wrapper_error']
+          )}
+        >
           {state === 'Process' ? (
             <Timer value={time} accuracy={'minuts'} extraClassName={style['content__timer']} />
           ) : (
@@ -128,11 +147,18 @@ export const AuthStepTwo = () => {
             </Button>
           )}
         </div>
+        {requestError.isError && requestError.error && (
+          <ErrorField className={style['request_error']}>{requestError.error.message}</ErrorField>
+        )}
         <Button
           type="submit"
           name="verify_code_button"
           form="auth_form_verify_code"
           option="BlueButton"
+          loading={{
+            isLoading: sendCodeStatus.status === 'PENDING' || verifyCodeStatus.status === 'PENDING',
+            loadingMessage: 'Загрузка...',
+          }}
           disabled={!isValid}
         >
           Войти

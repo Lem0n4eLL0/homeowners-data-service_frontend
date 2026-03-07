@@ -65,16 +65,3 @@ export const getMe = () => {
     return getMeResponceMapper(res);
   });
 };
-
-// Тестовые
-// export const sendVerificationCode = (
-//   body: SendVerificationCodeRequest
-// ): Promise<SendVerificationCodeResponce> => {
-//   return Promise.resolve({ accountExists: true });
-// };
-
-// export const verificationCode = (
-//   body: VerificationCodeRequest
-// ): Promise<VerificationCodeResponce> => {
-//   return Promise.resolve({ token: 'accessToken' });
-// };

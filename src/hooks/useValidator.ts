@@ -1,5 +1,5 @@
 import { typedKeys } from '@/utils/utils';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 
 export type ValidationFunc<T> = (value: T) => [boolean, ValidatorError];
 
@@ -37,9 +37,8 @@ interface IValidator<T extends object> {
 
 function useValidator<T extends object>(props: IValidator<T>) {
   const { initialValue, scheme, isInitValidate, validateOnChange, validateIsToched } = props;
+
   const [value, setValue] = useState<T>(initialValue);
-  const [isValid, setIsValid] = useState<boolean>(true);
-  const [errors, setErrors] = useState<ReturnValidatorErrors<T>>({});
   const [isTouched, setIsTouched] = useState<Partial<Record<keyof T, boolean>>>({});
 
   const updateField = <K extends keyof T>(key: K, newValue: T[K]) => {
@@ -82,9 +81,13 @@ function useValidator<T extends object>(props: IValidator<T>) {
         validateErrors[key] = error;
       }
     });
-    console.log([isValid, validateErrors]);
     return [isValid, validateErrors];
   };
+
+  const initialValidation = isInitValidate ? runValidation(initialValue, {}, true) : [true, {}];
+
+  const [isValid, setIsValid] = useState(initialValidation[0]);
+  const [errors, setErrors] = useState(initialValidation[1]);
 
   const validate = (isValidateAll: boolean = false): ValidatorResult<T> => {
     const result = runValidation(value, isTouched, isValidateAll);
@@ -92,11 +95,6 @@ function useValidator<T extends object>(props: IValidator<T>) {
     setIsValid(result[0]);
     return result;
   };
-
-  useLayoutEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (isInitValidate) validate(true);
-  }, []);
 
   return {
     value,

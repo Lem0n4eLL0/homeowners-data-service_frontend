@@ -2,14 +2,28 @@ import clsx from 'clsx';
 import { ButtonHTMLAttributes, useMemo } from 'react';
 import style from './Button.module.scss';
 type ButtonOption = 'BlueButton' | 'DeleteButton' | 'LinkButton';
+
+type ButtonLoading = {
+  isLoading: boolean;
+  loadingMessage: React.ReactNode;
+};
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   option: ButtonOption;
+  loading?: ButtonLoading;
   width?: number | string;
 }
 
 export const Button = (props: IButton) => {
-  const { children, option, width, className, ...rest } = props;
+  const {
+    children,
+    option,
+    loading = { isLoading: false, loadingMessage: 'Загрузка...' },
+    width,
+    disabled,
+    className,
+    ...rest
+  } = props;
 
   const extraClassName = useMemo(() => {
     switch (option) {
@@ -25,8 +39,13 @@ export const Button = (props: IButton) => {
   }, [option]);
 
   return (
-    <button className={clsx(className, extraClassName)} style={{ width: width }} {...rest}>
-      {children}
+    <button
+      className={clsx(className, extraClassName)}
+      style={{ width: width }}
+      disabled={disabled || loading.isLoading}
+      {...rest}
+    >
+      {loading.isLoading ? loading.loadingMessage : children}
     </button>
   );
 };
