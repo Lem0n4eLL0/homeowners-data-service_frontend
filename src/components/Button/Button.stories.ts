@@ -48,3 +48,29 @@ export const LinkButton: Story = {
     children: 'Поменять номер',
   },
 };
+
+export const LoadingBlueButton: Story = {
+  args: {
+    option: 'BlueButton',
+    name: 'link',
+    children: 'Поменять номер',
+    width: 260,
+    loading: {
+      isLoading: true,
+      loadingMessage: 'Загрузка...',
+    },
+  },
+};
+
+export const LoadingDeleteButton: Story = {
+  args: {
+    option: 'DeleteButton',
+    name: 'link',
+    children: 'Поменять номер',
+    width: 140,
+    loading: {
+      isLoading: true,
+      loadingMessage: 'Удалить',
+    },
+  },
+};

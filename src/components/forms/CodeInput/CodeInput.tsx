@@ -39,7 +39,6 @@ export const CodeInput = forwardRef<HTMLInputElement, ICodeInput>((props, ref) =
     const valueArray = codeFormatter(value);
     const [firstList, secondList] = renderLists(valueArray, isFocused);
 
-    console.log(valueArray);
     return [valueArray.join(''), firstList, secondList];
   }, [value, isFocused]);
 
