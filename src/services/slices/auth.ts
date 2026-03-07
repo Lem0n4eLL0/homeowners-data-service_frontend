@@ -12,6 +12,7 @@ type AuthSteps = 'AuthStepOne' | 'AuthStepTwo' | 'AuthCompleted';
 type AuthState = {
   stepState: AuthSteps;
   accountExists: boolean | undefined;
+  isAuthInitializing: boolean;
   data: {
     phone: string | undefined;
   };
@@ -24,6 +25,7 @@ type AuthState = {
 const initialState: AuthState = {
   stepState: 'AuthStepOne',
   accountExists: undefined,
+  isAuthInitializing: true,
   data: {
     phone: undefined,
   },
@@ -75,6 +77,10 @@ const authSlice = createSlice({
       state.stepState = action.payload;
     }),
 
+    setIsAuthInitializing: create.reducer((state, action: PayloadAction<boolean>) => {
+      state.isAuthInitializing = action.payload;
+    }),
+
     setPhone: create.reducer((state, action: PayloadAction<string>) => {
       state.data.phone = action.payload;
     }),
@@ -95,6 +101,7 @@ const authSlice = createSlice({
 
   selectors: {
     selectStepState: store => store.stepState,
+    selectIsAuthInitializing: store => store.isAuthInitializing,
     selectIsAuthCompleted: store => store.stepState === 'AuthCompleted',
     selectIsAccountExists: store => store.accountExists,
     selectStatuses: store => store.statuses,
@@ -107,15 +114,17 @@ export const {
   selectStepState,
   selectIsAuthCompleted,
   selectIsAccountExists,
+  selectIsAuthInitializing,
   selectStatuses: selectStatusesAuth,
   selectData: selectDataAuth,
 } = authSlice.selectors;
 
 export const {
-  sendVerificationCode: sendVerificationCodeAuth,
-  verificationCode: verificationCodeAuth,
-  resetErrorStatuses: resetErrorStatusesAuth,
+  setIsAuthInitializing,
   backToStepOne,
   setStepState,
   setPhone,
+  sendVerificationCode: sendVerificationCodeAuth,
+  verificationCode: verificationCodeAuth,
+  resetErrorStatuses: resetErrorStatusesAuth,
 } = authSlice.actions;

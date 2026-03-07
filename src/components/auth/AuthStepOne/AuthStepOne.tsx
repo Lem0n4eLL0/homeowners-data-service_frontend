@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button';
 import style from './AuthStepOne.module.scss';
-import { SyntheticEvent, useEffect, useRef } from 'react';
+import { SyntheticEvent, useLayoutEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import {
   resetErrorStatusesAuth,
@@ -41,7 +41,7 @@ export const AuthStepOne = () => {
     error: statuses.sendCodeStatus.error,
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     inputRef.current?.focus();
   }, []);
 
@@ -83,7 +83,9 @@ export const AuthStepOne = () => {
               />
             )}
           </FormElement>
-          {requestError.isError && <ErrorField> {requestError.error?.message} </ErrorField>}
+          {requestError.isError && requestError.error && (
+            <ErrorField>{requestError.error.message}</ErrorField>
+          )}
           <Button
             type="submit"
             option="BlueButton"

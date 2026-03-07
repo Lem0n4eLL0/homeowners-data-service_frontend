@@ -19,13 +19,9 @@ export class TimerReadyState implements ITimerState {
     this._timer.initTimer();
   }
 
-  stop() {
-    console.log('Impossible operation');
-  }
+  stop() {}
 
-  reset() {
-    console.log('Already reset');
-  }
+  reset() {}
 }
 
 export class TimerProcessState implements ITimerState {
@@ -35,17 +31,11 @@ export class TimerProcessState implements ITimerState {
     this._timer = timer;
   }
 
-  start() {
-    console.log('Already process');
-  }
+  start() {}
 
-  stop() {
-    this._timer.stopTimer();
-  }
+  stop() {}
 
-  reset() {
-    this._timer.resetTimer();
-  }
+  reset() {}
 }
 
 export class TimerStopedState implements ITimerState {
@@ -59,9 +49,7 @@ export class TimerStopedState implements ITimerState {
     this._timer.initTimer();
   }
 
-  stop() {
-    console.log('Already stop');
-  }
+  stop() {}
 
   reset() {
     this._timer.resetTimer();
@@ -80,9 +68,7 @@ export class TimerEndState implements ITimerState {
     this._timer.initTimer();
   }
 
-  stop() {
-    console.log('Impossible to stop');
-  }
+  stop() {}
 
   reset() {
     this._timer.resetTimer();

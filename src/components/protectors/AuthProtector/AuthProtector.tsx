@@ -1,7 +1,6 @@
 import { selectIsAuthCompleted } from '@/services/slices/auth';
 import { useAppSelector } from '@/services/store';
-import { useEffect, useMemo } from 'react';
-import { Outlet, useNavigate } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 
 interface IAuthProtector {
   isRedirectAuthorized: boolean;
@@ -11,19 +10,11 @@ interface IAuthProtector {
 
 export const AuthProtector = (props: IAuthProtector) => {
   const { isRedirectAuthorized, redirectPath, replace = true } = props;
-  const isCompeted = useAppSelector(selectIsAuthCompleted);
-  const navigator = useNavigate();
+  const isCompleted = useAppSelector(selectIsAuthCompleted);
 
-  const isRedirect = useMemo(
-    () => isRedirectAuthorized === isCompeted,
-    [isRedirectAuthorized, isCompeted]
-  );
-
-  useEffect(() => {
-    if (isRedirect) {
-      void navigator(redirectPath, { replace });
-    }
-  }, [navigator, isRedirect, replace]);
+  if (isRedirectAuthorized === isCompleted) {
+    return <Navigate to={redirectPath} replace={replace} />;
+  }
 
   return <Outlet />;
 };
