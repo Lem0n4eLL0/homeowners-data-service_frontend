@@ -2,7 +2,7 @@ import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
 import { DTORequestError } from './dto/dto';
 import { errorMapper } from './dto/mappers';
 import { RequestError } from './apiTypes';
-import { refreshToken } from './api';
+import { refreshToken, URL_API, URL_PREFIX } from './api';
 
 export const baseHeaders = {
   'Content-Type': 'application/json;charset=utf-8',
@@ -54,4 +54,8 @@ export const fetchWithRefresh = <T>(info: RequestInfo, options: RequestInit): Pr
     }
     throw e;
   });
+};
+
+export const bulidURL = (postfix: string) => {
+  return `${URL_API}${URL_PREFIX}${postfix}`;
 };

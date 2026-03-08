@@ -1,4 +1,4 @@
-import { sendVerificationCode, verificationCode } from '@/api/api';
+import { logoutMe, sendVerificationCode, verificationCode } from '@/api/api';
 import { RequestError, RequestStatus } from '@/api/apiTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -19,6 +19,7 @@ type AuthState = {
   statuses: {
     sendCodeStatus: RequestStatus;
     verifyCodeStatus: RequestStatus;
+    logoutStatus: RequestStatus;
   };
 };
 
@@ -32,6 +33,7 @@ const initialState: AuthState = {
   statuses: {
     sendCodeStatus: READY_REQUEST_STATUS,
     verifyCodeStatus: READY_REQUEST_STATUS,
+    logoutStatus: READY_REQUEST_STATUS,
   },
 };
 
@@ -71,6 +73,18 @@ const authSlice = createSlice({
         state.statuses.sendCodeStatus.error = undefined;
         state.stepState = 'AuthCompleted';
       },
+    }),
+
+    logoutMe: create.asyncThunk(logoutMe, {
+      pending: state => {
+        state.statuses.logoutStatus.status = 'PENDING';
+        state.statuses.logoutStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.logoutStatus.status = 'ERROR';
+        state.statuses.logoutStatus.error = action.error as RequestError;
+      },
+      fulfilled: () => initialState,
     }),
 
     setStepState: create.reducer((state, action: PayloadAction<AuthSteps>) => {
@@ -124,6 +138,7 @@ export const {
   backToStepOne,
   setStepState,
   setPhone,
+  logoutMe: logoutMeAuth,
   sendVerificationCode: sendVerificationCodeAuth,
   verificationCode: verificationCodeAuth,
   resetErrorStatuses: resetErrorStatusesAuth,

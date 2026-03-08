@@ -14,6 +14,7 @@ import { Loader } from '@/components/shells/Loader';
 import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import clsx from 'clsx';
+import { Header } from '@/components/Header';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const App = () => {
   return (
     <Routes>
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
-        <Route element={<MainLayout header={<div>Header</div>} />}>
+        <Route element={<MainLayout header={<Header />} />}>
           <Route index element={<Navigate to="/profile" replace />} />
           <Route path="readings" element={<div>Показания</div>} />
           <Route path="accruals" element={<div>Начисления</div>} />
