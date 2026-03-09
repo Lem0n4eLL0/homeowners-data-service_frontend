@@ -2,7 +2,7 @@ import { Input } from '@/components/forms/Input';
 import style from './AuthStepTwo.module.scss';
 import commonStyle from '@styles/common.module.scss';
 import { FormElement } from '@/components/forms/FormElement';
-import { Timer } from '@/components/Timer';
+import { Timer } from '@/components/shells/Timer';
 import { Button } from '@/components/Button';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import {
@@ -28,7 +28,7 @@ import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import { VerificationCodeRequest } from '@/api/apiTypes';
 import { isSet, likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { codeFormatter } from '@/utils/utils';
-import { ErrorField } from '@/components/ErrorField';
+import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 
 const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {

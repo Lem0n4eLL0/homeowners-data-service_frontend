@@ -1,7 +1,8 @@
-import { sendVerificationCode, verificationCode } from '@/api/api';
+import { logoutMe, sendVerificationCode, verificationCode } from '@/api/api';
 import { RequestError, RequestStatus } from '@/api/apiTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getProfileUser } from './user';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -19,6 +20,7 @@ type AuthState = {
   statuses: {
     sendCodeStatus: RequestStatus;
     verifyCodeStatus: RequestStatus;
+    logoutStatus: RequestStatus;
   };
 };
 
@@ -32,6 +34,7 @@ const initialState: AuthState = {
   statuses: {
     sendCodeStatus: READY_REQUEST_STATUS,
     verifyCodeStatus: READY_REQUEST_STATUS,
+    logoutStatus: READY_REQUEST_STATUS,
   },
 };
 
@@ -73,6 +76,18 @@ const authSlice = createSlice({
       },
     }),
 
+    logoutMe: create.asyncThunk(logoutMe, {
+      pending: state => {
+        state.statuses.logoutStatus.status = 'PENDING';
+        state.statuses.logoutStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.logoutStatus.status = 'ERROR';
+        state.statuses.logoutStatus.error = action.error as RequestError;
+      },
+      fulfilled: () => initialState,
+    }),
+
     setStepState: create.reducer((state, action: PayloadAction<AuthSteps>) => {
       state.stepState = action.payload;
     }),
@@ -99,6 +114,18 @@ const authSlice = createSlice({
     }),
   }),
 
+  extraReducers: builder => {
+    builder.addCase(getProfileUser.rejected, state => {
+      state.isAuthInitializing = false;
+    });
+    builder.addCase(getProfileUser.fulfilled, (state, action) => {
+      state.accountExists = true;
+      state.stepState = 'AuthCompleted';
+      state.data.phone = action.payload.phone;
+      state.isAuthInitializing = false;
+    });
+  },
+
   selectors: {
     selectStepState: store => store.stepState,
     selectIsAuthInitializing: store => store.isAuthInitializing,
@@ -124,6 +151,7 @@ export const {
   backToStepOne,
   setStepState,
   setPhone,
+  logoutMe: logoutMeAuth,
   sendVerificationCode: sendVerificationCodeAuth,
   verificationCode: verificationCodeAuth,
   resetErrorStatuses: resetErrorStatusesAuth,

@@ -14,7 +14,7 @@ import { SendVerificationCodeRequest } from '@/api/apiTypes';
 import { likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { PHONE_REGEXP } from '@/common/constants';
 import { PhoneInput } from '@/components/forms/PhoneInput/PhoneInput';
-import { ErrorField } from '@/components/ErrorField';
+import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 import clsx from 'clsx';
 
@@ -45,7 +45,7 @@ export const AuthStepOne = () => {
     inputRef.current?.focus();
   }, []);
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const [isValide] = validate(true);

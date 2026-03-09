@@ -352,3 +352,7 @@ template {
 [hidden] {
   display: none;
 }
+
+li {
+  list-style: none;
+}

@@ -1,5 +1,6 @@
 import {
   GetMeResponce,
+  GetProfileResponce,
   RefreshTokenResponce,
   RequestError,
   SendVerificationCodeRequest,
@@ -9,6 +10,7 @@ import {
 } from '../apiTypes';
 import {
   DTOGetMeResponce,
+  DTOGetProfileResponce,
   DTORefreshTokenResponce,
   DTORequestError,
   DTOSendVerificationCodeRequest,
@@ -54,6 +56,16 @@ export const verificationCodeResponceMapper = (
 ): VerificationCodeResponce => {
   return {
     token: dto.token,
+  };
+};
+
+export const getProfileResponceMapper = (dto: DTOGetProfileResponce): GetProfileResponce => {
+  return {
+    id: dto.id,
+    firstName: dto.firstName,
+    lastName: dto.lastName,
+    surname: dto.surname,
+    properties: dto.properties,
   };
 };
 

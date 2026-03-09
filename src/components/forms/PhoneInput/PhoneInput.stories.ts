@@ -11,6 +11,7 @@ const meta = {
     type: 'phone',
     value: '',
     width: '300px',
+    onChangeValue: fn(),
   },
 } satisfies Meta<typeof PhoneInput>;
 
@@ -91,3 +92,6 @@ export const PhoneInputOtherSymbols: Story = {
     value: ' 123@45678%90fg123 4 ',
   },
 };
+function fn(): (value: string) => void {
+  throw new Error('Function not implemented.');
+}

@@ -4,30 +4,20 @@ import { AuthPage } from '@pages/AuthPage';
 import { AuthProtector } from '@/components/protectors/AuthProtector';
 import { useLayoutEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
-import { getMe } from '@/api/api';
-import {
-  selectIsAuthInitializing,
-  setIsAuthInitializing,
-  setStepState,
-} from '@/services/slices/auth';
+import { selectIsAuthInitializing } from '@/services/slices/auth';
 import { Loader } from '@/components/shells/Loader';
 import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import clsx from 'clsx';
+import { Header } from '@/components/Header';
+import { getProfileUser } from '@/services/slices/user';
 
 const App = () => {
   const dispatch = useAppDispatch();
   const isInitializing = useAppSelector(selectIsAuthInitializing);
 
   useLayoutEffect(() => {
-    getMe()
-      .then(() => {
-        dispatch(setStepState('AuthCompleted'));
-      })
-      .catch(() => {})
-      .finally(() => {
-        dispatch(setIsAuthInitializing(false));
-      });
+    void dispatch(getProfileUser());
   }, []);
 
   if (isInitializing) {
@@ -39,7 +29,7 @@ const App = () => {
   return (
     <Routes>
       <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
-        <Route element={<MainLayout header={<div>Header</div>} />}>
+        <Route element={<MainLayout header={<Header />} />}>
           <Route index element={<Navigate to="/profile" replace />} />
           <Route path="readings" element={<div>Показания</div>} />
           <Route path="accruals" element={<div>Начисления</div>} />

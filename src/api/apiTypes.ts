@@ -1,3 +1,5 @@
+import { User } from '@/common/commonTypes';
+
 export const HTTP_METHODS = {
   GET: 'GET',
   POST: 'POST',
@@ -70,3 +72,5 @@ export type GetMeResponce = {
   phone: string;
   email: string;
 };
+
+export type GetProfileResponce = User;
