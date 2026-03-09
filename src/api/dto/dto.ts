@@ -1,3 +1,5 @@
+import { User } from '@/common/commonTypes';
+
 export type DTOSendVerificationCodeRequest = {
   phone: string;
 };
@@ -25,6 +27,8 @@ export type DTOGetMeResponce = {
   phone: string;
   email: string;
 };
+
+export type DTOGetProfileResponce = User;
 
 export type DTORequestError = {
   timestamp: string;

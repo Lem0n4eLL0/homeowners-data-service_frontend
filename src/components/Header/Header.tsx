@@ -4,14 +4,15 @@ import logo from '@assets/logo.svg';
 import logout from '@assets/exit_icon.svg';
 import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@/services/store';
-import { logoutMeAuth, selectDataAuth } from '@/services/slices/auth';
+import { logoutMeAuth } from '@/services/slices/auth';
 import { phoneFormatterView } from '@/utils/utils';
 import { SyntheticEvent } from 'react';
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
+import { selectUser } from '@/services/slices/user';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const { phone } = useAppSelector(selectDataAuth);
+  const user = useAppSelector(selectUser);
 
   const logoutFormHandler = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,7 +89,7 @@ export const Header = () => {
             )
           }
         >
-          {phoneFormatterView(phone ?? '+70000000000')}
+          {phoneFormatterView(user.phone ?? '+70000000000')}
         </NavLink>
         <form
           name="logout_form"

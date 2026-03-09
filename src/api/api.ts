@@ -8,6 +8,7 @@ import {
 } from './apiHelp';
 import {
   GetMeResponce,
+  GetProfileResponce,
   HTTP_METHODS,
   RefreshTokenResponce,
   SendVerificationCodeRequest,
@@ -16,6 +17,7 @@ import {
 } from './apiTypes';
 import {
   getMeResponceMapper,
+  getProfileResponceMapper,
   refreshTokenResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
@@ -69,6 +71,15 @@ export const getMe = () => {
     headers: baseHeaders,
   }).then(res => {
     return getMeResponceMapper(res);
+  });
+};
+
+export const getProfile = () => {
+  return fetchWithRefresh<GetProfileResponce>(bulidURL(`profile/me`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return getProfileResponceMapper(res);
   });
 };
 

@@ -2,6 +2,7 @@ import { logoutMe, sendVerificationCode, verificationCode } from '@/api/api';
 import { RequestError, RequestStatus } from '@/api/apiTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getProfileUser } from './user';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -112,6 +113,18 @@ const authSlice = createSlice({
       state.statuses.verifyCodeStatus = READY_REQUEST_STATUS;
     }),
   }),
+
+  extraReducers: builder => {
+    builder.addCase(getProfileUser.rejected, state => {
+      state.isAuthInitializing = false;
+    });
+    builder.addCase(getProfileUser.fulfilled, (state, action) => {
+      state.accountExists = true;
+      state.stepState = 'AuthCompleted';
+      state.data.phone = action.payload.phone;
+      state.isAuthInitializing = false;
+    });
+  },
 
   selectors: {
     selectStepState: store => store.stepState,
