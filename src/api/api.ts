@@ -11,6 +11,7 @@ import {
   GetProfileResponce,
   HTTP_METHODS,
   RefreshTokenResponce,
+  RegistrationProfileRequest,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
   VerificationCodeRequest,
@@ -19,12 +20,18 @@ import {
   getMeResponceMapper,
   getProfileResponceMapper,
   refreshTokenResponceMapper,
+  registrationProfileRequestMapper,
+  registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
   verificationCodeRequestMapper,
   verificationCodeResponceMapper,
 } from './dto/mappers';
-import { DTOSendVerificationCodeResponce, DTOVerificationCodeResponce } from './dto/dto';
+import {
+  DTORegistrationProfileResponce,
+  DTOSendVerificationCodeResponce,
+  DTOVerificationCodeResponce,
+} from './dto/dto';
 
 export const URL_API = import.meta.env.VITE_APP_API_URL || '';
 export const URL_PREFIX = '/api/v1/';
@@ -80,6 +87,16 @@ export const getProfile = () => {
     headers: baseHeaders,
   }).then(res => {
     return getProfileResponceMapper(res);
+  });
+};
+
+export const registrationProfile = (body: RegistrationProfileRequest) => {
+  return fetchWithRefresh<DTORegistrationProfileResponce>(bulidURL(`profile`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(registrationProfileRequestMapper(body)),
+  }).then(res => {
+    return registrationProfileResponceMapper(res);
   });
 };
 

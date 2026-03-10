@@ -1,5 +1,3 @@
-import { User } from '@/common/commonTypes';
-
 export type DTOSendVerificationCodeRequest = {
   phone: string;
 };
@@ -28,7 +26,42 @@ export type DTOGetMeResponce = {
   email: string;
 };
 
-export type DTOGetProfileResponce = User;
+export type DTOGetProfileResponce = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  surname: string;
+  properties: Array<DTOPropertie>;
+};
+
+export type DTOPropertie = {
+  id: string;
+  street: string;
+  houseNumber: string;
+  corpus: string;
+  flatNumber: string;
+  personalAccountNumber: string;
+};
+
+export type DTORegistrationProfileRequest = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  street: string;
+  houseNumber: string;
+  corpus: string;
+  flatNumber: string;
+  email: string;
+  personalAccountNumber: string;
+};
+
+export type DTORegistrationProfileResponce = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  surname: string;
+  properties: Array<DTOPropertie>;
+};
 
 export type DTORequestError = {
   timestamp: string;

@@ -1,0 +1,30 @@
+.content {
+  padding-top: 48px;
+
+  &__form-registration {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 44px 40px;
+  }
+
+  &__address {
+    display: grid;
+    grid-column: 1 / span 3;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    gap: 40px;
+
+    &_street {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-column: 1 / span 2;
+    grid-row: 4 / 5;
+  }
+}

@@ -1,7 +1,10 @@
+import { Propertie } from '@/common/commonTypes';
 import {
   GetMeResponce,
   GetProfileResponce,
   RefreshTokenResponce,
+  RegistrationProfileRequest,
+  RegistrationProfileResponce,
   RequestError,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
@@ -11,7 +14,10 @@ import {
 import {
   DTOGetMeResponce,
   DTOGetProfileResponce,
+  DTOPropertie,
   DTORefreshTokenResponce,
+  DTORegistrationProfileRequest,
+  DTORegistrationProfileResponce,
   DTORequestError,
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
@@ -65,7 +71,18 @@ export const getProfileResponceMapper = (dto: DTOGetProfileResponce): GetProfile
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
-    properties: dto.properties,
+    properties: dto.properties.map(toPropertiesFromDTOMapper),
+  };
+};
+
+export const toPropertiesFromDTOMapper = (dto: DTOPropertie): Propertie => {
+  return {
+    id: dto.id,
+    street: dto.street,
+    houseNumber: dto.houseNumber,
+    corpus: dto.corpus,
+    flatNumber: dto.flatNumber,
+    personalAccountNumber: dto.personalAccountNumber,
   };
 };
 
@@ -74,6 +91,34 @@ export const getMeResponceMapper = (dto: DTOGetMeResponce): GetMeResponce => {
     id: dto.id,
     phone: dto.phone,
     email: dto.email,
+  };
+};
+
+export const registrationProfileRequestMapper = (
+  value: RegistrationProfileRequest
+): DTORegistrationProfileRequest => {
+  return {
+    firstName: value.firstName,
+    lastName: value.lastName,
+    surname: value.surname,
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    email: value.email,
+    personalAccountNumber: value.personalAccountNumber,
+  };
+};
+
+export const registrationProfileResponceMapper = (
+  dto: DTORegistrationProfileResponce
+): RegistrationProfileResponce => {
+  return {
+    id: dto.id,
+    firstName: dto.firstName,
+    lastName: dto.lastName,
+    surname: dto.surname,
+    properties: dto.properties.map(toPropertiesFromDTOMapper),
   };
 };
 

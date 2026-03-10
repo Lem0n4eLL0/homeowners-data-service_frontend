@@ -20,6 +20,6 @@ export type Propertie = {
   street: string;
   houseNumber: string;
   corpus: string;
-  flatNumber: number;
+  flatNumber: string;
   personalAccountNumber: string;
 };

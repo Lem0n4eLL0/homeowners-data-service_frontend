@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '@/services/store';
 import {
   backToStepOne,
   resetErrorStatusesAuth,
-  selectDataAuth,
   selectIsAccountExists,
   selectStatusesAuth,
   sendVerificationCodeAuth,
@@ -30,6 +29,7 @@ import { isSet, likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { codeFormatter } from '@/utils/utils';
 import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
+import { selectUser } from '@/services/slices/user';
 
 const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -39,7 +39,7 @@ const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> 
 
 export const AuthStepTwo = () => {
   const dispatch = useAppDispatch();
-  const { phone } = useAppSelector(selectDataAuth);
+  const { phone } = useAppSelector(selectUser);
   const { sendCodeStatus, verifyCodeStatus } = useAppSelector(selectStatusesAuth);
   const isUserExist = useAppSelector(selectIsAccountExists);
 

@@ -1,0 +1,1 @@
+export { ProfileRegistered } from './ProfileRegistered';

@@ -4,7 +4,6 @@ import { SyntheticEvent, useLayoutEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import {
   resetErrorStatusesAuth,
-  selectDataAuth,
   selectStatusesAuth,
   sendVerificationCodeAuth,
 } from '@/services/slices/auth';
@@ -17,6 +16,7 @@ import { PhoneInput } from '@/components/forms/PhoneInput/PhoneInput';
 import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 import clsx from 'clsx';
+import { selectUser } from '@/services/slices/user';
 
 const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -24,7 +24,7 @@ const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeReque
 
 export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
-  const { phone } = useAppSelector(selectDataAuth);
+  const { phone } = useAppSelector(selectUser);
   const statuses = useAppSelector(selectStatusesAuth);
 
   const inputRef = useRef<HTMLInputElement>(null);

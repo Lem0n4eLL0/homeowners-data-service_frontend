@@ -27,6 +27,19 @@ export const isSet =
     return [value ?? true, { message: message ?? `Обязательно для заполнения` }];
   };
 
+export const isEmpty =
+  (message?: string): ValidationFunc<string> =>
+  (value: string) => {
+    return [value.length === 0, { message: message ?? `Обязательно для заполнения2` }];
+  };
+
+export const notNull =
+  (message?: string): ValidationFunc<string> =>
+  (value: string | undefined) => {
+    const isValid = value !== undefined && value.length !== 0;
+    return [isValid, { message: message ?? `Обязательно для заполнения` }];
+  };
+
 export const likeRegExp =
   (regExp: RegExp, message?: string): ValidationFunc<string> =>
   value => {

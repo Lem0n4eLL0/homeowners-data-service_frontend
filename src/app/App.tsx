@@ -10,17 +10,20 @@ import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import clsx from 'clsx';
 import { Header } from '@/components/Header';
-import { getProfileUser } from '@/services/slices/user';
+import { getMeUser, getProfileUser, selectStatusesUser } from '@/services/slices/user';
+import { ProfilePage } from '@/components/pages/ProfilePage';
 
 const App = () => {
   const dispatch = useAppDispatch();
   const isInitializing = useAppSelector(selectIsAuthInitializing);
+  const userStatuses = useAppSelector(selectStatusesUser);
 
   useLayoutEffect(() => {
+    void dispatch(getMeUser());
     void dispatch(getProfileUser());
   }, []);
 
-  if (isInitializing) {
+  if (isInitializing || userStatuses.getProfileStatus.status === 'PENDING') {
     return (
       <Loader loaderClass={clsx(commonStyle['loader_v2'], style['loader'])} isAbsolute={true} />
     );
@@ -35,7 +38,7 @@ const App = () => {
           <Route path="accruals" element={<div>Начисления</div>} />
           <Route path="applications" element={<div>Заявки</div>} />
           <Route path="services" element={<div>Услуги</div>} />
-          <Route path="profile" element={<div>Профиль</div>} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="news" element={<div>Новости</div>} />
         </Route>
       </Route>

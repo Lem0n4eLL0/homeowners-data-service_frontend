@@ -20,4 +20,6 @@ export const EMPTY_USER: User = {
 
 // Регулярные выражения
 export const PHONE_REGEXP = /^\+7\d{10}$/;
+export const EMAIL_REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+export const PERSONAL_ACCOUT_NUMBER_REGEXP = /^\d{10}$/;
 export const CHECK_CODE_REGEXP = /^\d{6}$/;
