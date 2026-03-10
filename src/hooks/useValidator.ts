@@ -17,13 +17,25 @@ export type ReturnValidatorErrors<T> = Partial<{
 
 export type ValidatorResult<T> = [isValid: boolean, errors: ReturnValidatorErrors<T>];
 
-export function composeValidators<T>(...validators: ValidationFunc<T>[]): ValidationFunc<T> {
+export function composeValidatorsAND<T>(...validators: ValidationFunc<T>[]): ValidationFunc<T> {
   return (value: T) => {
     for (const validator of validators) {
       const result = validator(value);
       if (!result[0]) return result;
     }
     return [true, { message: '' }];
+  };
+}
+
+export function composeValidatorsOR<T>(...validators: ValidationFunc<T>[]): ValidationFunc<T> {
+  return (value: T) => {
+    let resultError = [true, { message: 'Несоответсвие формату' }] as [boolean, ValidatorError];
+    for (const validator of validators) {
+      const result = validator(value);
+      if (result[0]) return [true, { message: '' }];
+      resultError = result;
+    }
+    return resultError;
   };
 }
 
@@ -84,13 +96,26 @@ function useValidator<T extends object>(props: IValidator<T>) {
     return [isValid, validateErrors];
   };
 
-  const initialValidation = isInitValidate ? runValidation(initialValue, {}, true) : [true, {}];
+  const initialValidation = isInitValidate
+    ? runValidation(initialValue, {}, true)
+    : ([true, {}] as ValidatorResult<T>);
 
   const [isValid, setIsValid] = useState(initialValidation[0]);
   const [errors, setErrors] = useState(initialValidation[1]);
 
   const validate = (isValidateAll: boolean = false): ValidatorResult<T> => {
     const result = runValidation(value, isTouched, isValidateAll);
+    if (isValidateAll) {
+      setIsTouched(
+        Object.keys(initialValue).reduce(
+          (acc, key) => {
+            acc[key as keyof T] = true;
+            return acc;
+          },
+          {} as Partial<Record<keyof T, boolean>>
+        )
+      );
+    }
     setErrors(result[1]);
     setIsValid(result[0]);
     return result;

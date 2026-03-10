@@ -1,7 +1,7 @@
-import { Time } from '../../features/Timer/Time';
-import { TimeAccuracy, timeFormatter } from '../../features/Timer/TimeFormatter';
 import clsx from 'clsx';
 import style from './Timer.module.scss';
+import { Time } from '@/features/Timer/Time';
+import { TimeAccuracy, timeFormatter } from '@/features/Timer/TimeFormatter';
 
 interface ITimer {
   value: Time;

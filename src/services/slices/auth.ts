@@ -1,7 +1,8 @@
-import { sendVerificationCode, verificationCode } from '@/api/api';
+import { logoutMe, sendVerificationCode, verificationCode } from '@/api/api';
 import { RequestError, RequestStatus } from '@/api/apiTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getMeUser } from './user';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -13,12 +14,10 @@ type AuthState = {
   stepState: AuthSteps;
   accountExists: boolean | undefined;
   isAuthInitializing: boolean;
-  data: {
-    phone: string | undefined;
-  };
   statuses: {
     sendCodeStatus: RequestStatus;
     verifyCodeStatus: RequestStatus;
+    logoutStatus: RequestStatus;
   };
 };
 
@@ -26,12 +25,10 @@ const initialState: AuthState = {
   stepState: 'AuthStepOne',
   accountExists: undefined,
   isAuthInitializing: true,
-  data: {
-    phone: undefined,
-  },
   statuses: {
     sendCodeStatus: READY_REQUEST_STATUS,
     verifyCodeStatus: READY_REQUEST_STATUS,
+    logoutStatus: READY_REQUEST_STATUS,
   },
 };
 
@@ -40,8 +37,7 @@ const authSlice = createSlice({
   initialState,
   reducers: create => ({
     sendVerificationCode: create.asyncThunk(sendVerificationCode, {
-      pending: (state, action) => {
-        state.data.phone = action.meta.arg.phone;
+      pending: state => {
         state.statuses.sendCodeStatus.status = 'PENDING';
         state.statuses.sendCodeStatus.error = undefined;
       },
@@ -73,16 +69,24 @@ const authSlice = createSlice({
       },
     }),
 
+    logoutMe: create.asyncThunk(logoutMe, {
+      pending: state => {
+        state.statuses.logoutStatus.status = 'PENDING';
+        state.statuses.logoutStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.logoutStatus.status = 'ERROR';
+        state.statuses.logoutStatus.error = action.error as RequestError;
+      },
+      fulfilled: () => initialState,
+    }),
+
     setStepState: create.reducer((state, action: PayloadAction<AuthSteps>) => {
       state.stepState = action.payload;
     }),
 
     setIsAuthInitializing: create.reducer((state, action: PayloadAction<boolean>) => {
       state.isAuthInitializing = action.payload;
-    }),
-
-    setPhone: create.reducer((state, action: PayloadAction<string>) => {
-      state.data.phone = action.payload;
     }),
 
     resetErrorStatuses: create.reducer(state => {
@@ -99,13 +103,23 @@ const authSlice = createSlice({
     }),
   }),
 
+  extraReducers: builder => {
+    builder.addCase(getMeUser.rejected, state => {
+      state.isAuthInitializing = false;
+    });
+    builder.addCase(getMeUser.fulfilled, state => {
+      state.isAuthInitializing = false;
+      state.accountExists = true;
+      state.stepState = 'AuthCompleted';
+    });
+  },
+
   selectors: {
     selectStepState: store => store.stepState,
     selectIsAuthInitializing: store => store.isAuthInitializing,
     selectIsAuthCompleted: store => store.stepState === 'AuthCompleted',
     selectIsAccountExists: store => store.accountExists,
     selectStatuses: store => store.statuses,
-    selectData: store => store.data,
   },
 });
 
@@ -116,14 +130,13 @@ export const {
   selectIsAccountExists,
   selectIsAuthInitializing,
   selectStatuses: selectStatusesAuth,
-  selectData: selectDataAuth,
 } = authSlice.selectors;
 
 export const {
   setIsAuthInitializing,
   backToStepOne,
   setStepState,
-  setPhone,
+  logoutMe: logoutMeAuth,
   sendVerificationCode: sendVerificationCodeAuth,
   verificationCode: verificationCodeAuth,
   resetErrorStatuses: resetErrorStatusesAuth,

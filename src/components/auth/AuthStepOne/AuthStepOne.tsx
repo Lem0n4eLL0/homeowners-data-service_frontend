@@ -4,7 +4,6 @@ import { SyntheticEvent, useLayoutEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import {
   resetErrorStatusesAuth,
-  selectDataAuth,
   selectStatusesAuth,
   sendVerificationCodeAuth,
 } from '@/services/slices/auth';
@@ -14,9 +13,10 @@ import { SendVerificationCodeRequest } from '@/api/apiTypes';
 import { likeRegExp } from '@/features/Validator/ValidationFunctions';
 import { PHONE_REGEXP } from '@/common/constants';
 import { PhoneInput } from '@/components/forms/PhoneInput/PhoneInput';
-import { ErrorField } from '@/components/ErrorField';
+import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 import clsx from 'clsx';
+import { selectUser } from '@/services/slices/user';
 
 const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -24,7 +24,7 @@ const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeReque
 
 export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
-  const { phone } = useAppSelector(selectDataAuth);
+  const { phone } = useAppSelector(selectUser);
   const statuses = useAppSelector(selectStatusesAuth);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -45,7 +45,7 @@ export const AuthStepOne = () => {
     inputRef.current?.focus();
   }, []);
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const [isValide] = validate(true);

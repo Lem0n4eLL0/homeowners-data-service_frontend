@@ -1,3 +1,5 @@
+import { Propertie } from '@/common/commonTypes';
+
 export const HTTP_METHODS = {
   GET: 'GET',
   POST: 'POST',
@@ -69,4 +71,32 @@ export type GetMeResponce = {
   id: string;
   phone: string;
   email: string;
+};
+
+export type RegistrationProfileRequest = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  street: string;
+  houseNumber: string;
+  corpus: string;
+  flatNumber: string;
+  email: string;
+  personalAccountNumber: string;
+};
+
+export type RegistrationProfileResponce = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  surname: string;
+  properties: Array<Propertie>;
+};
+
+export type GetProfileResponce = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  surname: string;
+  properties: Array<Propertie>;
 };

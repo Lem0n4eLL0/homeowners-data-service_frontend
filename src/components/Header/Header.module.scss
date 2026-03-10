@@ -1,0 +1,73 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 80px;
+  height: 80px;
+  background-color: $color-bg-primary;
+  box-shadow: 0 1px 1px rgb(0, 0, 0, 0.05);
+  padding: 0 clamp(20px, calc(1.25rem + ((1vw - 3.8px) * 15.3488)), 152px);
+
+  &__logo {
+    max-width: 80px;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+    padding: 0 0 0 clamp(20px, calc(0.625rem + ((1vw - 12.4px) * 43)), 96px);
+    margin: 0;
+  }
+
+  &__link {
+    list-style: none;
+    text-decoration: none;
+    color: $color-text-primary;
+    font-size: 14px;
+    line-height: 16px;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      color: $color-text-secondary-2;
+    }
+
+    &.content__link_active {
+      color: $color-text-accent;
+      cursor: default;
+
+      &:hover {
+        color: $color-text-accent;
+      }
+    }
+  }
+
+  &__account {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-left: 20px;
+    gap: clamp(10px, calc(0.625rem + ((1vw - 9.7px) * 7.234)), 44px);
+  }
+
+  &__phone {
+    font-size: 12px;
+    text-wrap: noWrap;
+  }
+
+  &__logout-form {
+    display: flex;
+    max-width: 16px;
+    max-height: 16px;
+  }
+
+  &__logout-button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+  }
+}

@@ -1,25 +1,40 @@
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
-import { baseHeaders, checkResponse, fetchWithCheckResponse, fetchWithRefresh } from './apiHelp';
+import {
+  baseHeaders,
+  bulidURL,
+  checkResponse,
+  fetchWithCheckResponse,
+  fetchWithRefresh,
+} from './apiHelp';
 import {
   GetMeResponce,
+  GetProfileResponce,
   HTTP_METHODS,
   RefreshTokenResponce,
+  RegistrationProfileRequest,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
   VerificationCodeRequest,
 } from './apiTypes';
 import {
   getMeResponceMapper,
+  getProfileResponceMapper,
   refreshTokenResponceMapper,
+  registrationProfileRequestMapper,
+  registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
   verificationCodeRequestMapper,
   verificationCodeResponceMapper,
 } from './dto/mappers';
-import { DTOSendVerificationCodeResponce, DTOVerificationCodeResponce } from './dto/dto';
+import {
+  DTORegistrationProfileResponce,
+  DTOSendVerificationCodeResponce,
+  DTOVerificationCodeResponce,
+} from './dto/dto';
 
 export const URL_API = import.meta.env.VITE_APP_API_URL || '';
-
+export const URL_PREFIX = '/api/v1/';
 export const refreshToken = () => {
   return fetch(`${URL_API}/api/v1/auth/refresh`, {
     method: HTTP_METHODS.POST,
@@ -36,7 +51,7 @@ export const refreshToken = () => {
 export const sendVerificationCode = (
   body: SendVerificationCodeRequest
 ): Promise<SendVerificationCodeResponce> => {
-  return fetch(`${URL_API}/api/v1/auth/sms/request`, {
+  return fetch(bulidURL('auth/sms/request'), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(sendVerificationCodeRequestMapper(body)),
@@ -46,7 +61,7 @@ export const sendVerificationCode = (
 };
 
 export const verificationCode = (body: VerificationCodeRequest) => {
-  return fetchWithCheckResponse<DTOVerificationCodeResponce>(`${URL_API}/api/v1/auth/sms/verify`, {
+  return fetchWithCheckResponse<DTOVerificationCodeResponce>(bulidURL(`auth/sms/verify`), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(verificationCodeRequestMapper(body)),
@@ -58,10 +73,36 @@ export const verificationCode = (body: VerificationCodeRequest) => {
 };
 
 export const getMe = () => {
-  return fetchWithRefresh<GetMeResponce>(`${URL_API}/api/v1/accounts/me`, {
+  return fetchWithRefresh<GetMeResponce>(bulidURL(`accounts/me`), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
   }).then(res => {
     return getMeResponceMapper(res);
+  });
+};
+
+export const getProfile = () => {
+  return fetchWithRefresh<GetProfileResponce>(bulidURL(`profile/me`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return getProfileResponceMapper(res);
+  });
+};
+
+export const registrationProfile = (body: RegistrationProfileRequest) => {
+  return fetchWithRefresh<DTORegistrationProfileResponce>(bulidURL(`profile`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(registrationProfileRequestMapper(body)),
+  }).then(res => {
+    return registrationProfileResponceMapper(res);
+  });
+};
+
+export const logoutMe = () => {
+  return fetchWithRefresh<GetMeResponce>(bulidURL(`auth/logout`), {
+    method: HTTP_METHODS.DELETE,
+    headers: baseHeaders,
   });
 };

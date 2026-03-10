@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 import { Timer } from './Timer';
-import { Time } from '../../features/Timer/Time';
+import { Time } from '@/features/Timer/Time';
 
 const meta = {
   title: 'Timer',
