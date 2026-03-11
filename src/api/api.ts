@@ -39,6 +39,7 @@ export const refreshToken = () => {
   return fetch(`${URL_API}/api/v1/auth/refresh`, {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
+    credentials: 'include',
   })
     .then(res => checkResponse<RefreshTokenResponce>(res))
     .then(res => {
@@ -64,6 +65,7 @@ export const verificationCode = (body: VerificationCodeRequest) => {
   return fetchWithCheckResponse<DTOVerificationCodeResponce>(bulidURL(`auth/sms/verify`), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
+    credentials: 'include',
     body: JSON.stringify(verificationCodeRequestMapper(body)),
   }).then(res => {
     const mappedRes = verificationCodeResponceMapper(res);
@@ -101,8 +103,17 @@ export const registrationProfile = (body: RegistrationProfileRequest) => {
 };
 
 export const logoutMe = () => {
-  return fetchWithRefresh<GetMeResponce>(bulidURL(`auth/logout`), {
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS);
+
+  return fetchWithRefresh(bulidURL(`auth/logout`), {
     method: HTTP_METHODS.DELETE,
-    headers: baseHeaders,
+    headers: {
+      ...baseHeaders,
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: 'include',
+  }).then(() => {
+    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, '');
+    location.reload();
   });
 };
