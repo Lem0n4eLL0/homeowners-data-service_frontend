@@ -2,6 +2,7 @@ import { Propertie } from '@/common/commonTypes';
 import {
   GetMeResponce,
   PatchProfileRequest,
+  ProfileResponce,
   RefreshTokenResponce,
   RegistrationProfileRequest,
   RegistrationProfileResponce,
@@ -66,7 +67,7 @@ export const verificationCodeResponceMapper = (
   };
 };
 
-export const profileResponceMapper = (dto: DTOProfileResponce): DTOProfileResponce => {
+export const profileResponceMapper = (dto: DTOProfileResponce): ProfileResponce => {
   return {
     id: dto.id,
     firstName: dto.firstName,
@@ -80,7 +81,7 @@ export const profileResponceMapper = (dto: DTOProfileResponce): DTOProfileRespon
 
 export const toPropertiesFromDTOMapper = (dto: DTOPropertie): Propertie => {
   return {
-    id: dto.id,
+    id: dto.propertyId,
     street: dto.street,
     houseNumber: dto.houseNumber,
     corpus: dto.corpus,

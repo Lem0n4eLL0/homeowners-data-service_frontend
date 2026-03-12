@@ -5,10 +5,6 @@
   background-color: inherit;
   color: $color-text-primary;
 
-  &.element_disable {
-    color: $color-text-primary-2;
-  }
-
   &__list {
     padding: 0;
     margin: 0;
@@ -20,14 +16,34 @@
 
 .list {
   &__element {
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
     width: 100%;
     height: 48px;
     background-color: inherit;
     border: 1px solid $color-border-light;
     border-radius: 4px;
+  }
+
+  &__link {
+    display: flex;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 0 20px;
+    align-items: center;
+    color: $color-text-primary;
+    text-decoration: none;
+    transition: box-shadow $transition-duration-medium ease;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      box-shadow: $shadow-1;
+    }
+
+    &.list__link_disabled {
+      box-shadow: none;
+      color: $color-text-primary-2;
+      cursor: default;
+    }
   }
 
   &__text {
@@ -53,10 +69,17 @@
     border: 1px solid $color-border-accent;
     border-radius: 4px;
     background-color: inherit;
+    transition: box-shadow $transition-duration-medium ease;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       cursor: pointer;
+      box-shadow: $shadow-blue-1;
     }
+  }
+
+  &__cursor_pointer {
+    cursor: pointer;
   }
 }
 
