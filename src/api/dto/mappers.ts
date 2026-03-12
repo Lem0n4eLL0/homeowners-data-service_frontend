@@ -1,7 +1,7 @@
 import { Propertie } from '@/common/commonTypes';
 import {
   GetMeResponce,
-  GetProfileResponce,
+  PatchProfileRequest,
   RefreshTokenResponce,
   RegistrationProfileRequest,
   RegistrationProfileResponce,
@@ -13,7 +13,8 @@ import {
 } from '../apiTypes';
 import {
   DTOGetMeResponce,
-  DTOGetProfileResponce,
+  DTOPatchProfileRequest,
+  DTOProfileResponce,
   DTOPropertie,
   DTORefreshTokenResponce,
   DTORegistrationProfileRequest,
@@ -65,12 +66,14 @@ export const verificationCodeResponceMapper = (
   };
 };
 
-export const getProfileResponceMapper = (dto: DTOGetProfileResponce): GetProfileResponce => {
+export const profileResponceMapper = (dto: DTOProfileResponce): DTOProfileResponce => {
   return {
     id: dto.id,
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
+    email: dto.email,
+    phone: dto.phone,
     properties: dto.properties.map(toPropertiesFromDTOMapper),
   };
 };
@@ -119,6 +122,17 @@ export const registrationProfileResponceMapper = (
     lastName: dto.lastName,
     surname: dto.surname,
     properties: dto.properties.map(toPropertiesFromDTOMapper),
+  };
+};
+
+export const updateProfileRequestMapper = (
+  value: PatchProfileRequest
+): Partial<DTOPatchProfileRequest> => {
+  return {
+    firstName: value.firstName,
+    lastName: value.lastName,
+    surname: value.surname,
+    email: value.email,
   };
 };
 

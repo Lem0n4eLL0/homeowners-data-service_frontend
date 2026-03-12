@@ -8,8 +8,8 @@ import {
 } from './apiHelp';
 import {
   GetMeResponce,
-  GetProfileResponce,
   HTTP_METHODS,
+  PatchProfileRequest,
   RefreshTokenResponce,
   RegistrationProfileRequest,
   SendVerificationCodeRequest,
@@ -18,16 +18,18 @@ import {
 } from './apiTypes';
 import {
   getMeResponceMapper,
-  getProfileResponceMapper,
+  profileResponceMapper,
   refreshTokenResponceMapper,
   registrationProfileRequestMapper,
   registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
+  updateProfileRequestMapper,
   verificationCodeRequestMapper,
   verificationCodeResponceMapper,
 } from './dto/mappers';
 import {
+  DTOProfileResponce,
   DTORegistrationProfileResponce,
   DTOSendVerificationCodeResponce,
   DTOVerificationCodeResponce,
@@ -84,11 +86,21 @@ export const getMe = () => {
 };
 
 export const getProfile = () => {
-  return fetchWithRefresh<GetProfileResponce>(bulidURL(`profile/me`), {
+  return fetchWithRefresh<DTOProfileResponce>(bulidURL(`profile/me`), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
   }).then(res => {
-    return getProfileResponceMapper(res);
+    return profileResponceMapper(res);
+  });
+};
+
+export const updateProfile = (body: PatchProfileRequest) => {
+  return fetchWithRefresh<DTOProfileResponce>(bulidURL(`profile`), {
+    method: HTTP_METHODS.PATCH,
+    headers: baseHeaders,
+    body: JSON.stringify(updateProfileRequestMapper(body)),
+  }).then(res => {
+    return profileResponceMapper(res);
   });
 };
 

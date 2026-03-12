@@ -24,7 +24,9 @@
   padding: 16px 20px;
   color: $color-text-primary;
   font-size: 14px;
-  transition: border-color $transition-duration-medium ease;
+  transition:
+    background-color $transition-duration-medium ease,
+    border-color $transition-duration-medium ease;
 
   &::placeholder {
     color: $color-text-primary-2;
@@ -33,7 +35,7 @@
   &:disabled {
     color: $color-text-primary-2;
     background-color: $color-bg-secondary;
-    border: none;
+    border: 1px solid $color-bg-secondary;
   }
 
   &:hover,
@@ -42,8 +44,7 @@
     border-color: $color-border-accent;
 
     &:disabled {
-      color: $color-text-primary-2;
-      border-color: $color-border-light;
+      border-color: $color-bg-secondary;
     }
   }
 

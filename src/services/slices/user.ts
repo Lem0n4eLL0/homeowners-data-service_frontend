@@ -3,14 +3,17 @@ import { User } from '@/common/commonTypes';
 import { EMPTY_USER, READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
 import { logoutMeAuth, sendVerificationCodeAuth } from './auth';
-import { getMe, getProfile, registrationProfile } from '@/api/api';
+import { getMe, getProfile, registrationProfile, updateProfile } from '@/api/api';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
 });
 
 type UserState = {
-  isProfileRegistered: boolean;
+  isProfileRegistered: {
+    isGetProfile: boolean;
+    isGetMe: boolean;
+  };
   data: {
     user: User;
   };
@@ -23,7 +26,10 @@ type UserState = {
 };
 
 const initialState: UserState = {
-  isProfileRegistered: false,
+  isProfileRegistered: {
+    isGetProfile: false,
+    isGetMe: false,
+  },
   data: {
     user: EMPTY_USER,
   },
@@ -47,7 +53,7 @@ const userSlice = createSlice({
       rejected: (state, action) => {
         state.statuses.getProfileStatus.status = 'ERROR';
         state.statuses.getProfileStatus.error = action.error as RequestError;
-        state.isProfileRegistered = false;
+        state.isProfileRegistered.isGetProfile = false;
       },
       fulfilled: (state, action) => {
         state.statuses.getProfileStatus.status = 'SUCCESS';
@@ -56,7 +62,7 @@ const userSlice = createSlice({
           ...state.data.user,
           ...action.payload,
         };
-        state.isProfileRegistered = true;
+        state.isProfileRegistered.isGetProfile = true;
       },
     }),
 
@@ -68,12 +74,14 @@ const userSlice = createSlice({
       rejected: (state, action) => {
         state.statuses.getMeStatus.status = 'ERROR';
         state.statuses.getMeStatus.error = action.error as RequestError;
+        state.isProfileRegistered.isGetMe = false;
       },
       fulfilled: (state, action) => {
         state.statuses.getMeStatus.status = 'SUCCESS';
         state.statuses.getMeStatus.error = undefined;
         state.data.user.phone = action.payload.phone;
         state.data.user.email = action.payload.email;
+        state.isProfileRegistered.isGetMe = true;
       },
     }),
 
@@ -96,12 +104,27 @@ const userSlice = createSlice({
       },
     }),
 
-    setPhone: create.reducer((state, action: PayloadAction<string>) => {
-      state.data.user.phone = action.payload;
+    updateProfile: create.asyncThunk(updateProfile, {
+      pending: state => {
+        state.statuses.updateProfileStatus.status = 'PENDING';
+        state.statuses.updateProfileStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.updateProfileStatus.status = 'ERROR';
+        state.statuses.updateProfileStatus.error = action.error as RequestError;
+      },
+      fulfilled: (state, action) => {
+        state.statuses.updateProfileStatus.status = 'SUCCESS';
+        state.statuses.updateProfileStatus.error = undefined;
+        state.data.user = {
+          ...state.data.user,
+          ...action.payload,
+        };
+      },
     }),
 
-    updateProfile: create.reducer((state, action: PayloadAction<User>) => {
-      state.data.user = action.payload;
+    setPhone: create.reducer((state, action: PayloadAction<string>) => {
+      state.data.user.phone = action.payload;
     }),
 
     resetErrorStatuses: create.reducer(state => {

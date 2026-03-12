@@ -1,0 +1,66 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  width: 100%;
+  background-color: inherit;
+  color: $color-text-primary;
+
+  &.element_disable {
+    color: $color-text-primary-2;
+  }
+
+  &__list {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.list {
+  &__element {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 48px;
+    background-color: inherit;
+    border: 1px solid $color-border-light;
+    border-radius: 4px;
+  }
+
+  &__text {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__element_button {
+    width: 100%;
+    height: 48px;
+    border: none;
+  }
+
+  &__button {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $color-border-accent;
+    border-radius: 4px;
+    background-color: inherit;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.plus {
+  width: 23px;
+  height: 23px;
+}

@@ -26,11 +26,13 @@ export type DTOGetMeResponce = {
   email: string;
 };
 
-export type DTOGetProfileResponce = {
+export type DTOProfileResponce = {
   id: string;
   firstName: string;
   lastName: string;
   surname: string;
+  email: string;
+  phone: string;
   properties: Array<DTOPropertie>;
 };
 
@@ -61,6 +63,13 @@ export type DTORegistrationProfileResponce = {
   lastName: string;
   surname: string;
   properties: Array<DTOPropertie>;
+};
+
+export type DTOPatchProfileRequest = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  email: string;
 };
 
 export type DTORequestError = {

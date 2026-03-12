@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, useMemo } from 'react';
 import style from './Button.module.scss';
-type ButtonOption = 'BlueButton' | 'DeleteButton' | 'LinkButton';
+type ButtonOption = 'BlueButton' | 'BlueInheritButton' | 'DeleteButton' | 'LinkButton';
 
 type ButtonLoading = {
   isLoading: boolean;
@@ -31,6 +31,8 @@ export const Button = (props: IButton) => {
         return clsx(style['button'], style['button_blue']);
       case 'DeleteButton':
         return clsx(style['button'], style['button_delete']);
+      case 'BlueInheritButton':
+        return clsx(style['button'], style['button_blue_inherit']);
       case 'LinkButton':
         return style['button_link'];
       default:

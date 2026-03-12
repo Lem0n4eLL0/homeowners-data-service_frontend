@@ -1,3 +1,5 @@
+import { Propertie } from '@/common/commonTypes';
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function assertNever(_: never): void {
   throw new Error('Not possible');
@@ -39,6 +41,11 @@ export const phoneFormatterValue = (value: string): string => {
 
   result += numArray.slice(1, 11).join('');
   return result;
+};
+
+export const properieFormatter = (propertie: Propertie): string => {
+  // format: +70000000000
+  return `${propertie.street}, ${propertie.houseNumber}, ${propertie.corpus}, ${propertie.flatNumber}`;
 };
 
 export const codeFormatter = (value: string): Array<string> => {

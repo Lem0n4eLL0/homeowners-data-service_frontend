@@ -1,5 +1,6 @@
 import { typedKeys } from '@/utils/utils';
 import { useState } from 'react';
+import isEqual from 'lodash.isequal';
 
 export type ValidationFunc<T> = (value: T) => [boolean, ValidatorError];
 
@@ -121,10 +122,19 @@ function useValidator<T extends object>(props: IValidator<T>) {
     return result;
   };
 
+  const toInitalValue = () => {
+    setValue(initialValue);
+    setIsTouched({});
+    setIsValid(initialValidation[0]);
+    setErrors(initialValidation[1]);
+  };
+
   return {
     value,
     isValid,
+    isChanged: !isEqual(initialValue, value),
     errors,
+    toInitalValue,
     validate,
     updateField,
   };

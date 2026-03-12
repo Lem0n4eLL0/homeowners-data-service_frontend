@@ -85,14 +85,6 @@ export type RegistrationProfileRequest = {
   personalAccountNumber: string;
 };
 
-export type UpdateProfileRequest = {
-  firstName: string;
-  lastName: string;
-  surname: string;
-  properties: Array<Propertie>;
-  email: string;
-};
-
 export type RegistrationProfileResponce = {
   id: string;
   firstName: string;
@@ -101,10 +93,19 @@ export type RegistrationProfileResponce = {
   properties: Array<Propertie>;
 };
 
-export type GetProfileResponce = {
+export type ProfileResponce = {
   id: string;
   firstName: string;
   lastName: string;
   surname: string;
+  email: string;
+  phone: string;
   properties: Array<Propertie>;
+};
+
+export type PatchProfileRequest = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  email: string;
 };
