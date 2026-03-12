@@ -37,7 +37,7 @@ export type DTOProfileResponce = {
 };
 
 export type DTOPropertie = {
-  id: string;
+  propertyId: string;
   street: string;
   houseNumber: string;
   corpus: string;
