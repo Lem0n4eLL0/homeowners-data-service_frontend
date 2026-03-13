@@ -29,22 +29,22 @@ export const Header = () => {
       <ul className={style['content__links']}>
         <li>
           <NavLink
-            to="readings"
-            className={({ isActive }) =>
-              clsx(style['content__link'], isActive && style['content__link_active'])
-            }
-          >
-            Показания
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             to="accruals"
             className={({ isActive }) =>
               clsx(style['content__link'], isActive && style['content__link_active'])
             }
           >
             Начисления
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="readings"
+            className={({ isActive }) =>
+              clsx(style['content__link'], isActive && style['content__link_active'])
+            }
+          >
+            Показания
           </NavLink>
         </li>
         <li>

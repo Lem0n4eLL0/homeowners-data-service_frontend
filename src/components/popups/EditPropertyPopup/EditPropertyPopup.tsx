@@ -6,6 +6,7 @@ import { FormElement } from '@/components/forms/FormElement';
 import { Input } from '@/components/forms/Input';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import {
+  deletePropertyUser,
   resetErrorStatusesUser,
   selectPropertyCompleted,
   selectStatusesUser,
@@ -14,8 +15,8 @@ import {
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { personalAccountNumberFormatter } from '@/utils/utils';
 import clsx from 'clsx';
-import { SyntheticEvent, useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import commonStyle from '@styles/common.module.scss';
 import style from './EditPropertyPopup.module.scss';
 
@@ -30,46 +31,61 @@ const editVerificationCodeFormScheme: ValidationScheme<Omit<UpdatePropertieReque
 export const EditPropertyPopup = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
-  const { updatePropertyStatus } = useAppSelector(selectStatusesUser);
+  const { updatePropertyStatus, deletePropertyStatus } = useAppSelector(selectStatusesUser);
   const property = useAppSelector(selectPropertyCompleted(id!));
-
-  if (!property) {
-    throw new Error(`По какой-то причине, ОН с id:'${id}' отсутствует в глобальном хранилище`);
-  }
+  const [isCanDeleteState, setIsCanDeleteState] = useState<boolean>(false);
 
   const { isValid, errors, value, validate, updateField, isChanged } =
     useValidator<UpdatePropertieRequest>({
       initialValue: {
-        id: property.id,
-        street: property.street,
-        houseNumber: property.houseNumber,
-        corpus: property.corpus ?? '',
-        flatNumber: property.flatNumber,
-        personalAccountNumber: property.personalAccountNumber,
+        id: property?.id ?? '',
+        street: property?.street ?? '',
+        houseNumber: property?.houseNumber ?? '',
+        corpus: property?.corpus ?? '',
+        flatNumber: property?.flatNumber ?? '',
+        personalAccountNumber: property?.personalAccountNumber ?? '',
       },
       scheme: editVerificationCodeFormScheme,
       validateIsToched: true,
       validateOnChange: true,
     });
 
-  const updatePropertyError = useMemo(
+  const propertyError = useMemo(
     () => ({
-      isError: updatePropertyStatus.status === 'ERROR',
-      error: updatePropertyStatus.error?.message,
+      isError: updatePropertyStatus.status === 'ERROR' || deletePropertyStatus.status === 'ERROR',
+      error: updatePropertyStatus.error?.message ?? deletePropertyStatus.error?.message,
     }),
-    [updatePropertyStatus.status]
+    [updatePropertyStatus.status, deletePropertyStatus.status]
   );
-  const isUpdatePropertyLoading = updatePropertyStatus.status === 'PENDING';
+  const isPropertyLoading =
+    updatePropertyStatus.status === 'PENDING' || deletePropertyStatus.status === 'PENDING';
 
   const UpdatePropertyHandler = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = validate(true);
     if (result[0]) {
+      void dispatch(resetErrorStatusesUser());
       const res = await dispatch(updatePropertyUser(value));
       if (res.meta.requestStatus === 'fulfilled') {
         void navigator(-1);
       }
+    }
+  };
+
+  const ChangeDeleteState = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsCanDeleteState(!isCanDeleteState);
+  };
+
+  const DeletePropertyHandler = async (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    void dispatch(resetErrorStatusesUser());
+    const res = await dispatch(deletePropertyUser(id!));
+    if (res.meta.requestStatus === 'fulfilled') {
+      void navigator(-1);
     }
   };
 
@@ -82,13 +98,11 @@ export const EditPropertyPopup = () => {
   return (
     <div className={clsx(commonStyle['content'], commonStyle['scroll'])}>
       <h1 className={commonStyle['content__title']}>Изменить объект недвижимости</h1>
-      <form
-        name="add_property"
+      <div
         className={clsx(
           commonStyle['content__form'],
-          updatePropertyError.isError && commonStyle['form__error']
+          propertyError.isError && commonStyle['form__error']
         )}
-        onSubmit={e => void UpdatePropertyHandler(e)}
       >
         <div className={clsx(commonStyle['content__fields'], commonStyle['scroll'])}>
           <FormElement
@@ -110,7 +124,7 @@ export const EditPropertyPopup = () => {
               value={value.personalAccountNumber}
               isError={!!errors.personalAccountNumber?.message}
               extraClassName={commonStyle['form_field_base']}
-              disabled={isUpdatePropertyLoading}
+              disabled={isPropertyLoading}
             />
           </FormElement>
           <FormElement label="Улица" error={errors.street?.message} isRequired>
@@ -124,7 +138,7 @@ export const EditPropertyPopup = () => {
               value={value.street}
               isError={!!errors.street?.message}
               extraClassName={commonStyle['form_field_base']}
-              disabled={isUpdatePropertyLoading}
+              disabled={isPropertyLoading}
             />
           </FormElement>
           <FormElement label="Дом" error={errors.houseNumber?.message} isRequired>
@@ -138,7 +152,7 @@ export const EditPropertyPopup = () => {
               value={value.houseNumber}
               isError={!!errors.houseNumber?.message}
               extraClassName={commonStyle['form_field_base']}
-              disabled={isUpdatePropertyLoading}
+              disabled={isPropertyLoading}
             />
           </FormElement>
           <FormElement label="Корпус" error={errors.corpus?.message}>
@@ -152,7 +166,7 @@ export const EditPropertyPopup = () => {
               value={value.corpus}
               isError={!!errors.corpus?.message}
               extraClassName={commonStyle['form_field_base']}
-              disabled={isUpdatePropertyLoading}
+              disabled={isPropertyLoading}
             />
           </FormElement>
           <FormElement label="Квартира" error={errors.flatNumber?.message} isRequired>
@@ -166,33 +180,64 @@ export const EditPropertyPopup = () => {
               value={value.flatNumber}
               isError={!!errors.flatNumber?.message}
               extraClassName={commonStyle['form_field_base']}
-              disabled={isUpdatePropertyLoading}
+              disabled={isPropertyLoading}
             />
           </FormElement>
         </div>
 
         <div className={commonStyle['content__controls']}>
-          {updatePropertyError.isError && <ErrorField>{updatePropertyError.error}</ErrorField>}
+          {propertyError.isError && <ErrorField>{propertyError.error}</ErrorField>}
           <div className={style['content__buttons']}>
             <Button
               type="submit"
               option={'BlueButton'}
-              disabled={!isValid || !isChanged}
-              loading={{ isLoading: isUpdatePropertyLoading, loadingMessage: 'Изменение...' }}
+              form="auth_form_update_propery"
+              disabled={!isValid || !isChanged || isPropertyLoading}
+              loading={{
+                isLoading: updatePropertyStatus.status === 'PENDING',
+                loadingMessage: 'Изменение...',
+              }}
             >
               Изменить
             </Button>
-
-            <Button
-              type="button"
-              option={'DeleteButton'}
-              loading={{ isLoading: isUpdatePropertyLoading }}
-            >
-              Удалить
-            </Button>
+            {!isCanDeleteState ? (
+              <Button
+                type="button"
+                option={'DeleteButton'}
+                onClick={ChangeDeleteState}
+                disabled={isPropertyLoading}
+              >
+                Удалить
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                option={'DeleteButton'}
+                form="auth_form_delete_propery"
+                disabled={isPropertyLoading}
+                loading={{
+                  isLoading: deletePropertyStatus.status === 'PENDING',
+                  loadingMessage: 'Удаление...',
+                }}
+              >
+                Вы уверены?
+              </Button>
+            )}
           </div>
         </div>
-      </form>
+      </div>
+      <form
+        id="auth_form_update_propery"
+        name="auth_form_update_propery"
+        className={commonStyle['hidden']}
+        onSubmit={e => void UpdatePropertyHandler(e)}
+      ></form>
+      <form
+        id="auth_form_delete_propery"
+        name="auth_form_delete_propery"
+        className={commonStyle['hidden']}
+        onSubmit={e => void DeletePropertyHandler(e)}
+      ></form>
     </div>
   );
 };

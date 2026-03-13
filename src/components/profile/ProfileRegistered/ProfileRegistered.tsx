@@ -30,8 +30,8 @@ export const ProfileRegistered = () => {
       initialValue: {
         firstName: user.firstName,
         lastName: user.lastName,
-        surname: user.surname ?? '-',
-        email: user.email ?? '-',
+        surname: user.surname ?? '',
+        email: user.email ?? '',
       },
       scheme: sendVerificationCodeFormScheme,
       validateIsToched: true,

@@ -139,6 +139,15 @@ export const updatePropery = (body: UpdatePropertieRequest) => {
   });
 };
 
+export const deletePropery = (id: string) => {
+  return fetchWithRefresh<DTOPropertie>(bulidURL(`profile/propertie/${id}`), {
+    method: HTTP_METHODS.DELETE,
+    headers: baseHeaders,
+  }).then(res => {
+    return toPropertyFromDTOMapper(res);
+  });
+};
+
 export const logoutMe = () => {
   const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS);
 

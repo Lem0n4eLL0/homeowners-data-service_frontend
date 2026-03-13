@@ -10,6 +10,7 @@ import {
 import { logoutMeAuth, sendVerificationCodeAuth } from './auth';
 import {
   createPropery,
+  deletePropery,
   getMe,
   getProfile,
   registrationProfile,
@@ -34,6 +35,7 @@ type UserState = {
     getMeStatus: RequestStatus;
     createPropertyStatus: RequestStatus;
     updatePropertyStatus: RequestStatus;
+    deletePropertyStatus: RequestStatus;
   };
 };
 
@@ -49,6 +51,7 @@ const initialState: UserState = {
     getMeStatus: READY_REQUEST_STATUS,
     createPropertyStatus: READY_REQUEST_STATUS,
     updatePropertyStatus: READY_REQUEST_STATUS,
+    deletePropertyStatus: READY_REQUEST_STATUS,
   },
 };
 
@@ -167,6 +170,24 @@ const userSlice = createSlice({
       },
     }),
 
+    deleteProperty: create.asyncThunk(deletePropery, {
+      pending: state => {
+        state.statuses.deletePropertyStatus.status = 'PENDING';
+        state.statuses.deletePropertyStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.deletePropertyStatus.status = 'ERROR';
+        state.statuses.deletePropertyStatus.error = action.error as RequestError;
+      },
+      fulfilled: (state, action) => {
+        state.statuses.deletePropertyStatus.status = 'READY';
+        state.statuses.deletePropertyStatus.error = undefined;
+        state.data.user.properties = state.data.user.properties.filter(
+          el => el.id !== action.payload.id
+        );
+      },
+    }),
+
     setPhone: create.reducer((state, action: PayloadAction<string>) => {
       state.data.user.phone = action.payload;
     }),
@@ -184,6 +205,8 @@ const userSlice = createSlice({
         state.statuses.createPropertyStatus = READY_REQUEST_STATUS;
       if (state.statuses.updatePropertyStatus.status === 'ERROR')
         state.statuses.updatePropertyStatus = READY_REQUEST_STATUS;
+      if (state.statuses.deletePropertyStatus.status === 'ERROR')
+        state.statuses.deletePropertyStatus = READY_REQUEST_STATUS;
     }),
   }),
 
@@ -216,6 +239,7 @@ export const {
   getMe: getMeUser,
   createPropery: createProperyUser,
   updateProperty: updatePropertyUser,
+  deleteProperty: deletePropertyUser,
   setPhone: setPhoneUser,
   resetErrorStatuses: resetErrorStatusesUser,
 } = userSlice.actions;
