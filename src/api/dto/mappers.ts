@@ -1,7 +1,8 @@
-import { Propertie } from '@/common/commonTypes';
+import { CreatePropertieRequest, Propertie, UpdatePropertieRequest } from '@/common/commonTypes';
 import {
   GetMeResponce,
-  GetProfileResponce,
+  PatchProfileRequest,
+  ProfileResponce,
   RefreshTokenResponce,
   RegistrationProfileRequest,
   RegistrationProfileResponce,
@@ -12,8 +13,10 @@ import {
   VerificationCodeResponce,
 } from '../apiTypes';
 import {
+  DTOCreatePropertieRequest,
   DTOGetMeResponce,
-  DTOGetProfileResponce,
+  DTOPatchProfileRequest,
+  DTOProfileResponce,
   DTOPropertie,
   DTORefreshTokenResponce,
   DTORegistrationProfileRequest,
@@ -21,6 +24,7 @@ import {
   DTORequestError,
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
+  DTOUpdatePropertieRequest,
   DTOVerificationCodeRequest,
   DTOVerificationCodeResponce,
 } from './dto';
@@ -65,24 +69,61 @@ export const verificationCodeResponceMapper = (
   };
 };
 
-export const getProfileResponceMapper = (dto: DTOGetProfileResponce): GetProfileResponce => {
+export const profileResponceMapper = (dto: DTOProfileResponce): ProfileResponce => {
   return {
     id: dto.id,
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
-    properties: dto.properties.map(toPropertiesFromDTOMapper),
+    email: dto.email,
+    phone: dto.phone,
+    properties: dto.properties.map(toPropertyFromDTOMapper),
   };
 };
 
-export const toPropertiesFromDTOMapper = (dto: DTOPropertie): Propertie => {
+export const toPropertyFromDTOMapper = (dto: DTOPropertie): Propertie => {
   return {
-    id: dto.id,
+    id: dto.propertyId,
     street: dto.street,
     houseNumber: dto.houseNumber,
     corpus: dto.corpus,
     flatNumber: dto.flatNumber,
     personalAccountNumber: dto.personalAccountNumber,
+  };
+};
+
+export const toDTOfromProperty = (value: Propertie): DTOPropertie => {
+  return {
+    propertyId: value.id,
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    personalAccountNumber: value.personalAccountNumber,
+  };
+};
+
+export const createPropertyToDTOMapper = (
+  value: CreatePropertieRequest
+): DTOCreatePropertieRequest => {
+  return {
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    personalAccountNumber: value.personalAccountNumber,
+  };
+};
+
+export const updatePropertyToDTOMapper = (
+  value: UpdatePropertieRequest
+): DTOUpdatePropertieRequest => {
+  return {
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    personalAccountNumber: value.personalAccountNumber,
   };
 };
 
@@ -118,7 +159,18 @@ export const registrationProfileResponceMapper = (
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
-    properties: dto.properties.map(toPropertiesFromDTOMapper),
+    properties: dto.properties.map(toPropertyFromDTOMapper),
+  };
+};
+
+export const updateProfileRequestMapper = (
+  value: PatchProfileRequest
+): Partial<DTOPatchProfileRequest> => {
+  return {
+    firstName: value.firstName,
+    lastName: value.lastName,
+    surname: value.surname,
+    email: value.email,
   };
 };
 

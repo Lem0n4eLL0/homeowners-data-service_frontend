@@ -13,6 +13,10 @@ export const baseRequestInit: RequestInit = {
 };
 
 export const checkResponse = async <T>(res: Response): Promise<T> => {
+  if (res.status === 204) {
+    return null as T;
+  }
+
   if (res.ok) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return res.json() as Promise<T>;
@@ -36,17 +40,16 @@ export const fetchWithAccess = <T>(info: RequestInfo, options: RequestInit): Pro
 };
 
 export const fetchWithRefresh = <T>(info: RequestInfo, options: RequestInit): Promise<T> => {
+  options.credentials = 'include';
   return fetchWithAccess<T>(info, options).catch((e: RequestError) => {
-    if (e.errorCode === 'AUTHORIZATION_ERROR') {
-      refreshToken()
+    if (e.error === 'Unauthorized') {
+      return refreshToken()
         .then(() => {
           return fetchWithAccess<T>(info, options);
         })
         .catch((e: RequestError) => {
           if (e.errorCode === 'REFRESH_TOKEN_EXPIRED') {
-            // Функция logout
             localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS, '');
-            // Возможно удалить куки refreshToken
             window.location.reload();
           }
           throw e;

@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, useMemo } from 'react';
 import style from './Button.module.scss';
-type ButtonOption = 'BlueButton' | 'DeleteButton' | 'LinkButton';
+type ButtonOption = 'BlueButton' | 'BlueInheritButton' | 'DeleteButton' | 'LinkButton';
 
 type ButtonLoading = {
   isLoading: boolean;
-  loadingMessage: React.ReactNode;
+  loadingMessage?: React.ReactNode;
 };
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -31,6 +31,8 @@ export const Button = (props: IButton) => {
         return clsx(style['button'], style['button_blue']);
       case 'DeleteButton':
         return clsx(style['button'], style['button_delete']);
+      case 'BlueInheritButton':
+        return clsx(style['button'], style['button_blue_inherit']);
       case 'LinkButton':
         return style['button_link'];
       default:
@@ -45,7 +47,7 @@ export const Button = (props: IButton) => {
       disabled={disabled || loading.isLoading}
       {...rest}
     >
-      {loading.isLoading ? loading.loadingMessage : children}
+      {loading.isLoading ? (loading.loadingMessage ?? children) : children}
     </button>
   );
 };

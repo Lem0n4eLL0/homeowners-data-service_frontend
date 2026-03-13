@@ -1,0 +1,102 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  background-color: inherit;
+  color: $color-text-primary;
+
+  &__list {
+    width: calc(100% + 10px);
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    max-height: 228px;
+  }
+
+  &__button {
+    width: 100%;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $color-border-accent;
+    border-radius: 4px;
+    background-color: inherit;
+    transition: box-shadow $transition-duration-medium ease;
+
+    &:hover,
+    &:focus-visible {
+      cursor: pointer;
+      box-shadow: $shadow-blue-1;
+      outline: none;
+    }
+  }
+}
+
+.list {
+  &__element {
+    width: 100%;
+    height: 48px;
+    background-color: inherit;
+    border: 1px solid $color-border-light;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    min-width: 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__link {
+    display: flex;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 0 20px;
+    align-items: center;
+    color: $color-text-primary;
+    text-decoration: none;
+    transition: box-shadow $transition-duration-medium ease;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      box-shadow: $shadow-1;
+      outline: none;
+    }
+
+    &.list__link_disabled {
+      box-shadow: none;
+      color: $color-text-primary-2;
+      cursor: default;
+    }
+  }
+
+  &__text {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__element_button {
+    width: 100%;
+    height: 48px;
+    border: none;
+  }
+
+  &__cursor_pointer {
+    cursor: pointer;
+  }
+}
+
+.plus {
+  width: 23px;
+  height: 23px;
+}

@@ -1,5 +1,3 @@
-import { Loader } from '@/components/shells/Loader';
-import { selectStatusesUser } from '@/services/slices/user';
 import { useAppSelector } from '@/services/store';
 
 import commonStyle from '@styles/common.module.scss';
@@ -13,12 +11,13 @@ export type ProfilePageStates =
   | 'UpdatingProfileInformation';
 
 export const ProfilePage = () => {
-  const statuses = useAppSelector(selectStatusesUser);
   const profilePageState = useAppSelector(selectProfileState);
+  // const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
+  // const {getProfileStatus} = useAppSelector(selectStatusesUser);
 
-  if (statuses.getProfileStatus.status === 'PENDING') {
-    return <Loader loaderClass={commonStyle['loader_bg']} />;
-  }
+  // if (!isProfileRegistered) {
+  //   return <Loader loaderClass={commonStyle['loader_bg']} />;
+  // }
 
   return (
     <div className={commonStyle['base_page_wrapper']}>

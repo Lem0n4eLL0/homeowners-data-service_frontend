@@ -1,0 +1,201 @@
+[
+  {
+    // Получение профиля добавлены поля email и phone
+    "path": "profile/me",
+    "type": "GET",
+    "request": {
+      "body": {}
+    },
+    "responce": [
+      {
+        "code": 200,
+        "body": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "firstName": "string",
+          "lastName": "string",
+          "surname": "string",
+          "email": "string", // добавлен
+          "phone": "string", // добавлен
+          "properties": [
+            {
+              "propertyId": "110e8400-e29b-41d4-a716-446655440000",
+              "city": "Москва",
+              "street": "Ленина",
+              "houseNumber": "10А",
+              "corpus": "2",
+              "flatNumber": "45",
+              "personalAccountNumber": "1234567890"
+            }
+          ]
+        }
+      },
+      {
+        "code": 404,
+        "body": {
+          "timestamp": "2024-01-15T10:00:00",
+          "status": 404,
+          "errorCode": "PROFILE_NOT_FOUND",
+          "message": "Профиль не найден. Сначала заполните личные данные."
+        }
+      }
+    ]
+  },
+
+  {
+    // Первичная регистрация пользователя (убрано поле city), непонятно что делать с email, тоже добавлены поля почты
+    "path": "profile",
+    "type": "POST",
+    "request_body": {
+      "firstName": "Иван",
+      "lastName": "Иванов",
+      "surname": "Иванович",
+      "street": "Ленина",
+      "houseNumber": "10А",
+      "corpus": "2",
+      "flatNumber": "45",
+      "personalAccountNumber": "123456789012",
+      "email?": "string" // Непонятно
+    },
+    "responce_body": [
+      {
+        "code": 200,
+        "body": {
+          "id": "550e8400-e29b-41d4-a716-446655440000",
+          "firstName": "Иван",
+          "lastName": "Иванов",
+          "surname": "Иванович",
+          "email": "string", // Добавлен
+          "phone": "string", // Добавлен
+          "properties": [
+            {
+              "propertyId": "110e8400-e29b-41d4-a716-446655440000",
+              "city": "Москва",
+              "street": "Ленина",
+              "houseNumber": "10",
+              "corpus": null,
+              "flatNumber": "55",
+              "personalAccountNumber": "1234567890"
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  {
+    // Обновление информации по пользователю
+    "path": "profile",
+    "type": "PATCH",
+    "request_body": {
+      "firstName?": "Иван",
+      "lastName?": "Иванов",
+      "surname?": "Иванович",
+      "email?": "string"
+    },
+    "responce_body": [
+      {
+        "code": 200,
+        "body": {
+          "id": "550e8400-e29b-41d4-a716-446655440000",
+          "firstName": "string",
+          "lastName": "string",
+          "surname": "string",
+          "email": "string",
+          "phone": "string",
+          "properties": [
+            {
+              "propertyId": "110e8400-e29b-41d4-a716-446655440000",
+              "city": "string",
+              "street": "string",
+              "houseNumber": "string",
+              "corpus": null,
+              "flatNumber": "string",
+              "personalAccountNumber": "string"
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  {
+    // Создание ОН убрано city
+    "path": "propertie",
+    "type": "POST",
+    "request_body": {
+      "street": "Ленина",
+      "houseNumber": "10А",
+      "corpus": "2",
+      "flatNumber": "45",
+      "personalAccountNumber": "1234567891"
+    },
+    "responce_body": [
+      {
+        "code": 200,
+        "body": {
+          "propertyId": "110e8400-e29b-41d4-a716-446655440000",
+          "street": "string",
+          "houseNumber": "string",
+          "corpus": null,
+          "flatNumber": "string",
+          "personalAccountNumber": "string"
+        }
+      }
+    ]
+  },
+
+  {
+    // Обновление ОН
+    "path": "propertie/:id",
+    "type": "PATCH",
+    "request_body": {
+      "street?": "Ленина",
+      "houseNumber?": "10А",
+      "corpus?": "2",
+      "flatNumber?": "45",
+      "personalAccountNumber?": "1234567891"
+    },
+    "responce_body": [
+      {
+        "code": 200,
+        "body": {
+          "propertyId": "110e8400-e29b-41d4-a716-446655440000",
+          "street": "string",
+          "houseNumber": "string",
+          "corpus": null,
+          "flatNumber": "string",
+          "personalAccountNumber": "string"
+        }
+      }
+    ]
+  },
+
+  {
+    // Удаление ОН
+    "path": "propertie/:id",
+    "type": "DELETE",
+    "request_body": {},
+    "responce_body": [
+      {
+        "code": 200,
+        "body": {
+          "propertyId": "110e8400-e29b-41d4-a716-446655440000",
+          "street": "string",
+          "houseNumber": "string",
+          "corpus": null,
+          "flatNumber": "string",
+          "personalAccountNumber": "string"
+        }
+      },
+      {
+        "code": 404,
+        "body": {
+          "timestamp": "2024-01-15T10:00:00",
+          "status": 404,
+          "errorCode": "PROFILE_NOT_FOUND",
+          "message": "Ошибка удаления ОН"
+        }
+      }
+    ]
+  }
+]

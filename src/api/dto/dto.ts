@@ -26,22 +26,27 @@ export type DTOGetMeResponce = {
   email: string;
 };
 
-export type DTOGetProfileResponce = {
+export type DTOProfileResponce = {
   id: string;
   firstName: string;
   lastName: string;
   surname: string;
+  email: string;
+  phone: string;
   properties: Array<DTOPropertie>;
 };
 
 export type DTOPropertie = {
-  id: string;
+  propertyId: string;
   street: string;
   houseNumber: string;
   corpus: string;
   flatNumber: string;
   personalAccountNumber: string;
 };
+
+export type DTOCreatePropertieRequest = Omit<DTOPropertie, 'propertyId'>;
+export type DTOUpdatePropertieRequest = Omit<DTOPropertie, 'propertyId'>;
 
 export type DTORegistrationProfileRequest = {
   firstName: string;
@@ -61,6 +66,13 @@ export type DTORegistrationProfileResponce = {
   lastName: string;
   surname: string;
   properties: Array<DTOPropertie>;
+};
+
+export type DTOPatchProfileRequest = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  email: string;
 };
 
 export type DTORequestError = {

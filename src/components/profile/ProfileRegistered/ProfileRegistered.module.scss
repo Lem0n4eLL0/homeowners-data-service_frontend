@@ -1,0 +1,42 @@
+.content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 60px;
+  padding-top: 48px;
+
+  &__form-update {
+    grid-column: 1 / span 3;
+    grid-row: 1 / 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 44px 40px;
+  }
+
+  &__propertie {
+    grid-column: 1 / span 2;
+    grid-row: 2 / 3;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    grid-column: 1 / span 3;
+    grid-row: 3 / 4;
+    padding-top: 8px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 52px;
+  }
+}
+
+.propertie__title {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+}

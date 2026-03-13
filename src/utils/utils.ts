@@ -1,3 +1,5 @@
+import { Propertie } from '@/common/commonTypes';
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function assertNever(_: never): void {
   throw new Error('Not possible');
@@ -41,6 +43,17 @@ export const phoneFormatterValue = (value: string): string => {
   return result;
 };
 
+export const properieFormatter = (propertie: Propertie): string => {
+  const parts = [
+    propertie.street && `ул. ${propertie.street}`,
+    propertie.houseNumber && `д. ${propertie.houseNumber}`,
+    propertie.corpus && `к. ${propertie.corpus}`,
+    propertie.flatNumber && `кв. ${propertie.flatNumber}`,
+  ].filter(Boolean);
+
+  return parts.join(', ');
+};
+
 export const codeFormatter = (value: string): Array<string> => {
   let result = [] as Array<string>;
 
@@ -51,4 +64,14 @@ export const codeFormatter = (value: string): Array<string> => {
     })
     .slice(0, 6);
   return result;
+};
+
+export const personalAccountNumberFormatter = (value: string): string => {
+  return value
+    .split('')
+    .filter(el => {
+      return !isNaN(+el) && el !== ' ';
+    })
+    .slice(0, 10)
+    .join('');
 };

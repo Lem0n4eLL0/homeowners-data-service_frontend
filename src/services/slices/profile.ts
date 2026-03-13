@@ -1,5 +1,5 @@
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getProfileUser, registrationProfileUser } from './user';
+import { getProfileUser, registrationProfileUser, updateProfileUser } from './user';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -35,6 +35,9 @@ const profileSlice = createSlice({
       state.pageState = 'ProfileNotRegistered';
     });
     builder.addCase(registrationProfileUser.fulfilled, state => {
+      state.pageState = 'ProfileRegistered';
+    });
+    builder.addCase(updateProfileUser.fulfilled, state => {
       state.pageState = 'ProfileRegistered';
     });
   },
