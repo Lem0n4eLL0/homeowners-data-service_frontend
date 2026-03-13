@@ -23,3 +23,5 @@ export type Propertie = {
   flatNumber: string;
   personalAccountNumber: string;
 };
+
+export type CreatePropertieRequest = Omit<Propertie, 'id'>;

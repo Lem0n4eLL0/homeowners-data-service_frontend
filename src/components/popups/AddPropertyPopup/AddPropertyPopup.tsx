@@ -1,0 +1,162 @@
+import { FormElement } from '@/components/forms/FormElement';
+import style from './AddPropertyPopup.module.scss';
+import commonStyle from '@styles/common.module.scss';
+import useValidator, { ValidationScheme } from '@/hooks/useValidator';
+import { PERSONAL_ACCOUT_NUMBER_REGEXP } from '@/common/constants';
+import { likeRegExp, notNull } from '@/features/Validator/ValidationFunctions';
+import { Propertie } from '@/common/commonTypes';
+import { Input } from '@/components/forms/Input';
+import { useAppDispatch, useAppSelector } from '@/services/store';
+import { createProperyUser, selectStatusesUser } from '@/services/slices/user';
+import { Button } from '@/components/Button';
+import { SyntheticEvent, useMemo } from 'react';
+import { ErrorField } from '@/components/forms/ErrorField';
+import clsx from 'clsx';
+import { useNavigate } from 'react-router';
+
+const sendVerificationCodeFormScheme: ValidationScheme<Propertie> = {
+  street: notNull(),
+  houseNumber: notNull(),
+  flatNumber: notNull(),
+  personalAccountNumber: likeRegExp(
+    PERSONAL_ACCOUT_NUMBER_REGEXP,
+    'Номер лицевого счета должен состоять из 10 цифр'
+  ),
+};
+
+export const AddPropertyPopup = () => {
+  const dispatch = useAppDispatch();
+  const { createPropertyStatus } = useAppSelector(selectStatusesUser);
+  const navigator = useNavigate();
+  const { isValid, errors, value, validate, updateField } = useValidator<Omit<Propertie, 'id'>>({
+    initialValue: {
+      street: '',
+      houseNumber: '',
+      corpus: '',
+      flatNumber: '',
+      personalAccountNumber: '',
+    },
+    scheme: sendVerificationCodeFormScheme,
+    validateIsToched: true,
+    validateOnChange: true,
+  });
+
+  const createPropertyError = useMemo(
+    () => ({
+      isError: createPropertyStatus.status === 'ERROR',
+      error: createPropertyStatus.error?.message,
+    }),
+    [createPropertyStatus.status]
+  );
+  const isCreatePropertyLoading = createPropertyStatus.status === 'PENDING';
+
+  const CreatePropertyHandler = async (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = validate(true);
+    if (result[0]) {
+      const res = await dispatch(createProperyUser(value));
+      if (res.meta.requestStatus === 'fulfilled') {
+        void navigator(-1);
+      }
+    }
+  };
+
+  return (
+    <div className={clsx(style['content'], commonStyle['scroll'])}>
+      <h1 className={style['content__title']}>Добавить объект недвижимости</h1>
+      <form
+        name="add_property"
+        className={style['content__form']}
+        onSubmit={e => void CreatePropertyHandler(e)}
+      >
+        <div className={clsx(style['content__fields'], commonStyle['scroll'])}>
+          <FormElement
+            label="№ Лицевого счета"
+            error={errors.personalAccountNumber?.message}
+            isRequired
+          >
+            <Input
+              name="personalAccountNumber"
+              type="text"
+              placeholder="Введите номер счета"
+              onChange={e => {
+                void updateField('personalAccountNumber', e.target.value);
+              }}
+              value={value.personalAccountNumber}
+              isError={!!errors.personalAccountNumber?.message}
+              extraClassName={commonStyle['form_field_base']}
+              disabled={isCreatePropertyLoading}
+            />
+          </FormElement>
+          <FormElement label="Улица" error={errors.street?.message} isRequired>
+            <Input
+              name="street"
+              type="text"
+              placeholder="Введите улицу"
+              onChange={e => {
+                void updateField('street', e.target.value);
+              }}
+              value={value.street}
+              isError={!!errors.street?.message}
+              extraClassName={commonStyle['form_field_base']}
+              disabled={isCreatePropertyLoading}
+            />
+          </FormElement>
+          <FormElement label="Дом" error={errors.houseNumber?.message} isRequired>
+            <Input
+              name="houseNumber"
+              type="text"
+              placeholder="Введите дом"
+              onChange={e => {
+                void updateField('houseNumber', e.target.value);
+              }}
+              value={value.houseNumber}
+              isError={!!errors.houseNumber?.message}
+              extraClassName={commonStyle['form_field_base']}
+              disabled={isCreatePropertyLoading}
+            />
+          </FormElement>
+          <FormElement label="Корпус">
+            <Input
+              name="corpus"
+              type="text"
+              placeholder="Введите корпус"
+              onChange={e => {
+                void updateField('corpus', e.target.value);
+              }}
+              value={value.corpus}
+              extraClassName={commonStyle['form_field_base']}
+              disabled={isCreatePropertyLoading}
+            />
+          </FormElement>
+          <FormElement label="Квартира" error={errors.flatNumber?.message} isRequired>
+            <Input
+              name="flatNumber"
+              type="text"
+              placeholder="Введите квартиру"
+              onChange={e => {
+                void updateField('flatNumber', e.target.value);
+              }}
+              value={value.flatNumber}
+              isError={!!errors.flatNumber?.message}
+              extraClassName={commonStyle['form_field_base']}
+              disabled={isCreatePropertyLoading}
+            />
+          </FormElement>
+        </div>
+
+        <div className={style['content__controls']}>
+          {createPropertyError.isError && <ErrorField>{createPropertyError.error}</ErrorField>}
+          <Button
+            type="submit"
+            option={'BlueButton'}
+            disabled={!isValid}
+            loading={{ isLoading: isCreatePropertyLoading, loadingMessage: 'Добавление...' }}
+          >
+            Добавить
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+};

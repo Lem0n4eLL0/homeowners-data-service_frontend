@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import style from './Popup.module.scss';
 import cross from '@assets/cross_icon.svg';
-import { useNavigate } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 
 type IPopup = {
-  children: React.ReactNode;
   isExitOnESC?: boolean;
   isExitOnClickOutside?: boolean;
   onClose?: () => void;
 };
 
 export const Popup = (props: IPopup) => {
-  const { children, isExitOnESC = true, isExitOnClickOutside = true, onClose } = props;
+  const { isExitOnESC = true, isExitOnClickOutside = true, onClose } = props;
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -63,7 +62,7 @@ export const Popup = (props: IPopup) => {
         <button type="button" className={style['cross']} onClick={handleClose} aria-label="Закрыть">
           <img src={cross} alt="" className={style['cross__icon']} />
         </button>
-        {children}
+        <Outlet />
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import { Header } from '@/components/Header';
 import { getMeUser, getProfileUser, selectStatusesUser } from '@/services/slices/user';
 import { ProfilePage } from '@/components/pages/ProfilePage';
 import { Popup } from '@/components/shells/Popup';
+import { AddPropertyPopup } from '@/components/popups/AddPropertyPopup';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ const App = () => {
   useLayoutEffect(() => {
     void dispatch(getMeUser());
     void dispatch(getProfileUser());
-  }, []);
+  }, [dispatch]);
 
   if (isInitializing || userStatuses.getProfileStatus.status === 'PENDING') {
     return (
@@ -60,14 +61,12 @@ const App = () => {
 
       {backgroundLocation && (
         <Routes>
-          <Route
-            path="/propertie/:id"
-            element={
-              <Popup>
-                <div>Test</div>
-              </Popup>
-            }
-          />
+          <Route path="/profile/properties">
+            <Route element={<Popup />}>
+              <Route path="add" element={<AddPropertyPopup />} />
+              <Route path="edit/:id" element={<div>Edit</div>} />
+            </Route>
+          </Route>
         </Routes>
       )}
     </>

@@ -1,4 +1,4 @@
-import { Propertie } from '@/common/commonTypes';
+import { CreatePropertieRequest, Propertie } from '@/common/commonTypes';
 import {
   GetMeResponce,
   PatchProfileRequest,
@@ -13,6 +13,7 @@ import {
   VerificationCodeResponce,
 } from '../apiTypes';
 import {
+  DTOCreatePropertieRequest,
   DTOGetMeResponce,
   DTOPatchProfileRequest,
   DTOProfileResponce,
@@ -75,11 +76,11 @@ export const profileResponceMapper = (dto: DTOProfileResponce): ProfileResponce 
     surname: dto.surname,
     email: dto.email,
     phone: dto.phone,
-    properties: dto.properties.map(toPropertiesFromDTOMapper),
+    properties: dto.properties.map(toPropertyFromDTOMapper),
   };
 };
 
-export const toPropertiesFromDTOMapper = (dto: DTOPropertie): Propertie => {
+export const toPropertyFromDTOMapper = (dto: DTOPropertie): Propertie => {
   return {
     id: dto.propertyId,
     street: dto.street,
@@ -87,6 +88,29 @@ export const toPropertiesFromDTOMapper = (dto: DTOPropertie): Propertie => {
     corpus: dto.corpus,
     flatNumber: dto.flatNumber,
     personalAccountNumber: dto.personalAccountNumber,
+  };
+};
+
+export const toDTOfromProperty = (value: Propertie): DTOPropertie => {
+  return {
+    propertyId: value.id,
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    personalAccountNumber: value.personalAccountNumber,
+  };
+};
+
+export const createPropertyToDTOMapper = (
+  value: CreatePropertieRequest
+): DTOCreatePropertieRequest => {
+  return {
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    personalAccountNumber: value.personalAccountNumber,
   };
 };
 
@@ -122,7 +146,7 @@ export const registrationProfileResponceMapper = (
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
-    properties: dto.properties.map(toPropertiesFromDTOMapper),
+    properties: dto.properties.map(toPropertyFromDTOMapper),
   };
 };
 

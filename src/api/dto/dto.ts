@@ -45,6 +45,8 @@ export type DTOPropertie = {
   personalAccountNumber: string;
 };
 
+export type DTOCreatePropertieRequest = Omit<DTOPropertie, 'propertyId'>;
+
 export type DTORegistrationProfileRequest = {
   firstName: string;
   lastName: string;

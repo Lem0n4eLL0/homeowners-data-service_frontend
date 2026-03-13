@@ -3,7 +3,7 @@ import { User } from '@/common/commonTypes';
 import { EMPTY_USER, READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from '@reduxjs/toolkit';
 import { logoutMeAuth, sendVerificationCodeAuth } from './auth';
-import { getMe, getProfile, registrationProfile, updateProfile } from '@/api/api';
+import { createPropery, getMe, getProfile, registrationProfile, updateProfile } from '@/api/api';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -22,6 +22,7 @@ type UserState = {
     updateProfileStatus: RequestStatus;
     registrationProfileStatus: RequestStatus;
     getMeStatus: RequestStatus;
+    createPropertyStatus: RequestStatus;
   };
 };
 
@@ -38,6 +39,7 @@ const initialState: UserState = {
     updateProfileStatus: READY_REQUEST_STATUS,
     registrationProfileStatus: READY_REQUEST_STATUS,
     getMeStatus: READY_REQUEST_STATUS,
+    createPropertyStatus: READY_REQUEST_STATUS,
   },
 };
 
@@ -123,6 +125,22 @@ const userSlice = createSlice({
       },
     }),
 
+    createPropery: create.asyncThunk(createPropery, {
+      pending: state => {
+        state.statuses.createPropertyStatus.status = 'PENDING';
+        state.statuses.createPropertyStatus.error = undefined;
+      },
+      rejected: (state, action) => {
+        state.statuses.createPropertyStatus.status = 'ERROR';
+        state.statuses.createPropertyStatus.error = action.error as RequestError;
+      },
+      fulfilled: (state, action) => {
+        state.statuses.createPropertyStatus.status = 'SUCCESS';
+        state.statuses.createPropertyStatus.error = undefined;
+        state.data.user.properties.push(action.payload);
+      },
+    }),
+
     setPhone: create.reducer((state, action: PayloadAction<string>) => {
       state.data.user.phone = action.payload;
     }),
@@ -161,6 +179,7 @@ export const {
   getProfile: getProfileUser,
   updateProfile: updateProfileUser,
   getMe: getMeUser,
+  createPropery: createProperyUser,
   setPhone: setPhoneUser,
   resetErrorStatuses: resetErrorStatusesUser,
 } = userSlice.actions;

@@ -65,10 +65,6 @@ export const ProfileRegistered = () => {
     toInitalValue();
   };
 
-  const onClickPropertieHandler = (id: string) => {
-    console.log(id);
-  };
-
   const isFormActive = profileState === 'UpdatingProfileInformation';
 
   return (
@@ -171,11 +167,7 @@ export const ProfileRegistered = () => {
         </div>
       </form>
       <FormElement label="Объекты недвижимости" extraClassName={style['content__propertie']}>
-        <PropertieList
-          propertie={user.properties}
-          disabled={isFormActive}
-          onElementClick={onClickPropertieHandler}
-        />
+        <PropertieList propertie={user.properties} disabled={isFormActive} />
       </FormElement>
     </div>
   );
