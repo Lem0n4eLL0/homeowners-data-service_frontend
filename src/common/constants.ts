@@ -33,7 +33,7 @@ export const CHECK_CODE_REGEXP = /^\d{6}$/;
 
 //Валидаторы
 export const VALIDATORS = {
-  STREET: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 200)),
+  STREET: composeValidatorsAND(isLetters(['-', ' ', '.']), isAcceptableCountSymbRange(1, 200)),
   HOUSE_NUMBER: composeValidatorsAND(isNumbers(), isAcceptableCountSymbRange(1, 20)),
   CORPUS: composeValidatorsAND(isLetters(['/']), isAcceptableCountSymbRange(0, 20)),
   FLAT_NUMBER: composeValidatorsAND(isNumbers(), isAcceptableCountSymbRange(1, 20)),

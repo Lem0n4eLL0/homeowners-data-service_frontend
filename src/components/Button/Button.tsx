@@ -5,7 +5,7 @@ type ButtonOption = 'BlueButton' | 'BlueInheritButton' | 'DeleteButton' | 'LinkB
 
 type ButtonLoading = {
   isLoading: boolean;
-  loadingMessage: React.ReactNode;
+  loadingMessage?: React.ReactNode;
 };
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -47,7 +47,7 @@ export const Button = (props: IButton) => {
       disabled={disabled || loading.isLoading}
       {...rest}
     >
-      {loading.isLoading ? loading.loadingMessage : children}
+      {loading.isLoading ? (loading.loadingMessage ?? children) : children}
     </button>
   );
 };

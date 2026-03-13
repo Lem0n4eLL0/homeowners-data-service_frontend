@@ -25,3 +25,4 @@ export type Propertie = {
 };
 
 export type CreatePropertieRequest = Omit<Propertie, 'id'>;
+export type UpdatePropertieRequest = Propertie;

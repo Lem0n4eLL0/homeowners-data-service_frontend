@@ -1,4 +1,4 @@
-import { CreatePropertieRequest, Propertie } from '@/common/commonTypes';
+import { CreatePropertieRequest, Propertie, UpdatePropertieRequest } from '@/common/commonTypes';
 import {
   GetMeResponce,
   PatchProfileRequest,
@@ -24,6 +24,7 @@ import {
   DTORequestError,
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
+  DTOUpdatePropertieRequest,
   DTOVerificationCodeRequest,
   DTOVerificationCodeResponce,
 } from './dto';
@@ -105,6 +106,18 @@ export const toDTOfromProperty = (value: Propertie): DTOPropertie => {
 export const createPropertyToDTOMapper = (
   value: CreatePropertieRequest
 ): DTOCreatePropertieRequest => {
+  return {
+    street: value.street,
+    houseNumber: value.houseNumber,
+    corpus: value.corpus,
+    flatNumber: value.flatNumber,
+    personalAccountNumber: value.personalAccountNumber,
+  };
+};
+
+export const updatePropertyToDTOMapper = (
+  value: UpdatePropertieRequest
+): DTOUpdatePropertieRequest => {
   return {
     street: value.street,
     houseNumber: value.houseNumber,

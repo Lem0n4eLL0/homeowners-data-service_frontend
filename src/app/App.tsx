@@ -16,6 +16,7 @@ import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
 import { ProfilePage } from '@/components/pages/ProfilePage';
 import { Popup } from '@/components/shells/Popup';
 import { AddPropertyPopup } from '@/components/popups/AddPropertyPopup';
+import { EditPropertyPopup } from '@/components/popups/EditPropertyPopup';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +64,7 @@ const App = () => {
           <Route path="/profile/properties">
             <Route element={<Popup />}>
               <Route path="add" element={<AddPropertyPopup />} />
-              <Route path="edit/:id" element={<div>Edit</div>} />
+              <Route path="edit/:id" element={<EditPropertyPopup />} />
             </Route>
           </Route>
         </Routes>
