@@ -17,6 +17,7 @@ import {
   VerificationCodeRequest,
 } from './apiTypes';
 import {
+  createPropertyToDTOMapper,
   getMeResponceMapper,
   profileResponceMapper,
   refreshTokenResponceMapper,
@@ -24,16 +25,20 @@ import {
   registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
+  toPropertyFromDTOMapper,
   updateProfileRequestMapper,
+  updatePropertyToDTOMapper,
   verificationCodeRequestMapper,
   verificationCodeResponceMapper,
 } from './dto/mappers';
 import {
   DTOProfileResponce,
+  DTOPropertie,
   DTORegistrationProfileResponce,
   DTOSendVerificationCodeResponce,
   DTOVerificationCodeResponce,
 } from './dto/dto';
+import { CreatePropertieRequest, UpdatePropertieRequest } from '@/common/commonTypes';
 
 export const URL_API = import.meta.env.VITE_APP_API_URL || '';
 export const URL_PREFIX = '/api/v1/';
@@ -111,6 +116,35 @@ export const registrationProfile = (body: RegistrationProfileRequest) => {
     body: JSON.stringify(registrationProfileRequestMapper(body)),
   }).then(res => {
     return registrationProfileResponceMapper(res);
+  });
+};
+
+export const createPropery = (body: CreatePropertieRequest) => {
+  return fetchWithRefresh<DTOPropertie>(bulidURL(`profile/propertie`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(createPropertyToDTOMapper(body)),
+  }).then(res => {
+    return toPropertyFromDTOMapper(res);
+  });
+};
+
+export const updatePropery = (body: UpdatePropertieRequest) => {
+  return fetchWithRefresh<DTOPropertie>(bulidURL(`profile/propertie/${body.id}`), {
+    method: HTTP_METHODS.PATCH,
+    headers: baseHeaders,
+    body: JSON.stringify(updatePropertyToDTOMapper(body)),
+  }).then(res => {
+    return toPropertyFromDTOMapper(res);
+  });
+};
+
+export const deletePropery = (id: string) => {
+  return fetchWithRefresh<DTOPropertie>(bulidURL(`profile/propertie/${id}`), {
+    method: HTTP_METHODS.DELETE,
+    headers: baseHeaders,
+  }).then(res => {
+    return toPropertyFromDTOMapper(res);
   });
 };
 

@@ -6,23 +6,22 @@ import { registrationProfileUser, selectStatusesUser, selectUser } from '@/servi
 import { Button } from '@/components/Button';
 import { SyntheticEvent, useMemo } from 'react';
 import { ErrorField } from '@/components/forms/ErrorField';
-import useValidator, { composeValidatorsOR, ValidationScheme } from '@/hooks/useValidator';
+import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import { RegistrationProfileRequest } from '@/api/apiTypes';
-import { EMAIL_REGEXP, PERSONAL_ACCOUT_NUMBER_REGEXP } from '@/common/constants';
-import { isEmpty, likeRegExp, notNull } from '@/features/Validator/ValidationFunctions';
 import commonStyle from '@styles/common.module.scss';
+import { personalAccountNumberFormatter } from '@/utils/utils';
+import { VALIDATORS } from '@/common/constants';
 
 const sendVerificationCodeFormScheme: ValidationScheme<RegistrationProfileRequest> = {
-  lastName: notNull(),
-  firstName: notNull(),
-  street: notNull(),
-  houseNumber: notNull(),
-  flatNumber: notNull(),
-  personalAccountNumber: likeRegExp(
-    PERSONAL_ACCOUT_NUMBER_REGEXP,
-    'Номер лицевого счета должен состоять из 10 цифр'
-  ),
-  email: composeValidatorsOR(isEmpty(), likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')),
+  lastName: VALIDATORS.LAST_NAME,
+  firstName: VALIDATORS.FIRST_NAME,
+  surname: VALIDATORS.SURNAME,
+  street: VALIDATORS.STREET,
+  houseNumber: VALIDATORS.HOUSE_NUMBER,
+  corpus: VALIDATORS.CORPUS,
+  flatNumber: VALIDATORS.FLAT_NUMBER,
+  personalAccountNumber: VALIDATORS.PERSONAL_ACCOUNT_NUMBER,
+  email: VALIDATORS.EMAIL,
 };
 
 export const ProfileNotRegistered = () => {
@@ -99,7 +98,7 @@ export const ProfileNotRegistered = () => {
             disabled={isRegistrationProfileLoading}
           />
         </FormElement>
-        <FormElement label="Отчество">
+        <FormElement label="Отчество" error={errors.surname?.message}>
           <Input
             name="surname"
             type="text"
@@ -108,6 +107,7 @@ export const ProfileNotRegistered = () => {
               void updateField('surname', e.target.value);
             }}
             value={value.surname}
+            isError={!!errors.surname?.message}
             extraClassName={commonStyle['form_field_base']}
             disabled={isRegistrationProfileLoading}
           />
@@ -146,7 +146,7 @@ export const ProfileNotRegistered = () => {
               disabled={isRegistrationProfileLoading}
             />
           </FormElement>
-          <FormElement label="Корпус">
+          <FormElement label="Корпус" error={errors.corpus?.message}>
             <Input
               name="corpus"
               type="text"
@@ -155,6 +155,7 @@ export const ProfileNotRegistered = () => {
                 void updateField('corpus', e.target.value);
               }}
               value={value.corpus}
+              isError={!!errors.corpus?.message}
               extraClassName={commonStyle['form_field_base']}
               disabled={isRegistrationProfileLoading}
             />
@@ -184,8 +185,12 @@ export const ProfileNotRegistered = () => {
             type="text"
             placeholder="Введите номер счета"
             onChange={e => {
-              void updateField('personalAccountNumber', e.target.value);
+              void updateField(
+                'personalAccountNumber',
+                personalAccountNumberFormatter(e.target.value)
+              );
             }}
+            formatterFunc={personalAccountNumberFormatter}
             value={value.personalAccountNumber}
             isError={!!errors.personalAccountNumber?.message}
             extraClassName={commonStyle['form_field_base']}

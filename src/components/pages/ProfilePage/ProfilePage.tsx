@@ -1,6 +1,4 @@
-import { Loader } from '@/components/shells/Loader';
-import { selectIsProfileRegistered, selectStatusesUser } from '@/services/slices/user';
-import { useAppDispatch, useAppSelector } from '@/services/store';
+import { useAppSelector } from '@/services/store';
 
 import commonStyle from '@styles/common.module.scss';
 import { selectProfileState } from '@/services/slices/profile';
@@ -13,14 +11,13 @@ export type ProfilePageStates =
   | 'UpdatingProfileInformation';
 
 export const ProfilePage = () => {
-  const dispatch = useAppDispatch();
-  const statuses = useAppSelector(selectStatusesUser);
   const profilePageState = useAppSelector(selectProfileState);
-  const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
+  // const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
+  // const {getProfileStatus} = useAppSelector(selectStatusesUser);
 
-  if (!isProfileRegistered.isGetMe && !isProfileRegistered.isGetProfile) {
-    return <Loader loaderClass={commonStyle['loader_bg']} />;
-  }
+  // if (!isProfileRegistered) {
+  //   return <Loader loaderClass={commonStyle['loader_bg']} />;
+  // }
 
   return (
     <div className={commonStyle['base_page_wrapper']}>

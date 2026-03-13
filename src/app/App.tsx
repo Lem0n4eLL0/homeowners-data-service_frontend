@@ -12,9 +12,11 @@ import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import clsx from 'clsx';
 import { Header } from '@/components/Header';
-import { getMeUser, getProfileUser, selectStatusesUser } from '@/services/slices/user';
+import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
 import { ProfilePage } from '@/components/pages/ProfilePage';
 import { Popup } from '@/components/shells/Popup';
+import { AddPropertyPopup } from '@/components/popups/AddPropertyPopup';
+import { EditPropertyPopup } from '@/components/popups/EditPropertyPopup';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -26,9 +28,8 @@ const App = () => {
   const backgroundLocation = location.state?.backgroundLocation;
 
   useLayoutEffect(() => {
-    void dispatch(getMeUser());
     void dispatch(getProfileUser());
-  }, []);
+  }, [dispatch]);
 
   if (isInitializing || userStatuses.getProfileStatus.status === 'PENDING') {
     return (
@@ -60,14 +61,12 @@ const App = () => {
 
       {backgroundLocation && (
         <Routes>
-          <Route
-            path="/propertie/:id"
-            element={
-              <Popup>
-                <div>Test</div>
-              </Popup>
-            }
-          />
+          <Route path="/profile/properties">
+            <Route element={<Popup />}>
+              <Route path="add" element={<AddPropertyPopup />} />
+              <Route path="edit/:id" element={<EditPropertyPopup />} />
+            </Route>
+          </Route>
         </Routes>
       )}
     </>

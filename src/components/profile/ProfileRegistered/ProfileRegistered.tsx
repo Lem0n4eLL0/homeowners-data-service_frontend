@@ -1,7 +1,6 @@
 import { PatchProfileRequest } from '@/api/apiTypes';
-import { EMAIL_REGEXP } from '@/common/constants';
-import { isEmpty, likeRegExp, notNull } from '@/features/Validator/ValidationFunctions';
-import useValidator, { composeValidatorsOR, ValidationScheme } from '@/hooks/useValidator';
+import { VALIDATORS } from '@/common/constants';
+import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import { selectStatusesUser, selectUser, updateProfileUser } from '@/services/slices/user';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { SyntheticEvent, useMemo } from 'react';
@@ -15,9 +14,10 @@ import { PropertieList } from '@/components/PropertieList';
 import { selectProfileState, setProfileState } from '@/services/slices/profile';
 
 const sendVerificationCodeFormScheme: ValidationScheme<PatchProfileRequest> = {
-  lastName: notNull(),
-  firstName: notNull(),
-  email: composeValidatorsOR(isEmpty(), likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')),
+  lastName: VALIDATORS.LAST_NAME,
+  firstName: VALIDATORS.FIRST_NAME,
+  surname: VALIDATORS.SURNAME,
+  email: VALIDATORS.EMAIL,
 };
 
 export const ProfileRegistered = () => {
@@ -30,8 +30,8 @@ export const ProfileRegistered = () => {
       initialValue: {
         firstName: user.firstName,
         lastName: user.lastName,
-        surname: user.surname ?? '-',
-        email: user.email ?? '-',
+        surname: user.surname ?? '',
+        email: user.email ?? '',
       },
       scheme: sendVerificationCodeFormScheme,
       validateIsToched: true,
@@ -63,10 +63,6 @@ export const ProfileRegistered = () => {
   const deactivationFormHandler = () => {
     dispatch(setProfileState('ProfileRegistered'));
     toInitalValue();
-  };
-
-  const onClickPropertieHandler = (id: string) => {
-    console.log(id);
   };
 
   const isFormActive = profileState === 'UpdatingProfileInformation';
@@ -106,7 +102,7 @@ export const ProfileRegistered = () => {
             disabled={!isFormActive || isUpdateProfileLoading}
           />
         </FormElement>
-        <FormElement label="Отчество">
+        <FormElement label="Отчество" error={errors.surname?.message}>
           <Input
             name="surname"
             type="text"
@@ -115,6 +111,7 @@ export const ProfileRegistered = () => {
               void updateField('surname', e.target.value);
             }}
             value={value.surname}
+            isError={!!errors.surname?.message}
             extraClassName={commonStyle['form_field_base']}
             disabled={!isFormActive || isUpdateProfileLoading}
           />
@@ -151,7 +148,7 @@ export const ProfileRegistered = () => {
                   type="submit"
                   option={'BlueButton'}
                   width="300px"
-                  disabled={!isChanged}
+                  disabled={!isValid || !isChanged}
                   loading={{ isLoading: isUpdateProfileLoading, loadingMessage: 'Сохранение...' }}
                 >
                   Сохранить
@@ -170,13 +167,10 @@ export const ProfileRegistered = () => {
           )}
         </div>
       </form>
-      <FormElement label="Объекты недвижимости" extraClassName={style['content__propertie']}>
-        <PropertieList
-          propertie={user.properties}
-          disabled={isFormActive}
-          onElementClick={onClickPropertieHandler}
-        />
-      </FormElement>
+      <div className={style['content__propertie']}>
+        <h2 className={style['propertie__title']}>Объекты недвижимости</h2>
+        <PropertieList propertie={user.properties} disabled={isFormActive} />
+      </div>
     </div>
   );
 };

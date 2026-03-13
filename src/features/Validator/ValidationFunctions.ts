@@ -1,18 +1,76 @@
 import { ValidationFunc } from '@/hooks/useValidator';
 
 export const lowerThan =
-  (max: number): ValidationFunc<number> =>
+  (max: number): ValidationFunc<string> =>
   value => {
-    const isValid = value < max;
+    const isValid = value.length < max;
     return [isValid, { message: `Значение должно быть меньше чем ${max}` }];
   };
 
 export const moreThan =
-  (min: number): ValidationFunc<number> =>
+  (min: number): ValidationFunc<string> =>
   value => {
-    const isValid = value > min;
+    const isValid = value.length > min;
     return [isValid, { message: `Значение должно быть больше чем ${min}` }];
   };
+
+export const isAcceptableCountSymbRange =
+  (min: number, max: number): ValidationFunc<string> =>
+  value => {
+    const isValid = value.length >= min && value.length <= max;
+    return [
+      isValid,
+      { message: `Значение должно быть в диапазоне от ${min} до ${max} включительно` },
+    ];
+  };
+
+export const isLetters = (additionalChars: string[] = []): ValidationFunc<string> => {
+  return value => {
+    if (!value) {
+      return [true, { message: '' }];
+    }
+
+    const allowedSpecialChars = new Set(additionalChars);
+
+    const isValid = value.split('').every(char => {
+      const isLetter = /^[a-zA-Zа-яА-ЯёЁ]$/.test(char);
+      const isAllowedSpecial = allowedSpecialChars.has(char);
+      return isLetter || isAllowedSpecial;
+    });
+
+    const endMessage =
+      additionalChars.length !== 0 ? ` и символов: [${additionalChars.join()}]` : '';
+    return [
+      isValid,
+      { message: isValid ? '' : `Значение должно состоять только из букв${endMessage}` },
+    ];
+  };
+};
+
+export const isNumbers = (additionalChars: string[] = []): ValidationFunc<string> => {
+  return value => {
+    if (!value) {
+      return [true, { message: '' }];
+    }
+
+    const allowedSpecialChars = new Set(additionalChars);
+
+    const isValid = value.split('').every(char => {
+      const isNumber = !isNaN(+char) && char !== ' ';
+      const isAllowedSpecial = allowedSpecialChars.has(char);
+      return isNumber || isAllowedSpecial;
+    });
+
+    return [
+      isValid,
+      {
+        message: isValid
+          ? ''
+          : `Значение должно состоять только из цифр и символов ${additionalChars.join()}`,
+      },
+    ];
+  };
+};
 
 export const isLength =
   (length: number): ValidationFunc<string> =>
@@ -30,7 +88,7 @@ export const isSet =
 export const isEmpty =
   (message?: string): ValidationFunc<string> =>
   (value: string) => {
-    return [value.length === 0, { message: message ?? `Обязательно для заполнения2` }];
+    return [value.length === 0, { message: message ?? `` }];
   };
 
 export const notNull =

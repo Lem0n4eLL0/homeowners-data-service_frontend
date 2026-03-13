@@ -1,0 +1,1 @@
+export { EditPropertyPopup } from './EditPropertyPopup';

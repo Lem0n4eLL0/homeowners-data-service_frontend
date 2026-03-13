@@ -77,6 +77,48 @@
   height: 48px;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 540px;
+
+  &__title {
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
+    color: $color-text-primary;
+    text-align: center;
+    flex-grow: 0;
+    margin-bottom: 42px;
+  }
+
+  &__form {
+    flex-grow: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: scroll;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.content .form__error {
+  gap: 5px;
+}
+
 .hidden {
   position: absolute;
   width: 1px;
@@ -109,6 +151,26 @@
   background: linear-gradient(135deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 400% 400%;
   animation: loader-bg-animation 1.5s cubic-bezier(0.4, 0.2, 0.3, 0.8) infinite alternate;
+}
+
+/* Ширина скроллбара */
+.scroll::-webkit-scrollbar {
+  width: 10px; /* Для вертикального */
+  height: 10px; /* Для горизонтального */
+}
+
+/* Дорожка */
+.scroll::-webkit-scrollbar-track {
+  background: inherit; // #EFEBE6;
+  border-radius: 4px;
+}
+
+// /* Ползунок */
+.scroll::-webkit-scrollbar-thumb {
+  background: #212121;
+  border-radius: 4px;
+  border-left: 3px solid #fff;
+  border-right: 3px solid #fff;
 }
 
 @keyframes loader-bg-animation {

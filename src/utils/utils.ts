@@ -44,8 +44,14 @@ export const phoneFormatterValue = (value: string): string => {
 };
 
 export const properieFormatter = (propertie: Propertie): string => {
-  // format: +70000000000
-  return `${propertie.street}, ${propertie.houseNumber}, ${propertie.corpus}, ${propertie.flatNumber}`;
+  const parts = [
+    propertie.street && `ул. ${propertie.street}`,
+    propertie.houseNumber && `д. ${propertie.houseNumber}`,
+    propertie.corpus && `к. ${propertie.corpus}`,
+    propertie.flatNumber && `кв. ${propertie.flatNumber}`,
+  ].filter(Boolean);
+
+  return parts.join(', ');
 };
 
 export const codeFormatter = (value: string): Array<string> => {
@@ -58,4 +64,14 @@ export const codeFormatter = (value: string): Array<string> => {
     })
     .slice(0, 6);
   return result;
+};
+
+export const personalAccountNumberFormatter = (value: string): string => {
+  return value
+    .split('')
+    .filter(el => {
+      return !isNaN(+el) && el !== ' ';
+    })
+    .slice(0, 10)
+    .join('');
 };
