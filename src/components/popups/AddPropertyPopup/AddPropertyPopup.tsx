@@ -2,26 +2,28 @@ import { FormElement } from '@/components/forms/FormElement';
 import style from './AddPropertyPopup.module.scss';
 import commonStyle from '@styles/common.module.scss';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
-import { PERSONAL_ACCOUT_NUMBER_REGEXP } from '@/common/constants';
-import { likeRegExp, notNull } from '@/features/Validator/ValidationFunctions';
+import { VALIDATORS } from '@/common/constants';
 import { Propertie } from '@/common/commonTypes';
 import { Input } from '@/components/forms/Input';
 import { useAppDispatch, useAppSelector } from '@/services/store';
-import { createProperyUser, selectStatusesUser } from '@/services/slices/user';
+import {
+  createProperyUser,
+  resetErrorStatusesUser,
+  selectStatusesUser,
+} from '@/services/slices/user';
 import { Button } from '@/components/Button';
-import { SyntheticEvent, useMemo } from 'react';
+import { SyntheticEvent, useEffect, useMemo } from 'react';
 import { ErrorField } from '@/components/forms/ErrorField';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
+import { personalAccountNumberFormatter } from '@/utils/utils';
 
 const sendVerificationCodeFormScheme: ValidationScheme<Propertie> = {
-  street: notNull(),
-  houseNumber: notNull(),
-  flatNumber: notNull(),
-  personalAccountNumber: likeRegExp(
-    PERSONAL_ACCOUT_NUMBER_REGEXP,
-    'Номер лицевого счета должен состоять из 10 цифр'
-  ),
+  street: VALIDATORS.STREET,
+  houseNumber: VALIDATORS.HOUSE_NUMBER,
+  corpus: VALIDATORS.CORPUS,
+  flatNumber: VALIDATORS.FLAT_NUMBER,
+  personalAccountNumber: VALIDATORS.PERSONAL_ACCOUNT_NUMBER,
 };
 
 export const AddPropertyPopup = () => {
@@ -61,12 +63,23 @@ export const AddPropertyPopup = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('useEff');
+    return () => {
+      console.log('useEffEnd');
+      void dispatch(resetErrorStatusesUser());
+    };
+  }, []);
+
   return (
     <div className={clsx(style['content'], commonStyle['scroll'])}>
       <h1 className={style['content__title']}>Добавить объект недвижимости</h1>
       <form
         name="add_property"
-        className={style['content__form']}
+        className={clsx(
+          style['content__form'],
+          createPropertyError.isError && style['form__error']
+        )}
         onSubmit={e => void CreatePropertyHandler(e)}
       >
         <div className={clsx(style['content__fields'], commonStyle['scroll'])}>
@@ -80,8 +93,12 @@ export const AddPropertyPopup = () => {
               type="text"
               placeholder="Введите номер счета"
               onChange={e => {
-                void updateField('personalAccountNumber', e.target.value);
+                void updateField(
+                  'personalAccountNumber',
+                  personalAccountNumberFormatter(e.target.value)
+                );
               }}
+              formatterFunc={personalAccountNumberFormatter}
               value={value.personalAccountNumber}
               isError={!!errors.personalAccountNumber?.message}
               extraClassName={commonStyle['form_field_base']}
@@ -116,7 +133,7 @@ export const AddPropertyPopup = () => {
               disabled={isCreatePropertyLoading}
             />
           </FormElement>
-          <FormElement label="Корпус">
+          <FormElement label="Корпус" error={errors.corpus?.message}>
             <Input
               name="corpus"
               type="text"
@@ -125,6 +142,7 @@ export const AddPropertyPopup = () => {
                 void updateField('corpus', e.target.value);
               }}
               value={value.corpus}
+              isError={!!errors.corpus?.message}
               extraClassName={commonStyle['form_field_base']}
               disabled={isCreatePropertyLoading}
             />

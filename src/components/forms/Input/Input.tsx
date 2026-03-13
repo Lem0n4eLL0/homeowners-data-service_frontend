@@ -8,10 +8,20 @@ export interface IBaseInput extends InputHTMLAttributes<HTMLInputElement> {
   elementWidth?: number | string;
   elementHeight?: number | string;
   extraClassName?: string;
+  formatterFunc?: (value: string) => string;
 }
 
 export const Input = forwardRef<HTMLInputElement, IBaseInput>((props, ref) => {
-  const { type, elementWidth, elementHeight, extraClassName, isError, ...rest } = props;
+  const {
+    type,
+    elementWidth,
+    elementHeight,
+    extraClassName,
+    isError,
+    value,
+    formatterFunc,
+    ...rest
+  } = props;
   const inputBaseClassName = useMemo(() => {
     switch (type) {
       case 'text':
@@ -29,6 +39,7 @@ export const Input = forwardRef<HTMLInputElement, IBaseInput>((props, ref) => {
     <input
       type={type}
       ref={ref}
+      value={formatterFunc ? formatterFunc(String(value)) : value}
       className={clsx(
         inputBaseClassName,
         extraClassName,

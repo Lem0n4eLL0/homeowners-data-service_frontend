@@ -10,10 +10,7 @@ const createSlice = buildCreateSlice({
 });
 
 type UserState = {
-  isProfileRegistered: {
-    isGetProfile: boolean;
-    isGetMe: boolean;
-  };
+  isProfileRegistered: boolean;
   data: {
     user: User;
   };
@@ -27,10 +24,7 @@ type UserState = {
 };
 
 const initialState: UserState = {
-  isProfileRegistered: {
-    isGetProfile: false,
-    isGetMe: false,
-  },
+  isProfileRegistered: false,
   data: {
     user: EMPTY_USER,
   },
@@ -55,7 +49,7 @@ const userSlice = createSlice({
       rejected: (state, action) => {
         state.statuses.getProfileStatus.status = 'ERROR';
         state.statuses.getProfileStatus.error = action.error as RequestError;
-        state.isProfileRegistered.isGetProfile = false;
+        state.isProfileRegistered = false;
       },
       fulfilled: (state, action) => {
         state.statuses.getProfileStatus.status = 'SUCCESS';
@@ -64,7 +58,7 @@ const userSlice = createSlice({
           ...state.data.user,
           ...action.payload,
         };
-        state.isProfileRegistered.isGetProfile = true;
+        state.isProfileRegistered = true;
       },
     }),
 
@@ -76,14 +70,12 @@ const userSlice = createSlice({
       rejected: (state, action) => {
         state.statuses.getMeStatus.status = 'ERROR';
         state.statuses.getMeStatus.error = action.error as RequestError;
-        state.isProfileRegistered.isGetMe = false;
       },
       fulfilled: (state, action) => {
         state.statuses.getMeStatus.status = 'SUCCESS';
         state.statuses.getMeStatus.error = undefined;
         state.data.user.phone = action.payload.phone;
         state.data.user.email = action.payload.email;
-        state.isProfileRegistered.isGetMe = true;
       },
     }),
 
@@ -154,6 +146,8 @@ const userSlice = createSlice({
         state.statuses.registrationProfileStatus = READY_REQUEST_STATUS;
       if (state.statuses.updateProfileStatus.status === 'ERROR')
         state.statuses.updateProfileStatus = READY_REQUEST_STATUS;
+      if (state.statuses.createPropertyStatus.status === 'ERROR')
+        state.statuses.createPropertyStatus = READY_REQUEST_STATUS;
     }),
   }),
 

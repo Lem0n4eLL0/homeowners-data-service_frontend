@@ -30,4 +30,14 @@
     gap: 25px;
     overflow-y: scroll;
   }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.content .form__error {
+  gap: 5px;
 }

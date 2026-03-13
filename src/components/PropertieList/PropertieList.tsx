@@ -31,13 +31,22 @@ export const PropertieList = (props: IPropertieList) => {
         {propertie.map(el => {
           return (
             <li key={el.id} className={style['list__element']}>
-              <Link
-                to={`properties/edit/${el.id}`}
-                state={{ backgroundLocation: location }}
-                className={clsx(style['list__link'], disabled && style['list__link_disabled'])}
-              >
-                <span className={style['list__text']}>{properieFormatter(el)}</span>
-              </Link>
+              {disabled ? (
+                <span
+                  className={clsx(style['list__link'], style['list__link_disabled'])}
+                  aria-disabled="true"
+                >
+                  <span className={style['list__text']}>{properieFormatter(el)}</span>
+                </span>
+              ) : (
+                <Link
+                  to={`properties/edit/${el.id}`}
+                  state={{ backgroundLocation: location }}
+                  className={style['list__link']}
+                >
+                  <span className={style['list__text']}>{properieFormatter(el)}</span>
+                </Link>
+              )}
             </li>
           );
         })}

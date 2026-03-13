@@ -12,7 +12,7 @@ import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import clsx from 'clsx';
 import { Header } from '@/components/Header';
-import { getMeUser, getProfileUser, selectStatusesUser } from '@/services/slices/user';
+import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
 import { ProfilePage } from '@/components/pages/ProfilePage';
 import { Popup } from '@/components/shells/Popup';
 import { AddPropertyPopup } from '@/components/popups/AddPropertyPopup';
@@ -27,7 +27,6 @@ const App = () => {
   const backgroundLocation = location.state?.backgroundLocation;
 
   useLayoutEffect(() => {
-    void dispatch(getMeUser());
     void dispatch(getProfileUser());
   }, [dispatch]);
 

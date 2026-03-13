@@ -1,5 +1,3 @@
-import { Loader } from '@/components/shells/Loader';
-import { selectIsProfileRegistered } from '@/services/slices/user';
 import { useAppSelector } from '@/services/store';
 
 import commonStyle from '@styles/common.module.scss';
@@ -14,11 +12,12 @@ export type ProfilePageStates =
 
 export const ProfilePage = () => {
   const profilePageState = useAppSelector(selectProfileState);
-  const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
+  // const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
+  // const {getProfileStatus} = useAppSelector(selectStatusesUser);
 
-  if (!isProfileRegistered.isGetMe && !isProfileRegistered.isGetProfile) {
-    return <Loader loaderClass={commonStyle['loader_bg']} />;
-  }
+  // if (!isProfileRegistered) {
+  //   return <Loader loaderClass={commonStyle['loader_bg']} />;
+  // }
 
   return (
     <div className={commonStyle['base_page_wrapper']}>
