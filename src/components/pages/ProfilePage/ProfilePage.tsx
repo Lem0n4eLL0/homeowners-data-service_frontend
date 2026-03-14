@@ -2,8 +2,8 @@ import { useAppSelector } from '@/services/store';
 
 import commonStyle from '@styles/common.module.scss';
 import { selectProfileState } from '@/services/slices/profile';
-import { ProfileNotRegistered } from '@/components/profile/ProfileNotRegistered';
-import { ProfileRegistered } from '@/components/profile/ProfileRegistered';
+import { ProfileNotRegistered } from '@/components/pages/ProfilePage/ProfileNotRegistered';
+import { ProfileRegistered } from '@/components/pages/ProfilePage/ProfileRegistered';
 
 export type ProfilePageStates =
   | 'ProfileNotRegistered'

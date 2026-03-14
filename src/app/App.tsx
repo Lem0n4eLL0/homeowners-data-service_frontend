@@ -11,7 +11,7 @@ import { Loader } from '@/components/shells/Loader';
 import commonStyle from '@styles/common.module.scss';
 import style from './App.module.scss';
 import clsx from 'clsx';
-import { Header } from '@/components/Header';
+import { Header } from '@/components/layouts/Header';
 import { getProfileUser, selectStatusesUser } from '@/services/slices/user';
 import { ProfilePage } from '@/components/pages/ProfilePage';
 import { Popup } from '@/components/shells/Popup';

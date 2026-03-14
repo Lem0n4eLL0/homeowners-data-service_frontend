@@ -3,7 +3,7 @@ import commonStyle from '@styles/common.module.scss';
 import logoURL from '@assets/logo.svg';
 import { AppLinks } from '@/components/AppLinks';
 import { Line } from '@/components/shells/Line';
-import { AuthFlow } from '@/components/auth/AuthFlow';
+import { AuthFlow } from '@/components/pages/AuthPage/AuthFlow';
 
 export const AuthPage = () => {
   return (
