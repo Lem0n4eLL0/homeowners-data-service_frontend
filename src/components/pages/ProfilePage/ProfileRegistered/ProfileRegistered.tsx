@@ -11,7 +11,7 @@ import { Input } from '@/components/forms/Input';
 import { ErrorField } from '@/components/forms/ErrorField';
 import { Button } from '@/components/Button';
 import { PropertieList } from '@/components/PropertieList';
-import { selectProfileState, setProfileState } from '@/services/slices/profile';
+import { selectProfilePageState, setProfilePageState } from '@/services/slices/app';
 
 const sendVerificationCodeFormScheme: ValidationScheme<PatchProfileRequest> = {
   lastName: VALIDATORS.LAST_NAME,
@@ -23,7 +23,7 @@ const sendVerificationCodeFormScheme: ValidationScheme<PatchProfileRequest> = {
 export const ProfileRegistered = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const profileState = useAppSelector(selectProfileState);
+  const profileState = useAppSelector(selectProfilePageState);
   const { updateProfileStatus } = useAppSelector(selectStatusesUser);
   const { isValid, isChanged, errors, value, validate, updateField, toInitalValue } =
     useValidator<PatchProfileRequest>({
@@ -57,11 +57,11 @@ export const ProfileRegistered = () => {
   };
 
   const activationFormHandler = () => {
-    dispatch(setProfileState('UpdatingProfileInformation'));
+    dispatch(setProfilePageState('UpdatingProfileInformation'));
   };
 
   const deactivationFormHandler = () => {
-    dispatch(setProfileState('ProfileRegistered'));
+    dispatch(setProfilePageState('ProfileRegistered'));
     toInitalValue();
   };
 

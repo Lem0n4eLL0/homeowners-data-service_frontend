@@ -7,13 +7,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { authReducer } from './slices/auth';
 import { userReduser } from './slices/user';
-import { profileReduser } from './slices/profile';
+import { appReduser } from './slices/app';
 import { listenerMiddleware } from './listeners/authListeners';
 
 const rootRedusers = combineSlices({
   auth: authReducer,
   user: userReduser,
-  profile: profileReduser,
+  app: appReduser,
 });
 
 export const store = configureStore({
