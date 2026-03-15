@@ -39,7 +39,7 @@
 
   &__dropdown {
     position: absolute;
-    top: calc(100% + 4px);
+    top: 100%;
     left: 0;
     right: 0;
     max-height: 250px;
@@ -56,7 +56,6 @@
 
   &__option {
     padding: 12px 20px;
-    cursor: pointer;
     color: $color-text-primary;
     font-size: 14px;
     transition: background-color $transition-duration-extra-small ease;
@@ -71,7 +70,6 @@
     &_selected {
       background-color: $color-bg-accent-2;
       color: $color-text-accent;
-      font-weight: 500;
     }
 
     &_disabled {

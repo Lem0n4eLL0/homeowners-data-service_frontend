@@ -1,5 +1,5 @@
 import { RequestStatus } from '@/api/apiTypes';
-import { User } from './commonTypes';
+import { Propertie, User } from './commonTypes';
 import { composeValidatorsAND } from '@/hooks/useValidator';
 import {
   isAcceptableCountSymbRange,
@@ -49,9 +49,9 @@ export const VALIDATORS = {
     isAcceptableCountSymbRange(0, 100),
     likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')
   ),
-  PROPERTY_ID: isSet('Выберете объект недвижимости'),
+  PROPERTY_ID: isSet<Propertie | null>('Выберете объект недвижимости'),
   APPLICATIONS: {
     TITLE: isAcceptableCountSymbRange(1, 100),
-    MESSAGE: isAcceptableCountSymbRange(1, 256),
+    MESSAGE: isAcceptableCountSymbRange(1, 500),
   },
 };

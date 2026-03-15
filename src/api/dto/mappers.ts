@@ -200,7 +200,6 @@ export const toApplicationFromDTOMapper = (dto: DTOApplication): Application => 
     propertyId: dto.propertyId,
     title: dto.title,
     message: dto.comment,
-    responceMesage: dto.responceComment,
   };
 };
 

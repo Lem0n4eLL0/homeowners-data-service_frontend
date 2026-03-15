@@ -9,7 +9,7 @@ const createSlice = buildCreateSlice({
 
 type ProfileState = {
   data: {
-    application: Array<Application>;
+    applications: Array<Application>;
   };
   statuses: {
     createApplicationStatus: RequestStatus;
@@ -19,7 +19,7 @@ type ProfileState = {
 
 const initialState: ProfileState = {
   data: {
-    application: [],
+    applications: [],
   },
   statuses: {
     createApplicationStatus: READY_REQUEST_STATUS,
@@ -43,7 +43,7 @@ const applicationSlice = createSlice({
       fulfilled: (state, action) => {
         state.statuses.createApplicationStatus.status = 'SUCCESS';
         state.statuses.createApplicationStatus.error = undefined;
-        state.data.application.push(action.payload);
+        state.data.applications.push(action.payload);
       },
     }),
 
@@ -59,7 +59,7 @@ const applicationSlice = createSlice({
       fulfilled: (state, action) => {
         state.statuses.getApplicationHistory.status = 'SUCCESS';
         state.statuses.getApplicationHistory.error = undefined;
-        state.data.application = [...state.data.application, ...action.payload];
+        state.data.applications = [...state.data.applications, ...action.payload];
       },
     }),
   }),
@@ -77,4 +77,4 @@ export const {
   getApplicationHistory: getApplicationHistoryApplication,
 } = applicationSlice.actions;
 
-export const { selectStatuses, selectData } = applicationSlice.selectors;
+export const { selectStatuses: selectStatusesApplication, selectData } = applicationSlice.selectors;

@@ -95,7 +95,6 @@ export type DTOApplication = {
   propertyId: string;
   title: string;
   comment: string;
-  responceComment: string;
 };
 
 export type DTORequestError = {

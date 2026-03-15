@@ -29,3 +29,9 @@ export const DisableSelect: Story = {
     disabled: true,
   },
 };
+
+export const ErrorSelect: Story = {
+  args: {
+    isError: true,
+  },
+};

@@ -4,29 +4,29 @@ import commonStyle from '@styles/common.module.scss';
 import style from './AppSelect.module.scss';
 import arrow from '@assets/list_polygon_icon.svg';
 
-type OptionType<T extends { id: string }> = {
+export type OptionType<T extends { id: string } = { id: string }> = {
   value: T;
   label: string;
   disabled?: boolean;
 };
 
-type AppSelectProps<T extends { id: string }> = {
+type AppSelectProps<T extends { id: string } = { id: string }> = {
   options: readonly OptionType<T>[];
-  value?: OptionType<T>;
+  value?: OptionType<T> | null;
   onChange: (value: OptionType<T> | undefined) => void;
   placeholder?: string;
   disabled?: boolean;
-  error?: boolean;
+  isError?: boolean;
   className?: string;
 };
 
-export function AppSelect<T extends { id: string }>({
+export function AppSelect<T extends { id: string } = { id: string }>({
   options,
   value,
   onChange,
   placeholder = 'Выберите значение',
   disabled = false,
-  error = false,
+  isError = false,
   className,
 }: AppSelectProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,7 @@ export function AppSelect<T extends { id: string }>({
   const handleSelect = (option: OptionType<T>) => {
     if (option.disabled) return;
     onChange(option);
-    setIsOpen(false);
+    setIsOpen(true);
   };
 
   return (
@@ -56,7 +56,7 @@ export function AppSelect<T extends { id: string }>({
           commonStyle['form_field'],
           style['select__trigger'],
           isOpen && style['select__trigger_open'],
-          error && commonStyle['form_field__error']
+          isError && commonStyle['form_field__error']
         )}
         onClick={() => !disabled && setIsOpen(v => !v)}
         disabled={disabled}

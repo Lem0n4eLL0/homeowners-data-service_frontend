@@ -131,5 +131,4 @@ export type Application = {
   propertyId: string;
   title: string;
   message: string;
-  responceMesage: string;
 };

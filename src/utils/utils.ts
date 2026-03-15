@@ -54,6 +54,10 @@ export const properieFormatter = (propertie: Propertie): string => {
   return parts.join(', ');
 };
 
+export const textareaFormatter = (value: string): string => {
+  return value.slice(0, 500);
+};
+
 export const codeFormatter = (value: string): Array<string> => {
   let result = [] as Array<string>;
 
