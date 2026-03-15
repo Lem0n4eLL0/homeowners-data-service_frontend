@@ -38,7 +38,7 @@ export const ApplicationsPage = () => {
         ) : applicationsPageState === 'ApplicationsPageHistory' ? (
           <HistoryApplications />
         ) : (
-          <></>
+          <>Error</>
         )}
       </div>
     </div>

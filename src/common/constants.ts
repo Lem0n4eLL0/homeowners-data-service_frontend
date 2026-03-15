@@ -5,6 +5,7 @@ import {
   isAcceptableCountSymbRange,
   isLetters,
   isNumbers,
+  isSet,
   likeRegExp,
 } from '@/features/Validator/ValidationFunctions';
 
@@ -48,4 +49,9 @@ export const VALIDATORS = {
     isAcceptableCountSymbRange(0, 100),
     likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')
   ),
+  PROPERTY_ID: isSet('Выберете объект недвижимости'),
+  APPLICATIONS: {
+    TITLE: isAcceptableCountSymbRange(1, 100),
+    MESSAGE: isAcceptableCountSymbRange(1, 256),
+  },
 };

@@ -75,6 +75,29 @@ export type DTOPatchProfileRequest = {
   email: string;
 };
 
+export type DTOCreateApplicationsResponce = {
+  propertyId: string;
+  title: string;
+  comment: string;
+};
+
+export type DTOUser = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+};
+
+export type DTOApplication = {
+  id: string;
+  createdAt: string;
+  createdBy: DTOUser;
+  status: string;
+  propertyId: string;
+  title: string;
+  comment: string;
+  responceComment: string;
+};
+
 export type DTORequestError = {
   timestamp: string;
   path: string;

@@ -109,3 +109,27 @@ export type PatchProfileRequest = {
   surname: string;
   email: string;
 };
+
+export type CreateApplicationsRequest = {
+  propertyId: string;
+  title: string;
+  message: string;
+};
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+};
+
+export type ApplicationStatus = 'SENT' | 'PROCESSED' | 'COMPLETED';
+export type Application = {
+  id: string;
+  createdAt: Date;
+  createdBy: User;
+  status: ApplicationStatus;
+  propertyId: string;
+  title: string;
+  message: string;
+  responceMesage: string;
+};

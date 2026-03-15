@@ -9,11 +9,13 @@ import { authReducer } from './slices/auth';
 import { userReduser } from './slices/user';
 import { appReduser } from './slices/app';
 import { listenerMiddleware } from './listeners/authListeners';
+import { applicationReduser } from './slices/applications';
 
 const rootRedusers = combineSlices({
   auth: authReducer,
   user: userReduser,
   app: appReduser,
+  application: applicationReduser,
 });
 
 export const store = configureStore({
