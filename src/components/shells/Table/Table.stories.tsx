@@ -46,7 +46,7 @@ const meta = {
         age: 22,
       },
     ],
-    onRowClick: value => console.log(value),
+    onRowClick: () => {},
   },
 } satisfies Meta<typeof Table<TestTable>>;
 

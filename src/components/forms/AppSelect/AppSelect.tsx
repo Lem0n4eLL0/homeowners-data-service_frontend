@@ -5,8 +5,8 @@ import style from './AppSelect.module.scss';
 import arrow from '@assets/list_polygon_icon.svg';
 
 export type OptionType<T extends { id: string } = { id: string }> = {
-  value: T;
-  label: string;
+  value: T | undefined;
+  label: React.ReactNode;
   disabled?: boolean;
 };
 
@@ -24,7 +24,7 @@ export function AppSelect<T extends { id: string } = { id: string }>({
   options,
   value,
   onChange,
-  placeholder = 'Выберите значение',
+  placeholder = 'Выберете значение',
   disabled = false,
   isError = false,
   className,
@@ -75,14 +75,14 @@ export function AppSelect<T extends { id: string } = { id: string }>({
         <ul className={clsx(style['select__dropdown'])} role="listbox">
           {options.map(option => (
             <li
-              key={option.value.id}
+              key={option.value?.id || 'empty'}
               className={clsx(
                 style['select__option'],
-                value?.value.id === option.value.id && style['select__option_selected'],
+                value?.value?.id === option.value?.id && style['select__option_selected'],
                 option.disabled && style['select__option_disabled']
               )}
               role="option"
-              aria-selected={value?.value.id === option.value.id}
+              aria-selected={value?.value?.id === option.value?.id}
               onClick={() => handleSelect(option)}
             >
               {option.label}

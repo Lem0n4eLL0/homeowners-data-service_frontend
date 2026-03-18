@@ -66,7 +66,7 @@ export const AddPropertyPopup = () => {
     return () => {
       void dispatch(resetErrorStatusesUser());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={clsx(commonStyle['content'], commonStyle['scroll'])}>

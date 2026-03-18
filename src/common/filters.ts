@@ -1,12 +1,27 @@
 import { FilterFunc } from '@/features/Filter';
-import { DateRange } from './commonTypes';
+import { DateRange, Propertie } from './commonTypes';
+import { ApplicationFull, ApplicationStatus } from '@/api/apiTypes';
 
-export const filterByDateRange = <T extends { date: Date }>(range: DateRange): FilterFunc<T> => {
+export const filterByDateRange = (range: DateRange): FilterFunc<ApplicationFull> => {
   return item => {
-    const itemTime = item.date.getTime();
-    if (range.from && itemTime < range.from.getTime()) return false;
+    const itemTime = new Date(item.createdAt).getTime();
+    if (range.from && itemTime <= range.from.getTime()) return false;
     if (range.to && itemTime >= range.to.getTime()) return false;
     return true;
+  };
+};
+
+export const filterApplicationByPropertyID = (value: Propertie): FilterFunc<ApplicationFull> => {
+  return item => {
+    return item.property.id === value.id;
+  };
+};
+
+export const filterApplicationByStatus = (
+  status: ApplicationStatus
+): FilterFunc<ApplicationFull> => {
+  return item => {
+    return item.status === status;
   };
 };
 

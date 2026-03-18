@@ -15,17 +15,17 @@ export const ApplicationsPage = () => {
       <h1 className={commonStyle['base_page_title']}>Заявки</h1>
       <div className={style['content']}>
         <LinksBar
-          active="base"
+          active={applicationsPageState}
           links={[
             {
-              name: 'base',
+              name: 'ApplicationsPageCreate',
               label: 'Cоздание заявки',
               onClick: () => {
                 dispatch(setApplicationsPageState('ApplicationsPageCreate'));
               },
             },
             {
-              name: 'history',
+              name: 'ApplicationsPageHistory',
               label: 'История',
               onClick: () => {
                 dispatch(setApplicationsPageState('ApplicationsPageHistory'));

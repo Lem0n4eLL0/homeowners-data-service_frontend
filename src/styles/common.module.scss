@@ -17,7 +17,7 @@
 .form_field {
   width: 100%;
   height: 100%;
-  max-height: 52px;
+  max-height: 48px;
   background-color: inherit;
   border: 1px solid $color-border-light;
   border-radius: 4px;
@@ -171,6 +171,20 @@
   border-radius: 4px;
   border-left: 3px solid #fff;
   border-right: 3px solid #fff;
+}
+
+.status {
+  &_completed {
+    color: #2fbd3b;
+  }
+
+  &_processed {
+    color: #962690;
+  }
+
+  &_sent {
+    color: #3140c7;
+  }
 }
 
 @keyframes loader-bg-animation {

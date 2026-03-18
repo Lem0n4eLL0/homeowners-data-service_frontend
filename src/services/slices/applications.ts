@@ -1,15 +1,17 @@
 import { createApplication, getApplicationsHistory } from '@/api/api';
-import { Application, RequestError, RequestStatus } from '@/api/apiTypes';
+import { ApplicationFull, RequestError, RequestStatus } from '@/api/apiTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
 import { asyncThunkCreator, buildCreateSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
 });
 
 type ProfileState = {
+  isApplicationsInitializing: boolean;
   data: {
-    applications: Array<Application>;
+    applications: Array<ApplicationFull>;
   };
   statuses: {
     createApplicationStatus: RequestStatus;
@@ -18,6 +20,7 @@ type ProfileState = {
 };
 
 const initialState: ProfileState = {
+  isApplicationsInitializing: false,
   data: {
     applications: [],
   },
@@ -55,11 +58,13 @@ const applicationSlice = createSlice({
       rejected: (state, action) => {
         state.statuses.getApplicationHistory.status = 'ERROR';
         state.statuses.getApplicationHistory.error = action.error as RequestError;
+        state.isApplicationsInitializing = true;
       },
       fulfilled: (state, action) => {
         state.statuses.getApplicationHistory.status = 'SUCCESS';
         state.statuses.getApplicationHistory.error = undefined;
-        state.data.applications = [...state.data.applications, ...action.payload];
+        state.data.applications = action.payload;
+        state.isApplicationsInitializing = true;
       },
     }),
   }),
@@ -67,8 +72,11 @@ const applicationSlice = createSlice({
   selectors: {
     selectStatuses: store => store.statuses,
     selectData: store => store.data,
+    selectIsApplicationsInitializing: store => store.isApplicationsInitializing,
   },
 });
+
+export const selectApplicationState = (state: RootState) => state.application;
 
 export const applicationReduser = applicationSlice.reducer;
 
@@ -77,4 +85,8 @@ export const {
   getApplicationHistory: getApplicationHistoryApplication,
 } = applicationSlice.actions;
 
-export const { selectStatuses: selectStatusesApplication, selectData } = applicationSlice.selectors;
+export const {
+  selectStatuses: selectStatusesApplication,
+  selectData: selectDataApplication,
+  selectIsApplicationsInitializing,
+} = applicationSlice.selectors;

@@ -60,7 +60,7 @@ export function Table<T extends { id: string }>({
               </td>
             </tr>
           ) : (
-            data.map((item, index) => {
+            data.map(item => {
               return (
                 <tr
                   key={item.id}

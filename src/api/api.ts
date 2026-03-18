@@ -27,7 +27,7 @@ import {
   registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
-  toApplicationFromDTOMapper,
+  toApplicationFullFromDTOMapper,
   toPropertyFromDTOMapper,
   updateProfileRequestMapper,
   updatePropertyToDTOMapper,
@@ -35,7 +35,7 @@ import {
   verificationCodeResponceMapper,
 } from './dto/mappers';
 import {
-  DTOApplication,
+  DTOApplicationFull,
   DTOProfileResponce,
   DTOPropertie,
   DTORegistrationProfileResponce,
@@ -153,21 +153,21 @@ export const deletePropery = (id: string) => {
 };
 
 export const createApplication = (body: CreateApplicationsRequest) => {
-  return fetchWithRefresh<DTOApplication>(bulidURL(`application`), {
+  return fetchWithRefresh<DTOApplicationFull>(bulidURL(`application`), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(createApplicationsResponceMapper(body)),
   }).then(res => {
-    return toApplicationFromDTOMapper(res);
+    return toApplicationFullFromDTOMapper(res);
   });
 };
 
 export const getApplicationsHistory = () => {
-  return fetchWithRefresh<Array<DTOApplication>>(bulidURL(`application`), {
+  return fetchWithRefresh<Array<DTOApplicationFull>>(bulidURL(`applications/my`), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
   }).then(res => {
-    return res.map(el => toApplicationFromDTOMapper(el));
+    return res.map(el => toApplicationFullFromDTOMapper(el));
   });
 };
 

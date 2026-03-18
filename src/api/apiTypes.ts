@@ -30,7 +30,7 @@ export enum ErrorCode {
 }
 
 export type RequestError = {
-  timestamp: Date;
+  timestamp: string;
   path: string;
   status: number;
   error: string;
@@ -122,13 +122,30 @@ export type User = {
   surname: string;
 };
 
-export type ApplicationStatus = 'SENT' | 'PROCESSED' | 'COMPLETED';
+export const APPLICATION_STATUSES = {
+  SENT: 'Отправлена',
+  PROCESSED: 'В обработке',
+  COMPLETED: 'Выполнена',
+} as const;
+
+export type ApplicationStatus = keyof typeof APPLICATION_STATUSES;
+
 export type Application = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   createdBy: User;
   status: ApplicationStatus;
   propertyId: string;
+  title: string;
+  message: string;
+};
+
+export type ApplicationFull = {
+  id: string;
+  createdAt: string;
+  createdBy: User;
+  status: ApplicationStatus;
+  property: Propertie;
   title: string;
   message: string;
 };

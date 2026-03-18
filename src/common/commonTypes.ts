@@ -28,6 +28,6 @@ export type CreatePropertieRequest = Omit<Propertie, 'id'>;
 export type UpdatePropertieRequest = Propertie;
 
 export type DateRange = {
-  from?: Date;
-  to?: Date;
+  from: Date | null;
+  to: Date | null;
 };

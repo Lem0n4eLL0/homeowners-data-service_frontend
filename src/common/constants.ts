@@ -1,5 +1,5 @@
-import { RequestStatus } from '@/api/apiTypes';
-import { Propertie, User } from './commonTypes';
+import { APPLICATION_STATUSES, ApplicationStatus, RequestStatus } from '@/api/apiTypes';
+import { DateRange, Propertie, User } from './commonTypes';
 import { composeValidatorsAND } from '@/hooks/useValidator';
 import {
   isAcceptableCountSymbRange,
@@ -8,6 +8,7 @@ import {
   isSet,
   likeRegExp,
 } from '@/features/Validator/ValidationFunctions';
+import { OptionType } from '@/components/forms/AppSelect/AppSelect';
 
 export const LOCAL_STORAGE_ACCESS_TOKEN_ALIAS = 'accessToken';
 export const TIMER_SEND_CODE_MESSAGE_TIME_S = 60;
@@ -42,9 +43,9 @@ export const VALIDATORS = {
     PERSONAL_ACCOUT_NUMBER_REGEXP,
     'Номер лицевого счета должен состоять из 10 цифр'
   ),
-  LAST_NAME: composeValidatorsAND(isLetters(), isAcceptableCountSymbRange(1, 100)),
+  LAST_NAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 100)),
   FIRST_NAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 100)),
-  SURNAME: composeValidatorsAND(isLetters(), isAcceptableCountSymbRange(0, 100)),
+  SURNAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(0, 100)),
   EMAIL: composeValidatorsAND(
     isAcceptableCountSymbRange(0, 100),
     likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')
@@ -55,3 +56,19 @@ export const VALIDATORS = {
     MESSAGE: isAcceptableCountSymbRange(1, 500),
   },
 };
+
+// Опции элемента Select
+export const emptyOption = <T extends { id: string }>(): OptionType<T> => ({
+  value: undefined,
+  label: 'Пусто',
+});
+
+export type FilteredStatus = { id: string; status: ApplicationStatus };
+export type FilteredDateRange = { id: string; date: DateRange };
+
+export const STATUS_APPLICATION_BASE_OPTIONS = [
+  ...Object.keys(APPLICATION_STATUSES).map<OptionType<FilteredStatus>>((el, index) => ({
+    value: { id: String(index), status: el as ApplicationStatus },
+    label: APPLICATION_STATUSES[el as ApplicationStatus],
+  })),
+];

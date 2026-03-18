@@ -97,6 +97,16 @@ export type DTOApplication = {
   comment: string;
 };
 
+export type DTOApplicationFull = {
+  id: string;
+  createdAt: string;
+  createdBy: DTOUser;
+  status: string;
+  property: DTOPropertie;
+  title: string;
+  comment: string;
+};
+
 export type DTORequestError = {
   timestamp: string;
   path: string;

@@ -1,6 +1,7 @@
 import { CreatePropertieRequest, Propertie, UpdatePropertieRequest } from '@/common/commonTypes';
 import {
   Application,
+  ApplicationFull,
   ApplicationStatus,
   CreateApplicationsRequest,
   GetMeResponce,
@@ -18,6 +19,7 @@ import {
 } from '../apiTypes';
 import {
   DTOApplication,
+  DTOApplicationFull,
   DTOCreateApplicationsResponce,
   DTOCreatePropertieRequest,
   DTOGetMeResponce,
@@ -194,10 +196,22 @@ export const createApplicationsResponceMapper = (
 export const toApplicationFromDTOMapper = (dto: DTOApplication): Application => {
   return {
     id: dto.id,
-    createdAt: new Date(dto.createdAt),
+    createdAt: new Date(dto.createdAt).toISOString(),
     createdBy: toUserFromDTOMapper(dto.createdBy),
     status: dto.status as ApplicationStatus,
     propertyId: dto.propertyId,
+    title: dto.title,
+    message: dto.comment,
+  };
+};
+
+export const toApplicationFullFromDTOMapper = (dto: DTOApplicationFull): ApplicationFull => {
+  return {
+    id: dto.id,
+    createdAt: new Date(dto.createdAt).toISOString(),
+    createdBy: toUserFromDTOMapper(dto.createdBy),
+    status: dto.status as ApplicationStatus,
+    property: toPropertyFromDTOMapper(dto.property),
     title: dto.title,
     message: dto.comment,
   };
@@ -213,7 +227,7 @@ export const toUserFromDTOMapper = (dto: DTOUser): User => {
 
 export const errorMapper = (dto: DTORequestError): RequestError => {
   return {
-    timestamp: new Date(dto.timestamp),
+    timestamp: new Date(dto.timestamp).toISOString(),
     path: dto.path,
     status: dto.status,
     error: dto.error,

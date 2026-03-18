@@ -35,17 +35,16 @@ export const CreateApplications = () => {
   const user = useAppSelector(selectUser);
   const { createApplicationStatus } = useAppSelector(selectStatusesApplication);
 
-  const { isValid, isChanged, errors, value, validate, updateField, toInitalValue } =
-    useValidator<CreateApplicationsForm>({
-      initialValue: {
-        property: null,
-        title: '',
-        message: '',
-      },
-      scheme: sendVerificationCodeFormScheme,
-      validateIsToched: true,
-      validateOnChange: true,
-    });
+  const { isValid, errors, value, validate, updateField } = useValidator<CreateApplicationsForm>({
+    initialValue: {
+      property: null,
+      title: '',
+      message: '',
+    },
+    scheme: sendVerificationCodeFormScheme,
+    validateIsToched: true,
+    validateOnChange: true,
+  });
 
   const createApplicationError = useMemo(
     () => ({
@@ -143,6 +142,7 @@ export const CreateApplications = () => {
             option={'BlueButton'}
             width="300px"
             loading={{ isLoading: isCreateApplicationLoading, loadingMessage: 'Отправка...' }}
+            disabled={!isValid}
           >
             Отправить
           </Button>
