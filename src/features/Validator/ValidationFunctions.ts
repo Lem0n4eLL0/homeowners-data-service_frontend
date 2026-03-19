@@ -82,7 +82,7 @@ export const isLength =
 export const isSet =
   <T>(message?: string): ValidationFunc<T> =>
   (value: T) => {
-    const isValueSet = value !== null && value !== undefined && value !== '';
+    const isValueSet = !!value && value !== null && value !== undefined && value !== '';
     return [isValueSet, { message: message ?? `Обязательно для заполнения` }];
   };
 
