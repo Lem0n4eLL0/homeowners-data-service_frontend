@@ -7,6 +7,7 @@ import {
   fetchWithRefresh,
 } from './apiHelp';
 import {
+  CreateApplicationsRequest,
   GetMeResponce,
   HTTP_METHODS,
   PatchProfileRequest,
@@ -17,6 +18,7 @@ import {
   VerificationCodeRequest,
 } from './apiTypes';
 import {
+  createApplicationsResponceMapper,
   createPropertyToDTOMapper,
   getMeResponceMapper,
   profileResponceMapper,
@@ -25,6 +27,7 @@ import {
   registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
+  toApplicationFullFromDTOMapper,
   toPropertyFromDTOMapper,
   updateProfileRequestMapper,
   updatePropertyToDTOMapper,
@@ -32,6 +35,7 @@ import {
   verificationCodeResponceMapper,
 } from './dto/mappers';
 import {
+  DTOApplicationFull,
   DTOProfileResponce,
   DTOPropertie,
   DTORegistrationProfileResponce,
@@ -145,6 +149,25 @@ export const deletePropery = (id: string) => {
     headers: baseHeaders,
   }).then(res => {
     return toPropertyFromDTOMapper(res);
+  });
+};
+
+export const createApplication = (body: CreateApplicationsRequest) => {
+  return fetchWithRefresh<DTOApplicationFull>(bulidURL(`application`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(createApplicationsResponceMapper(body)),
+  }).then(res => {
+    return toApplicationFullFromDTOMapper(res);
+  });
+};
+
+export const getApplicationsHistory = () => {
+  return fetchWithRefresh<Array<DTOApplicationFull>>(bulidURL(`applications/my`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return res.map(el => toApplicationFullFromDTOMapper(el));
   });
 };
 

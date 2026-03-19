@@ -12,14 +12,15 @@ type ILink = {
 type ILinksBar = {
   active: string;
   links: ILink[];
+  extraClassName?: string;
 };
 
 export const LinksBar = (props: ILinksBar) => {
-  const { active, links } = props;
+  const { active, extraClassName, links } = props;
   const [activeLink, setActiveLink] = useState<string>(active);
 
   return (
-    <div className={style['content']}>
+    <div className={clsx(style['content'], extraClassName)}>
       <ul className={style['content__list']}>
         {links.map((el, index) => {
           return (

@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/services/store';
 
 import commonStyle from '@styles/common.module.scss';
-import { selectProfileState } from '@/services/slices/profile';
+import { selectProfilePageState } from '@/services/slices/app';
 import { ProfileNotRegistered } from '@/components/pages/ProfilePage/ProfileNotRegistered';
 import { ProfileRegistered } from '@/components/pages/ProfilePage/ProfileRegistered';
 
@@ -11,7 +11,7 @@ export type ProfilePageStates =
   | 'UpdatingProfileInformation';
 
 export const ProfilePage = () => {
-  const profilePageState = useAppSelector(selectProfileState);
+  const profilePageState = useAppSelector(selectProfilePageState);
   // const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
   // const {getProfileStatus} = useAppSelector(selectStatusesUser);
 

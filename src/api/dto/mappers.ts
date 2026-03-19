@@ -1,5 +1,9 @@
 import { CreatePropertieRequest, Propertie, UpdatePropertieRequest } from '@/common/commonTypes';
 import {
+  Application,
+  ApplicationFull,
+  ApplicationStatus,
+  CreateApplicationsRequest,
   GetMeResponce,
   PatchProfileRequest,
   ProfileResponce,
@@ -9,10 +13,14 @@ import {
   RequestError,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
+  User,
   VerificationCodeRequest,
   VerificationCodeResponce,
 } from '../apiTypes';
 import {
+  DTOApplication,
+  DTOApplicationFull,
+  DTOCreateApplicationsResponce,
   DTOCreatePropertieRequest,
   DTOGetMeResponce,
   DTOPatchProfileRequest,
@@ -25,6 +33,7 @@ import {
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
   DTOUpdatePropertieRequest,
+  DTOUser,
   DTOVerificationCodeRequest,
   DTOVerificationCodeResponce,
 } from './dto';
@@ -174,9 +183,51 @@ export const updateProfileRequestMapper = (
   };
 };
 
+export const createApplicationsResponceMapper = (
+  value: CreateApplicationsRequest
+): DTOCreateApplicationsResponce => {
+  return {
+    propertyId: value.propertyId,
+    title: value.title,
+    comment: value.message,
+  };
+};
+
+export const toApplicationFromDTOMapper = (dto: DTOApplication): Application => {
+  return {
+    id: dto.id,
+    createdAt: new Date(dto.createdAt).toISOString(),
+    createdBy: toUserFromDTOMapper(dto.createdBy),
+    status: dto.status as ApplicationStatus,
+    propertyId: dto.propertyId,
+    title: dto.title,
+    message: dto.comment,
+  };
+};
+
+export const toApplicationFullFromDTOMapper = (dto: DTOApplicationFull): ApplicationFull => {
+  return {
+    id: dto.id,
+    createdAt: new Date(dto.createdAt).toISOString(),
+    createdBy: toUserFromDTOMapper(dto.createdBy),
+    status: dto.status as ApplicationStatus,
+    property: toPropertyFromDTOMapper(dto.property),
+    title: dto.title,
+    message: dto.comment,
+  };
+};
+
+export const toUserFromDTOMapper = (dto: DTOUser): User => {
+  return {
+    firstName: dto.firstName,
+    lastName: dto.lastName,
+    surname: dto.surname,
+  };
+};
+
 export const errorMapper = (dto: DTORequestError): RequestError => {
   return {
-    timestamp: new Date(dto.timestamp),
+    timestamp: new Date(dto.timestamp).toISOString(),
     path: dto.path,
     status: dto.status,
     error: dto.error,

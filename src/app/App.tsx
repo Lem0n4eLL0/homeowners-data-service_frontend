@@ -17,6 +17,8 @@ import { ProfilePage } from '@/components/pages/ProfilePage';
 import { Popup } from '@/components/shells/Popup';
 import { AddPropertyPopup } from '@/components/popups/AddPropertyPopup';
 import { EditPropertyPopup } from '@/components/popups/EditPropertyPopup';
+import { ApplicationsPage } from '@/components/pages/ApplicationsPage';
+import { ApplicationPopup } from '@/components/popups/ApplicationPopup';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +47,7 @@ const App = () => {
             <Route index element={<Navigate to="/profile" replace />} />
             <Route path="readings" element={<div>Показания</div>} />
             <Route path="accruals" element={<div>Начисления</div>} />
-            <Route path="applications" element={<div>Заявки</div>} />
+            <Route path="applications" element={<ApplicationsPage />} />
             <Route path="services" element={<div>Услуги</div>} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="news" element={<div>Новости</div>} />
@@ -65,6 +67,11 @@ const App = () => {
             <Route element={<Popup />}>
               <Route path="add" element={<AddPropertyPopup />} />
               <Route path="edit/:id" element={<EditPropertyPopup />} />
+            </Route>
+          </Route>
+          <Route path="/applications">
+            <Route element={<Popup />}>
+              <Route path=":id" element={<ApplicationPopup />} />
             </Route>
           </Route>
         </Routes>
