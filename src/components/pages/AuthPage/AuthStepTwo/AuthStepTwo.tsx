@@ -34,7 +34,7 @@ import { selectUser } from '@/services/slices/user';
 const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
   code: likeRegExp(CHECK_CODE_REGEXP, 'Неверный формат кода'),
-  personalDataConsent: isSet(),
+  personalDataConsent: isSet<boolean | undefined>(),
 };
 
 export const AuthStepTwo = () => {
@@ -46,7 +46,7 @@ export const AuthStepTwo = () => {
   const initialTime = useMemo(() => new Time(TIMER_SEND_CODE_MESSAGE_TIME_S), []);
   const { state, time, timer } = useTimer({ time: initialTime });
 
-  const { isValid, value, updateField } = useValidator<VerificationCodeRequest>({
+  const { isValid, value, updateField, errors } = useValidator<VerificationCodeRequest>({
     initialValue: {
       phone: phone ?? '',
       code: '',
@@ -58,6 +58,8 @@ export const AuthStepTwo = () => {
     validateOnChange: true,
   });
 
+  console.log(errors);
+  console.log(value);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const requestError: PageRequestError = {
