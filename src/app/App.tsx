@@ -18,6 +18,7 @@ import { Popup } from '@/components/shells/Popup';
 import { AddPropertyPopup } from '@/components/popups/AddPropertyPopup';
 import { EditPropertyPopup } from '@/components/popups/EditPropertyPopup';
 import { ApplicationsPage } from '@/components/pages/ApplicationsPage';
+import { ApplicationPopup } from '@/components/popups/ApplicationPopup';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -66,6 +67,11 @@ const App = () => {
             <Route element={<Popup />}>
               <Route path="add" element={<AddPropertyPopup />} />
               <Route path="edit/:id" element={<EditPropertyPopup />} />
+            </Route>
+          </Route>
+          <Route path="/applications">
+            <Route element={<Popup />}>
+              <Route path=":id" element={<ApplicationPopup />} />
             </Route>
           </Route>
         </Routes>

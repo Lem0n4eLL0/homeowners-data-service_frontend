@@ -1,5 +1,6 @@
 import { FormElement } from '@/components/forms/FormElement';
 import commonStyle from '@styles/common.module.scss';
+import style from './AddPropertyPopup.module.scss';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import { VALIDATORS } from '@/common/constants';
 import { Propertie } from '@/common/commonTypes';
@@ -69,7 +70,7 @@ export const AddPropertyPopup = () => {
   }, [dispatch]);
 
   return (
-    <div className={clsx(commonStyle['content'], commonStyle['scroll'])}>
+    <div className={clsx(style['content'], commonStyle['content'])}>
       <h1 className={commonStyle['content__title']}>Добавить объект недвижимости</h1>
       <form
         name="add_property"

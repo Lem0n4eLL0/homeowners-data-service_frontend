@@ -1,7 +1,7 @@
 import { createApplication, getApplicationsHistory } from '@/api/api';
 import { ApplicationFull, RequestError, RequestStatus } from '@/api/apiTypes';
 import { READY_REQUEST_STATUS } from '@/common/constants';
-import { asyncThunkCreator, buildCreateSlice } from '@reduxjs/toolkit';
+import { asyncThunkCreator, buildCreateSlice, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 const createSlice = buildCreateSlice({
@@ -77,6 +77,11 @@ const applicationSlice = createSlice({
 });
 
 export const selectApplicationState = (state: RootState) => state.application;
+
+export const selectApplicationCompleted = (id: string) =>
+  createSelector([selectApplicationState], state =>
+    state.data.applications.find(el => el.id === id)
+  );
 
 export const applicationReduser = applicationSlice.reducer;
 

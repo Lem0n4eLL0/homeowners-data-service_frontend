@@ -5,7 +5,7 @@ import commonStyle from '@styles/common.module.scss';
 import { AppSelect } from '@/components/forms/AppSelect';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { selectUser } from '@/services/slices/user';
-import { properieFormatter, statusApplicationFormatter } from '@/utils/utils';
+import { properieFormatter, statusApplicationFormatter, userFormatter } from '@/utils/utils';
 import { OptionType } from '@/components/forms/AppSelect/AppSelect';
 import { DateRange, Propertie } from '@/common/commonTypes';
 import { useEffect, useState } from 'react';
@@ -28,6 +28,7 @@ import {
   filterByDateRange,
 } from '@/common/filters';
 import { DateRangePicker } from '@/components/forms/DateRangePicker';
+import { useLocation, useNavigate } from 'react-router';
 
 type ApplicationFilterValues = {
   date: DateRange | null;
@@ -39,7 +40,7 @@ const tableApplicationHistoryColumns: Column<ApplicationFull>[] = [
   {
     key: 'createdAt',
     title: 'Дата',
-    render: value => format(value, 'dd/MM/yyyy'),
+    render: value => format(value, 'dd.MM.yyyy'),
   },
   {
     key: 'status',
@@ -53,7 +54,7 @@ const tableApplicationHistoryColumns: Column<ApplicationFull>[] = [
   {
     key: 'createdBy',
     title: 'ФИО',
-    render: value => `${value.firstName} ${value.lastName} ${value.surname}`,
+    render: userFormatter,
   },
   {
     key: 'property',
@@ -68,6 +69,17 @@ export const HistoryApplications = () => {
   const isApplicationsInitializing = useAppSelector(selectIsApplicationsInitializing);
   const { properties } = useAppSelector(selectUser);
   const { applications } = useAppSelector(selectDataApplication);
+  const location = useLocation();
+  const navigator = useNavigate();
+
+  const applicationOpenHandler = (item: ApplicationFull) => {
+    void navigator(`${item.id}`, {
+      state: {
+        backgroundLocation: location,
+      },
+    });
+  };
+
   const [filterValues, setFilterValues] = useState<ApplicationFilterValues>({
     date: { from: null, to: null },
     status: null,
@@ -179,7 +191,13 @@ export const HistoryApplications = () => {
           ></AppSelect>
         </FormElement>
       </div>
-      <Table<ApplicationFull> columns={tableApplicationHistoryColumns} data={filter.filteredData} />
+      <Table<ApplicationFull>
+        columns={tableApplicationHistoryColumns}
+        data={filter.filteredData}
+        onRowClick={applicationOpenHandler}
+        className={style['content__table']}
+        tableHeight={'100%'}
+      />
     </div>
   );
 };

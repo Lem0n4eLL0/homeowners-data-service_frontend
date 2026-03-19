@@ -95,7 +95,7 @@ export const EditPropertyPopup = () => {
   }, [dispatch]);
 
   return (
-    <div className={clsx(commonStyle['content'], commonStyle['scroll'])}>
+    <div className={clsx(style['content'], commonStyle['content'], commonStyle['scroll'])}>
       <h1 className={commonStyle['content__title']}>Изменить объект недвижимости</h1>
       <div
         className={clsx(

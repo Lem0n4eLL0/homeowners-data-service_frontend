@@ -1,5 +1,6 @@
 import style from './Table.module.scss';
 import clsx from 'clsx';
+import commonStyle from '@styles/common.module.scss';
 
 export type Column<T extends { id: string }> = {
   [K in keyof T]: {
@@ -19,6 +20,7 @@ export type TableProps<T extends { id: string }> = React.TableHTMLAttributes<HTM
   placeholder?: string;
   caption?: string;
   onRowClick?: (item: T) => void;
+  tableHeight?: string | number;
 };
 
 export function Table<T extends { id: string }>({
@@ -29,16 +31,19 @@ export function Table<T extends { id: string }>({
   emptyDataPlaceholder,
   className,
   placeholder,
+  tableHeight,
   onRowClick,
   ...rest
 }: TableProps<T>) {
+  const height = data.length === 0 ? tableHeight : undefined;
   return (
-    <div className={style['table_wrapper']}>
+    <div className={clsx(style['table_wrapper'], commonStyle['scroll'])}>
       <table
         className={clsx(className, style['table'], data.length === 0 && style['empty_table'])}
+        style={{ height: height }}
         {...rest}
       >
-        <caption className={style['caption']}>{caption}</caption>
+        {caption && <caption className={style['caption']}>{caption}</caption>}
         <thead>
           <tr>
             {columns.map(el => (

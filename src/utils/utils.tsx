@@ -1,4 +1,4 @@
-import { APPLICATION_STATUSES, ApplicationStatus } from '@/api/apiTypes';
+import { APPLICATION_STATUSES, ApplicationStatus, User } from '@/api/apiTypes';
 import { Propertie } from '@/common/commonTypes';
 import commonStyle from '@styles/common.module.scss';
 
@@ -54,6 +54,10 @@ export const properieFormatter = (propertie: Propertie): string => {
   ].filter(Boolean);
 
   return parts.join(', ');
+};
+
+export const userFormatter = (user: User): React.ReactNode => {
+  return `${user.firstName} ${user.lastName} ${user.surname}`;
 };
 
 export const statusApplicationFormatter = (status: ApplicationStatus): React.ReactNode => {
