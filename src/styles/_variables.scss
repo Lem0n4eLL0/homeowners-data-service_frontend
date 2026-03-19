@@ -10,6 +10,7 @@ $neutral-450: #464646;
 $neutral-900: #212121;
 $blue-100: #ebf5ff;
 $blue-300: #99b8d6;
+$blue-400: #d1e8ff;
 $blue-500: #004f9e;
 $red-700: #ef2626;
 $red-800: #9e0010;
@@ -23,6 +24,7 @@ $color-text-secondary-2: $neutral-450;
 $color-text-accent: $blue-500;
 $color-text-accent-2: $red-800;
 $color-text-accent-3: $neutral-100;
+$color-text-accent-4: $blue-300;
 $color-text-error: $red-700;
 
 // --- Фон ---
@@ -32,6 +34,7 @@ $color-bg-secondary-2: #f2f2f2;
 $color-bg-accent: $blue-500;
 $color-bg-accent-2: $blue-100;
 $color-bg-accent-3: $blue-300;
+$color-bg-accent-4: $blue-400;
 
 // --- Границы ---
 $color-border-light: $neutral-200;
@@ -71,3 +74,9 @@ $shadow-blue-1: -1px 1px 4px $blue-300;
 
 // === Lines ===
 $line-color-1: $neutral-900;
+$scroll-color: $neutral-400;
+
+// === other ===
+$status-completed-color: #4fd35a;
+$status-processed-color: #d34fc8;
+$status-sent-color: #4f86d3;

@@ -30,7 +30,7 @@ export enum ErrorCode {
 }
 
 export type RequestError = {
-  timestamp: Date;
+  timestamp: string;
   path: string;
   status: number;
   error: string;
@@ -108,4 +108,44 @@ export type PatchProfileRequest = {
   lastName: string;
   surname: string;
   email: string;
+};
+
+export type CreateApplicationsRequest = {
+  propertyId: string;
+  title: string;
+  message: string;
+};
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+};
+
+export const APPLICATION_STATUSES = {
+  SENT: 'Отправлена',
+  PROCESSED: 'В обработке',
+  COMPLETED: 'Выполнена',
+} as const;
+
+export type ApplicationStatus = keyof typeof APPLICATION_STATUSES;
+
+export type Application = {
+  id: string;
+  createdAt: string;
+  createdBy: User;
+  status: ApplicationStatus;
+  propertyId: string;
+  title: string;
+  message: string;
+};
+
+export type ApplicationFull = {
+  id: string;
+  createdAt: string;
+  createdBy: User;
+  status: ApplicationStatus;
+  property: Propertie;
+  title: string;
+  message: string;
 };

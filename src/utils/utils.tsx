@@ -1,4 +1,6 @@
+import { APPLICATION_STATUSES, ApplicationStatus, User } from '@/api/apiTypes';
 import { Propertie } from '@/common/commonTypes';
+import commonStyle from '@styles/common.module.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function assertNever(_: never): void {
@@ -52,6 +54,28 @@ export const properieFormatter = (propertie: Propertie): string => {
   ].filter(Boolean);
 
   return parts.join(', ');
+};
+
+export const userFormatter = (user: User): React.ReactNode => {
+  return `${user.firstName} ${user.lastName} ${user.surname}`;
+};
+
+export const statusApplicationFormatter = (status: ApplicationStatus): React.ReactNode => {
+  const value = APPLICATION_STATUSES[status];
+  switch (status) {
+    case 'COMPLETED':
+      return <span className={commonStyle['status_completed']}>{value}</span>;
+    case 'PROCESSED':
+      return <span className={commonStyle['status_processed']}>{value}</span>;
+    case 'SENT':
+      return <span className={commonStyle['status_sent']}>{value}</span>;
+    default:
+      return value;
+  }
+};
+
+export const textareaFormatter = (value: string): string => {
+  return value.slice(0, 500);
 };
 
 export const codeFormatter = (value: string): Array<string> => {

@@ -1,0 +1,62 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  min-height: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 30px;
+
+  &__status {
+    height: 26px;
+    font-weight: 500;
+    padding: 1px 10px;
+    background-color: $color-bg-secondary;
+    border-radius: 4px;
+    color: $color-text-primary;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+    color: $color-text-primary;
+  }
+
+  &__line {
+    margin: 15px 0;
+  }
+
+  &__infornation {
+    flex-grow: 1;
+    overflow-y: auto;
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  &__date {
+    font-weight: 500;
+    font-size: 16px;
+    align-self: flex-end;
+  }
+}
+
+.status {
+  &_completed {
+    background-color: $status-completed-color;
+  }
+
+  &_processed {
+    background-color: $status-processed-color;
+  }
+
+  &_sent {
+    background-color: $status-sent-color;
+  }
+}

@@ -1,0 +1,24 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 14px;
+
+  &__lable {
+    line-height: 24px;
+    font-weight: 500;
+  }
+
+  &__inputs {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__field {
+    flex-grow: 1;
+    cursor: pointer;
+    max-height: 48px;
+  }
+}

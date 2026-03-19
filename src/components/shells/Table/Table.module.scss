@@ -1,0 +1,137 @@
+@use '@styles/_variables.scss' as *;
+
+.table_wrapper {
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  position: relative;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 600px;
+  height: min-content;
+  border-collapse: separate; /* ← Меняем на separate */
+  border-spacing: 0;
+  background-color: $color-bg-primary;
+  font-size: 16px;
+  color: $color-text-primary;
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: $color-bg-accent;
+}
+
+.caption {
+  width: 100%;
+  font-size: clamp(1rem, 0.8466rem + 0.6818vw, 1.375rem);
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 16px;
+  color: $color-text-primary-2;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+th,
+.column {
+  padding: 14px 20px;
+  font-size: clamp(0.75rem, 0.6477rem + 0.4545vw, 1rem);
+}
+
+th {
+  background-color: $color-bg-primary;
+  border-top: 1px solid $color-bg-accent;
+  border-bottom: 1px solid $color-bg-accent;
+  font-weight: 700;
+  text-align: left;
+}
+
+.column {
+  vertical-align: top;
+}
+
+.empty_cell {
+  background-color: var(--table-emty-color);
+  text-align: center;
+}
+
+.selected_line,
+.selected_line .column,
+.selected_line .empty_cell {
+  background-color: $color-bg-accent-4;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.row:hover,
+.row:nth-child(odd):hover {
+  background-color: $color-bg-accent-4;
+  transition: background-color $transition-duration-extra-small;
+
+  &:hover {
+    background-color: $color-bg-accent-4;
+  }
+}
+
+.row:nth-child(odd) {
+  background-color: $color-bg-accent-2;
+}
+
+.row:last-child {
+  border-bottom: 1px solid $color-bg-accent;
+}
+
+.empty_table,
+.table.empty_table {
+  position: relative;
+}
+
+.empty_data {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-primary-2;
+}
+
+.empty_data_column {
+  font-size: 36px;
+  text-align: center;
+  color: $color-text-primary-2;
+  border-bottom: 1px solid $color-bg-accent;
+}
+
+@media (width <= 1024px) {
+  th,
+  .column {
+    padding: 12px 16px;
+  }
+}
+
+@media (width <= 720px) {
+  th,
+  .column {
+    padding: 10px 12px;
+  }
+}
+
+@media (width <= 600px) {
+  th,
+  .column {
+    padding: 8px;
+  }
+}

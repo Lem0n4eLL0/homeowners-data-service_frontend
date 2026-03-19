@@ -80,9 +80,10 @@ export const isLength =
   };
 
 export const isSet =
-  (message?: string): ValidationFunc<boolean | undefined> =>
-  (value: boolean | undefined) => {
-    return [value ?? true, { message: message ?? `Обязательно для заполнения` }];
+  <T>(message?: string): ValidationFunc<T> =>
+  (value: T) => {
+    const isValueSet = value !== null && value !== undefined && value !== '';
+    return [isValueSet, { message: message ?? `Обязательно для заполнения` }];
   };
 
 export const isEmpty =

@@ -1,0 +1,91 @@
+@use '@styles/_variables.scss' as *;
+
+.select {
+  position: relative;
+  width: 100%;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+
+  &__value {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &_none {
+      color: $color-text-primary-2;
+    }
+  }
+
+  &__arrow {
+    font-size: 10px;
+    padding-left: 5px;
+    transition: transform 0.2s ease;
+    color: $color-text-primary-2;
+
+    &_open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: $color-bg-primary;
+    border: 1px solid $color-border-light;
+    border-radius: 4px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: $shadow-2;
+  }
+
+  &__option {
+    padding: 12px 20px;
+    color: $color-text-primary;
+    font-size: 14px;
+    transition: background-color $transition-duration-extra-small ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: $color-bg-secondary;
+    }
+
+    &_selected {
+      background-color: $color-bg-accent-2;
+      color: $color-text-accent;
+    }
+
+    &_disabled {
+      color: $color-text-primary-2;
+      cursor: default;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &__empty {
+    padding: 12px 20px;
+    color: $color-text-primary-2;
+    text-align: center;
+  }
+}

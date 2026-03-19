@@ -1,0 +1,27 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__lable {
+    font-weight: 500;
+    font-size: 16px;
+    color: $color-text-primary;
+  }
+
+  &__block {
+    min-height: 48px;
+    border: 1px solid $color-border-light;
+    border-radius: 4px;
+    padding: 12px 20px;
+  }
+
+  &__value {
+    font-size: 14px;
+    color: $color-text-primary;
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}

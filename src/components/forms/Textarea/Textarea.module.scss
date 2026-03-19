@@ -1,0 +1,22 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.counter {
+  color: $color-text-primary-2;
+  font-size: 14px;
+  align-self: flex-end;
+
+  &__full {
+    color: $color-text-error;
+  }
+}
+
+.textarea {
+  resize: none;
+  max-height: 144px;
+}

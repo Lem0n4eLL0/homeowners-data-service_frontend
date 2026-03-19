@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '@/services/store';
 import { personalAccountNumberFormatter } from '@/utils/utils';
 import clsx from 'clsx';
 import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import commonStyle from '@styles/common.module.scss';
 import style from './EditPropertyPopup.module.scss';
 
@@ -31,7 +31,6 @@ const editVerificationCodeFormScheme: ValidationScheme<Omit<UpdatePropertieReque
 export const EditPropertyPopup = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
-  const location = useLocation();
   const { id } = useParams();
   const { updatePropertyStatus, deletePropertyStatus } = useAppSelector(selectStatusesUser);
   const property = useAppSelector(selectPropertyCompleted(id!));
@@ -93,10 +92,10 @@ export const EditPropertyPopup = () => {
     return () => {
       void dispatch(resetErrorStatusesUser());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
-    <div className={clsx(commonStyle['content'], commonStyle['scroll'])}>
+    <div className={clsx(style['content'], commonStyle['content'], commonStyle['scroll'])}>
       <h1 className={commonStyle['content__title']}>Изменить объект недвижимости</h1>
       <div
         className={clsx(
