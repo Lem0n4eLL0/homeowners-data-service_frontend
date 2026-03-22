@@ -47,6 +47,29 @@ export const isLetters = (additionalChars: string[] = []): ValidationFunc<string
   };
 };
 
+export const isLettersAndNumbers = (additionalChars: string[] = []): ValidationFunc<string> => {
+  return value => {
+    if (!value) {
+      return [true, { message: '' }];
+    }
+
+    const allowedSpecialChars = new Set(additionalChars);
+
+    const isValid = value.split('').every(char => {
+      const isLetter = /^[a-zA-Zа-яА-ЯёЁ0-9]$/.test(char);
+      const isAllowedSpecial = allowedSpecialChars.has(char);
+      return isLetter || isAllowedSpecial;
+    });
+
+    const endMessage =
+      additionalChars.length !== 0 ? ` и символов: [${additionalChars.join()}]` : '';
+    return [
+      isValid,
+      { message: isValid ? '' : `Значение может состоять только из букв, цифр${endMessage}` },
+    ];
+  };
+};
+
 export const isNumbers = (additionalChars: string[] = []): ValidationFunc<string> => {
   return value => {
     if (!value) {

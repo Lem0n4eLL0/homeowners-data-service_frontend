@@ -1,9 +1,11 @@
 import { APPLICATION_STATUSES, ApplicationStatus, RequestStatus } from '@/api/apiTypes';
 import { DateRange, Propertie, User } from './commonTypes';
-import { composeValidatorsAND } from '@/hooks/useValidator';
+import { composeValidatorsAND, composeValidatorsOR } from '@/hooks/useValidator';
 import {
   isAcceptableCountSymbRange,
+  isEmpty,
   isLetters,
+  isLettersAndNumbers,
   isNumbers,
   isSet,
   likeRegExp,
@@ -35,9 +37,12 @@ export const CHECK_CODE_REGEXP = /^\d{6}$/;
 
 //Валидаторы
 export const VALIDATORS = {
-  STREET: composeValidatorsAND(isLetters(['-', ' ', '.']), isAcceptableCountSymbRange(1, 200)),
-  HOUSE_NUMBER: composeValidatorsAND(isNumbers(), isAcceptableCountSymbRange(1, 20)),
-  CORPUS: composeValidatorsAND(isLetters(['/']), isAcceptableCountSymbRange(0, 20)),
+  STREET: composeValidatorsAND(
+    isLettersAndNumbers(['-', ' ', '.']),
+    isAcceptableCountSymbRange(1, 200)
+  ),
+  HOUSE_NUMBER: composeValidatorsAND(isLettersAndNumbers(), isAcceptableCountSymbRange(1, 20)),
+  CORPUS: composeValidatorsAND(isLettersAndNumbers(['/']), isAcceptableCountSymbRange(0, 20)),
   FLAT_NUMBER: composeValidatorsAND(isNumbers(), isAcceptableCountSymbRange(1, 20)),
   PERSONAL_ACCOUNT_NUMBER: likeRegExp(
     PERSONAL_ACCOUT_NUMBER_REGEXP,
@@ -46,10 +51,7 @@ export const VALIDATORS = {
   LAST_NAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 100)),
   FIRST_NAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 100)),
   SURNAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(0, 100)),
-  EMAIL: composeValidatorsAND(
-    isAcceptableCountSymbRange(0, 100),
-    likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')
-  ),
+  EMAIL: composeValidatorsOR(isEmpty(), likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')),
   PROPERTY_ID: isSet<Propertie | null>('Выберете объект недвижимости'),
   APPLICATIONS: {
     TITLE: isAcceptableCountSymbRange(1, 100),
