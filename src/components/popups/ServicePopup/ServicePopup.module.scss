@@ -7,6 +7,10 @@
   align-items: center;
   padding: 25px 30px;
 
+  &__price_wrapper {
+    padding: 10px 0;
+  }
+
   &__status {
     height: 26px;
     font-weight: 500;

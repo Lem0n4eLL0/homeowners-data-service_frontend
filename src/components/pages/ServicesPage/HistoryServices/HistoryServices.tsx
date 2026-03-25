@@ -1,38 +1,64 @@
 import { FormElement } from '@/components/forms/FormElement';
-import style from './HistoryApplications.module.scss';
+import style from './HistoryServices.module.scss';
 import commonStyle from '@styles/common.module.scss';
 
 import { AppSelect } from '@/components/forms/AppSelect';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { selectUser } from '@/services/slices/user';
-import { properieFormatter, statusApplicationFormatter, userFormatter } from '@/utils/utils';
+import { properieFormatter, statusServicesFormatter } from '@/utils/utils';
 import { OptionType } from '@/components/forms/AppSelect/AppSelect';
-import { DateRange, Propertie } from '@/common/commonTypes';
+import { DateRange, Propertie, ServiceStatus, UserServicesFull } from '@/common/commonTypes';
 import { useEffect, useState } from 'react';
-import { APPLICATION_STATUSES, ApplicationFull } from '@/api/apiTypes';
-import { emptyOption, FilteredStatus, STATUS_APPLICATION_BASE_OPTIONS } from '@/common/constants';
+import { APPLICATION_STATUSES, User } from '@/api/apiTypes';
+import {
+  emptyOption,
+  FilteredServiceStatus,
+  FilteredStatus,
+  STATUS_SERVICE_BASE_OPTIONS,
+} from '@/common/constants';
 import { Column, Table } from '@/components/shells/Table';
 import { format } from 'date-fns';
-import {
-  getApplicationHistoryApplication,
-  selectDataApplication,
-  selectIsApplicationsInitializing,
-  selectStatusesApplication,
-} from '@/services/slices/applications';
 import { Loader } from '@/components/shells/Loader';
 import clsx from 'clsx';
 import { useFilter } from '@/hooks/useFilter';
-import { filterApplicationByStatus, filterByDateRange, filterByPropertyID } from '@/common/filters';
+import { filterByDateRange, filterByPropertyID, filterServiceByStatus } from '@/common/filters';
 import { DateRangePicker } from '@/components/forms/DateRangePicker';
 import { useLocation, useNavigate } from 'react-router';
+import {
+  getServicesHistoryServices,
+  selectDataServices,
+  selectStatusesServices,
+} from '@/services/slices/services';
 
-type ApplicationFilterValues = {
+type ServicesFilterValues = {
   date: DateRange | null;
-  status: FilteredStatus | null;
+  status: FilteredServiceStatus | null;
   property: Propertie | null;
 };
 
-const tableApplicationHistoryColumns: Column<ApplicationFull>[] = [
+type TableServicesHistory = {
+  id: string;
+  createdAt: string;
+  createdBy: User;
+  serviceTitle: string;
+  servicePrice: number;
+  property: Propertie;
+  status: ServiceStatus;
+};
+
+const formattedToTableData = (data: UserServicesFull[]): TableServicesHistory[] => {
+  return data.map(el => ({
+    id: el.id,
+    createdAt: el.createdAt,
+    createdBy: el.createdBy,
+    serviceTitle: el.service.title,
+    servicePrice: el.service.price,
+    property: el.property,
+    status: el.status,
+  }));
+};
+
+const tableServicesHistoryColumns: Column<TableServicesHistory>[] = [
   {
     key: 'createdAt',
     title: 'Дата',
@@ -41,16 +67,15 @@ const tableApplicationHistoryColumns: Column<ApplicationFull>[] = [
   {
     key: 'status',
     title: 'Статус',
-    render: value => statusApplicationFormatter(value),
+    render: value => statusServicesFormatter(value),
   },
   {
-    key: 'title',
-    title: 'Тема',
+    key: 'serviceTitle',
+    title: 'Услуга',
   },
   {
-    key: 'createdBy',
-    title: 'ФИО',
-    render: userFormatter,
+    key: 'servicePrice',
+    title: 'Стоимость',
   },
   {
     key: 'property',
@@ -59,16 +84,16 @@ const tableApplicationHistoryColumns: Column<ApplicationFull>[] = [
   },
 ];
 
-export const HistoryApplications = () => {
+export const HistoryServices = () => {
   const dispatch = useAppDispatch();
-  const { getApplicationHistory } = useAppSelector(selectStatusesApplication);
-  const isApplicationsInitializing = useAppSelector(selectIsApplicationsInitializing);
+  const { getServicesHistory } = useAppSelector(selectStatusesServices);
+  const { servicesHistory } = useAppSelector(selectDataServices);
   const { properties } = useAppSelector(selectUser);
-  const { applications } = useAppSelector(selectDataApplication);
+
   const location = useLocation();
   const navigator = useNavigate();
 
-  const applicationOpenHandler = (item: ApplicationFull) => {
+  const servicesOpenHandler = (item: TableServicesHistory) => {
     void navigator(`${item.id}`, {
       state: {
         backgroundLocation: location,
@@ -76,21 +101,23 @@ export const HistoryApplications = () => {
     });
   };
 
-  const [filterValues, setFilterValues] = useState<ApplicationFilterValues>({
+  const [filterValues, setFilterValues] = useState<ServicesFilterValues>({
     date: { from: null, to: null },
     status: null,
     property: null,
   });
 
-  const filter = useFilter({ data: applications });
+  const tableData = formattedToTableData(servicesHistory);
 
+  const filter = useFilter({ data: tableData });
+  const isServicesInitializing = getServicesHistory.status !== 'READY';
   useEffect(() => {
-    if (!isApplicationsInitializing) {
-      void dispatch(getApplicationHistoryApplication());
+    if (!isServicesInitializing) {
+      void dispatch(getServicesHistoryServices());
     }
-  }, [dispatch, isApplicationsInitializing]);
+  }, [dispatch, isServicesInitializing]);
 
-  if (getApplicationHistory.status === 'PENDING') {
+  if (getServicesHistory.status === 'PENDING') {
     return (
       <div className={style['content']}>
         <Loader loaderClass={clsx(commonStyle['loader_bg'], style['loader'])} />
@@ -98,7 +125,7 @@ export const HistoryApplications = () => {
     );
   }
 
-  if (getApplicationHistory.status === 'ERROR') {
+  if (getServicesHistory.status === 'ERROR') {
     return <div className={style['content']}>Error</div>;
   }
 
@@ -110,10 +137,7 @@ export const HistoryApplications = () => {
     })),
   ];
 
-  const statusApplicationOptions = [
-    emptyOption<FilteredStatus>(),
-    ...STATUS_APPLICATION_BASE_OPTIONS,
-  ];
+  const statusServiceOptions = [emptyOption<FilteredStatus>(), ...STATUS_SERVICE_BASE_OPTIONS];
 
   const propertyFilterHandler = (value: OptionType<Propertie> | undefined) => {
     setFilterValues(prev => ({
@@ -127,13 +151,13 @@ export const HistoryApplications = () => {
     }
   };
 
-  const statusFilterHandler = (value: OptionType<FilteredStatus> | undefined) => {
+  const statusFilterHandler = (value: OptionType<FilteredServiceStatus> | undefined) => {
     setFilterValues(prev => ({
       ...prev,
       status: value?.value ?? null,
     }));
     if (value && value?.value?.status) {
-      filter.setFilter('status', filterApplicationByStatus(value.value.status));
+      filter.setFilter('status', filterServiceByStatus(value.value.status));
     } else {
       filter.removeFilter('status');
     }
@@ -169,7 +193,7 @@ export const HistoryApplications = () => {
                   }
                 : null
             }
-            options={statusApplicationOptions}
+            options={statusServiceOptions}
             onChange={statusFilterHandler}
             placeholder={'Выберете статус'}
           ></AppSelect>
@@ -187,12 +211,12 @@ export const HistoryApplications = () => {
           ></AppSelect>
         </FormElement>
       </div>
-      <Table<ApplicationFull>
-        columns={tableApplicationHistoryColumns}
+      <Table<TableServicesHistory>
+        columns={tableServicesHistoryColumns}
         data={filter.filteredData}
-        onRowClick={applicationOpenHandler}
         className={style['content__table']}
         tableHeight={'100%'}
+        onRowClick={servicesOpenHandler}
       />
     </div>
   );

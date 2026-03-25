@@ -1,0 +1,18 @@
+.content {
+  padding: 30px;
+  min-height: 100%;
+
+  &__block {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    gap: 25px;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+
+.content .content__error {
+  margin-bottom: 5px;
+}

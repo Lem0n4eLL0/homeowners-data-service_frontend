@@ -116,3 +116,24 @@ export type DTORequestError = {
   message: string;
   requestId: string;
 };
+
+export type DTOServices = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+};
+
+export type DTOCreateUserServicesRequest = {
+  propertyId: string;
+  additionalServiceId: string;
+};
+
+export type DTOUserServices = {
+  id: string;
+  createdAt: string;
+  additionalServiceId: string;
+  personalDataDto: DTOUser;
+  property: DTOPropertie;
+  status: string;
+};
