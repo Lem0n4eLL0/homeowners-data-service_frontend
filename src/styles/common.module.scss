@@ -188,6 +188,16 @@
     color: $status-sent-color;
     text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
   }
+
+  &_paid {
+    color: $status-paid-color;
+    text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
+  }
+
+  &_not_paid {
+    color: $status-not-paid-color;
+    text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
+  }
 }
 
 .status__block {

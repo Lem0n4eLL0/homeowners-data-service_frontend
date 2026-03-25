@@ -64,3 +64,25 @@ export type UserServicesFull = {
   property: Propertie;
   status: ServiceStatus;
 };
+
+export const ACCRUALS_STATUSES = {
+  PAID: 'Оплачено',
+  NOT_PAID: 'Не оплачено',
+} as const;
+
+export type AccrualStatus = keyof typeof ACCRUALS_STATUSES;
+
+export type AccrualTopic = {
+  name: string;
+  code: string;
+};
+
+export type Accruals = {
+  id: string;
+  createdAt: string;
+  accrualTopic: Array<AccrualTopic>;
+  accrualInterval: string;
+  totalSum: number;
+  paidStatus: AccrualStatus;
+  propertyId: string;
+};

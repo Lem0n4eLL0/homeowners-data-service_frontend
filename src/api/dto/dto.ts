@@ -137,3 +137,18 @@ export type DTOUserServices = {
   property: DTOPropertie;
   status: string;
 };
+
+export type DTOAccrualTopic = {
+  name: string;
+  code: string;
+};
+
+export type DTOAccruals = {
+  id: string;
+  createdAt: string;
+  services: Array<DTOAccrualTopic>;
+  date_s: string;
+  total_sum: number;
+  paid_status: string;
+  propertyId: string;
+};

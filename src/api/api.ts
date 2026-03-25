@@ -29,6 +29,7 @@ import {
   registrationProfileResponceMapper,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
+  toAccrualsFromDTOMapper,
   toApplicationFullFromDTOMapper,
   toPropertyFromDTOMapper,
   toServicesFromDTOMapper,
@@ -39,6 +40,7 @@ import {
   verificationCodeResponceMapper,
 } from './dto/mappers';
 import {
+  DTOAccruals,
   DTOApplicationFull,
   DTOProfileResponce,
   DTOPropertie,
@@ -202,6 +204,15 @@ export const getUserServices = () => {
     headers: baseHeaders,
   }).then(res => {
     return res.map(toUserServicesFromDTOMapper);
+  });
+};
+
+export const getAccruals = () => {
+  return fetchWithRefresh<Array<DTOAccruals>>(bulidURL(`accruals`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return res.map(toAccrualsFromDTOMapper);
   });
 };
 
