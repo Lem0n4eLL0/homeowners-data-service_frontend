@@ -1,11 +1,11 @@
-import { RequestError } from '@/api/apiTypes';
+import { RequestError, User } from '@/api/apiTypes';
 
 export type PageRequestError = {
   isError: boolean;
   error?: RequestError | undefined;
 };
 
-export type User = {
+export type FullUser = {
   id: string;
   firstName: string;
   lastName: string;
@@ -30,4 +30,37 @@ export type UpdatePropertieRequest = Propertie;
 export type DateRange = {
   from: Date | null;
   to: Date | null;
+};
+
+export const SERVICE_STATUSES = {
+  SENT: 'Отправлена',
+  PROCESSED: 'В обработке',
+  COMPLETED: 'Выполнена',
+} as const;
+
+export type ServiceStatus = keyof typeof SERVICE_STATUSES;
+
+export type Services = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+};
+
+export type UserServices = {
+  id: string;
+  createdAt: string;
+  serviceId: string;
+  createdBy: User;
+  property: Propertie;
+  status: ServiceStatus;
+};
+
+export type UserServicesFull = {
+  id: string;
+  createdAt: string;
+  service: Services;
+  createdBy: User;
+  property: Propertie;
+  status: ServiceStatus;
 };

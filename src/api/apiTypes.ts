@@ -149,3 +149,8 @@ export type ApplicationFull = {
   title: string;
   message: string;
 };
+
+export type CreateUserServicesRequest = {
+  propertyId: string;
+  serviceId: string;
+};

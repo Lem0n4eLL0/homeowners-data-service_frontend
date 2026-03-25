@@ -1,5 +1,5 @@
 import { APPLICATION_STATUSES, ApplicationStatus, RequestStatus } from '@/api/apiTypes';
-import { DateRange, Propertie, User } from './commonTypes';
+import { DateRange, FullUser, Propertie, SERVICE_STATUSES, ServiceStatus } from './commonTypes';
 import { composeValidatorsAND, composeValidatorsOR } from '@/hooks/useValidator';
 import {
   isAcceptableCountSymbRange,
@@ -19,7 +19,7 @@ export const READY_REQUEST_STATUS: RequestStatus = {
   error: undefined,
 };
 
-export const EMPTY_USER: User = {
+export const EMPTY_USER: FullUser = {
   id: '',
   firstName: '',
   lastName: '',
@@ -67,10 +67,18 @@ export const emptyOption = <T extends { id: string }>(): OptionType<T> => ({
 
 export type FilteredStatus = { id: string; status: ApplicationStatus };
 export type FilteredDateRange = { id: string; date: DateRange };
+export type FilteredServiceStatus = { id: string; status: ServiceStatus };
 
 export const STATUS_APPLICATION_BASE_OPTIONS = [
   ...Object.keys(APPLICATION_STATUSES).map<OptionType<FilteredStatus>>((el, index) => ({
     value: { id: String(index), status: el as ApplicationStatus },
     label: APPLICATION_STATUSES[el as ApplicationStatus],
+  })),
+];
+
+export const STATUS_SERVICE_BASE_OPTIONS = [
+  ...Object.keys(SERVICE_STATUSES).map<OptionType<FilteredServiceStatus>>((el, index) => ({
+    value: { id: String(index), status: el as ServiceStatus },
+    label: SERVICE_STATUSES[el as ServiceStatus],
   })),
 ];

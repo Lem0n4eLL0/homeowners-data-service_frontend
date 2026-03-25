@@ -190,6 +190,24 @@
   }
 }
 
+.status__block {
+  &_completed {
+    background-color: $status-completed-color;
+  }
+
+  &_processed {
+    background-color: $status-processed-color;
+  }
+
+  &_sent {
+    background-color: $status-sent-color;
+  }
+
+  &_other {
+    background-color: $color-bg-secondary;
+  }
+}
+
 @keyframes loader-bg-animation {
   0% {
     background-position: 0% 50%;

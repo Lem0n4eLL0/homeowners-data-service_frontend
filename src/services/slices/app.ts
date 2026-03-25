@@ -11,15 +11,18 @@ export type ProfilePageStates =
   | 'UpdatingProfileInformation';
 
 export type ApplicationsPageStates = 'ApplicationsPageCreate' | 'ApplicationsPageHistory';
+export type ServicesPageStates = 'ServicesPageCreate' | 'ServicesPageHistory';
 
 type ProfileState = {
   profilePageState: ProfilePageStates;
   applicationsPageState: ApplicationsPageStates;
+  servicesPageState: ServicesPageStates;
 };
 
 const initialState: ProfileState = {
   profilePageState: 'ProfileNotRegistered',
   applicationsPageState: 'ApplicationsPageCreate',
+  servicesPageState: 'ServicesPageCreate',
 };
 
 const appSlice = createSlice({
@@ -34,6 +37,9 @@ const appSlice = createSlice({
         state.applicationsPageState = action.payload;
       }
     ),
+    setServicesPageState: create.reducer((state, action: PayloadAction<ServicesPageStates>) => {
+      state.servicesPageState = action.payload;
+    }),
   }),
 
   extraReducers: builder => {
@@ -54,11 +60,14 @@ const appSlice = createSlice({
   selectors: {
     selectProfilePageState: state => state.profilePageState,
     selectApplicationsPageState: state => state.applicationsPageState,
+    selectServicesPageState: state => state.servicesPageState,
   },
 });
 
 export const appReduser = appSlice.reducer;
 
-export const { setProfilePageState, setApplicationsPageState } = appSlice.actions;
+export const { setProfilePageState, setApplicationsPageState, setServicesPageState } =
+  appSlice.actions;
 
-export const { selectProfilePageState, selectApplicationsPageState } = appSlice.selectors;
+export const { selectProfilePageState, selectApplicationsPageState, selectServicesPageState } =
+  appSlice.selectors;

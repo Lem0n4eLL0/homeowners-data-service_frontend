@@ -8,6 +8,7 @@ import {
 } from './apiHelp';
 import {
   CreateApplicationsRequest,
+  CreateUserServicesRequest,
   GetMeResponce,
   HTTP_METHODS,
   PatchProfileRequest,
@@ -20,6 +21,7 @@ import {
 import {
   createApplicationsResponceMapper,
   createPropertyToDTOMapper,
+  createUserServicesRequestMapper,
   getMeResponceMapper,
   profileResponceMapper,
   refreshTokenResponceMapper,
@@ -29,6 +31,8 @@ import {
   sendVerificationCodeResponceMapper,
   toApplicationFullFromDTOMapper,
   toPropertyFromDTOMapper,
+  toServicesFromDTOMapper,
+  toUserServicesFromDTOMapper,
   updateProfileRequestMapper,
   updatePropertyToDTOMapper,
   verificationCodeRequestMapper,
@@ -40,6 +44,8 @@ import {
   DTOPropertie,
   DTORegistrationProfileResponce,
   DTOSendVerificationCodeResponce,
+  DTOServices,
+  DTOUserServices,
   DTOVerificationCodeResponce,
 } from './dto/dto';
 import { CreatePropertieRequest, UpdatePropertieRequest } from '@/common/commonTypes';
@@ -168,6 +174,34 @@ export const getApplicationsHistory = () => {
     headers: baseHeaders,
   }).then(res => {
     return res.map(el => toApplicationFullFromDTOMapper(el));
+  });
+};
+
+export const getServices = () => {
+  return fetchWithRefresh<Array<DTOServices>>(bulidURL(`services`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return res.map(toServicesFromDTOMapper);
+  });
+};
+
+export const createUserServices = (body: CreateUserServicesRequest) => {
+  return fetchWithRefresh<DTOUserServices>(bulidURL(`services`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(createUserServicesRequestMapper(body)),
+  }).then(res => {
+    return toUserServicesFromDTOMapper(res);
+  });
+};
+
+export const getUserServices = () => {
+  return fetchWithRefresh<Array<DTOUserServices>>(bulidURL(`services/my`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return res.map(toUserServicesFromDTOMapper);
   });
 };
 

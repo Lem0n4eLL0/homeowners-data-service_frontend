@@ -1,9 +1,17 @@
-import { CreatePropertieRequest, Propertie, UpdatePropertieRequest } from '@/common/commonTypes';
+import {
+  CreatePropertieRequest,
+  Propertie,
+  Services,
+  ServiceStatus,
+  UpdatePropertieRequest,
+  UserServices,
+} from '@/common/commonTypes';
 import {
   Application,
   ApplicationFull,
   ApplicationStatus,
   CreateApplicationsRequest,
+  CreateUserServicesRequest,
   GetMeResponce,
   PatchProfileRequest,
   ProfileResponce,
@@ -22,6 +30,7 @@ import {
   DTOApplicationFull,
   DTOCreateApplicationsResponce,
   DTOCreatePropertieRequest,
+  DTOCreateUserServicesRequest,
   DTOGetMeResponce,
   DTOPatchProfileRequest,
   DTOProfileResponce,
@@ -32,8 +41,10 @@ import {
   DTORequestError,
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
+  DTOServices,
   DTOUpdatePropertieRequest,
   DTOUser,
+  DTOUserServices,
   DTOVerificationCodeRequest,
   DTOVerificationCodeResponce,
 } from './dto';
@@ -222,6 +233,35 @@ export const toUserFromDTOMapper = (dto: DTOUser): User => {
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
+  };
+};
+
+export const toServicesFromDTOMapper = (dto: DTOServices): Services => {
+  return {
+    id: dto.id,
+    title: dto.title,
+    description: dto.description,
+    price: dto.price,
+  };
+};
+
+export const toUserServicesFromDTOMapper = (dto: DTOUserServices): UserServices => {
+  return {
+    id: dto.id,
+    createdAt: dto.createdAt,
+    serviceId: dto.additionalServiceId,
+    createdBy: toUserFromDTOMapper(dto.personalDataDto),
+    property: toPropertyFromDTOMapper(dto.property),
+    status: dto.status as ServiceStatus,
+  };
+};
+
+export const createUserServicesRequestMapper = (
+  value: CreateUserServicesRequest
+): DTOCreateUserServicesRequest => {
+  return {
+    propertyId: value.propertyId,
+    additionalServiceId: value.serviceId,
   };
 };
 

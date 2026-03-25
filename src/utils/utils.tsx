@@ -74,6 +74,20 @@ export const statusApplicationFormatter = (status: ApplicationStatus): React.Rea
   }
 };
 
+export const statusServicesFormatter = (status: ApplicationStatus): React.ReactNode => {
+  const value = APPLICATION_STATUSES[status];
+  switch (status) {
+    case 'COMPLETED':
+      return <span className={commonStyle['status_completed']}>{value}</span>;
+    case 'PROCESSED':
+      return <span className={commonStyle['status_processed']}>{value}</span>;
+    case 'SENT':
+      return <span className={commonStyle['status_sent']}>{value}</span>;
+    default:
+      return value;
+  }
+};
+
 export const textareaFormatter = (value: string): string => {
   return value.slice(0, 500);
 };
@@ -88,6 +102,12 @@ export const codeFormatter = (value: string): Array<string> => {
     })
     .slice(0, 6);
   return result;
+};
+
+export const priceFormatter = (value: number): string => {
+  const arr = String(value).split('.');
+
+  return `${arr[0]}.${arr[1] ?? '00'}₽`;
 };
 
 export const personalAccountNumberFormatter = (value: string): string => {
