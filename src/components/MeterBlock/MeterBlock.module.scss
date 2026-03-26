@@ -1,0 +1,40 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  padding: 20px 12px;
+
+  // min-width: 200px;
+  max-width: 254px;
+  max-height: 84px;
+  gap: 12px;
+  border-radius: 4px;
+  align-items: center;
+  border: 1px solid $color-border-light;
+  color: $color-text-primary;
+
+  &__icon {
+    width: 40px;
+    aspect-ratio: 1 / 1;
+  }
+
+  &__information {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  &__serial_number {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  &__type {
+    font-size: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
