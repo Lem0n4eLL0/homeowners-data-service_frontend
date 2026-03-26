@@ -1,9 +1,11 @@
 import { APPLICATION_STATUSES, ApplicationStatus, RequestStatus } from '@/api/apiTypes';
-import { DateRange, Propertie, User } from './commonTypes';
-import { composeValidatorsAND } from '@/hooks/useValidator';
+import { DateRange, FullUser, Propertie, SERVICE_STATUSES, ServiceStatus } from './commonTypes';
+import { composeValidatorsAND, composeValidatorsOR } from '@/hooks/useValidator';
 import {
   isAcceptableCountSymbRange,
+  isEmpty,
   isLetters,
+  isLettersAndNumbers,
   isNumbers,
   isSet,
   likeRegExp,
@@ -17,7 +19,7 @@ export const READY_REQUEST_STATUS: RequestStatus = {
   error: undefined,
 };
 
-export const EMPTY_USER: User = {
+export const EMPTY_USER: FullUser = {
   id: '',
   firstName: '',
   lastName: '',
@@ -35,9 +37,12 @@ export const CHECK_CODE_REGEXP = /^\d{6}$/;
 
 //Валидаторы
 export const VALIDATORS = {
-  STREET: composeValidatorsAND(isLetters(['-', ' ', '.']), isAcceptableCountSymbRange(1, 200)),
-  HOUSE_NUMBER: composeValidatorsAND(isNumbers(), isAcceptableCountSymbRange(1, 20)),
-  CORPUS: composeValidatorsAND(isLetters(['/']), isAcceptableCountSymbRange(0, 20)),
+  STREET: composeValidatorsAND(
+    isLettersAndNumbers(['-', ' ', '.']),
+    isAcceptableCountSymbRange(1, 200)
+  ),
+  HOUSE_NUMBER: composeValidatorsAND(isLettersAndNumbers(), isAcceptableCountSymbRange(1, 20)),
+  CORPUS: composeValidatorsAND(isLettersAndNumbers(['/']), isAcceptableCountSymbRange(0, 20)),
   FLAT_NUMBER: composeValidatorsAND(isNumbers(), isAcceptableCountSymbRange(1, 20)),
   PERSONAL_ACCOUNT_NUMBER: likeRegExp(
     PERSONAL_ACCOUT_NUMBER_REGEXP,
@@ -46,10 +51,7 @@ export const VALIDATORS = {
   LAST_NAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 100)),
   FIRST_NAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(1, 100)),
   SURNAME: composeValidatorsAND(isLetters(['-']), isAcceptableCountSymbRange(0, 100)),
-  EMAIL: composeValidatorsAND(
-    isAcceptableCountSymbRange(0, 100),
-    likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')
-  ),
+  EMAIL: composeValidatorsOR(isEmpty(), likeRegExp(EMAIL_REGEXP, 'Неверный формат почты')),
   PROPERTY_ID: isSet<Propertie | null>('Выберете объект недвижимости'),
   APPLICATIONS: {
     TITLE: isAcceptableCountSymbRange(1, 100),
@@ -65,10 +67,18 @@ export const emptyOption = <T extends { id: string }>(): OptionType<T> => ({
 
 export type FilteredStatus = { id: string; status: ApplicationStatus };
 export type FilteredDateRange = { id: string; date: DateRange };
+export type FilteredServiceStatus = { id: string; status: ServiceStatus };
 
 export const STATUS_APPLICATION_BASE_OPTIONS = [
   ...Object.keys(APPLICATION_STATUSES).map<OptionType<FilteredStatus>>((el, index) => ({
     value: { id: String(index), status: el as ApplicationStatus },
     label: APPLICATION_STATUSES[el as ApplicationStatus],
+  })),
+];
+
+export const STATUS_SERVICE_BASE_OPTIONS = [
+  ...Object.keys(SERVICE_STATUSES).map<OptionType<FilteredServiceStatus>>((el, index) => ({
+    value: { id: String(index), status: el as ServiceStatus },
+    label: SERVICE_STATUSES[el as ServiceStatus],
   })),
 ];

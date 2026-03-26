@@ -1,5 +1,5 @@
 import { RequestError, RequestStatus } from '@/api/apiTypes';
-import { User } from '@/common/commonTypes';
+import { FullUser } from '@/common/commonTypes';
 import { EMPTY_USER, READY_REQUEST_STATUS } from '@/common/constants';
 import {
   asyncThunkCreator,
@@ -26,7 +26,7 @@ const createSlice = buildCreateSlice({
 type UserState = {
   isProfileRegistered: boolean;
   data: {
-    user: User;
+    user: FullUser;
   };
   statuses: {
     getProfileStatus: RequestStatus;

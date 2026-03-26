@@ -8,7 +8,7 @@ const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
 });
 
-type ProfileState = {
+type ApplicationState = {
   isApplicationsInitializing: boolean;
   data: {
     applications: Array<ApplicationFull>;
@@ -19,7 +19,7 @@ type ProfileState = {
   };
 };
 
-const initialState: ProfileState = {
+const initialState: ApplicationState = {
   isApplicationsInitializing: false,
   data: {
     applications: [],

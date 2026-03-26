@@ -1,9 +1,21 @@
-import { CreatePropertieRequest, Propertie, UpdatePropertieRequest } from '@/common/commonTypes';
+import {
+  Accruals,
+  AccrualStatus,
+  AccrualTopic,
+  CreatePropertieRequest,
+  Period,
+  Propertie,
+  Services,
+  ServiceStatus,
+  UpdatePropertieRequest,
+  UserServices,
+} from '@/common/commonTypes';
 import {
   Application,
   ApplicationFull,
   ApplicationStatus,
   CreateApplicationsRequest,
+  CreateUserServicesRequest,
   GetMeResponce,
   PatchProfileRequest,
   ProfileResponce,
@@ -18,12 +30,16 @@ import {
   VerificationCodeResponce,
 } from '../apiTypes';
 import {
+  DTOAccruals,
+  DTOAccrualTopic,
   DTOApplication,
   DTOApplicationFull,
   DTOCreateApplicationsResponce,
   DTOCreatePropertieRequest,
+  DTOCreateUserServicesRequest,
   DTOGetMeResponce,
   DTOPatchProfileRequest,
+  DTOPeriod,
   DTOProfileResponce,
   DTOPropertie,
   DTORefreshTokenResponce,
@@ -32,8 +48,10 @@ import {
   DTORequestError,
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
+  DTOServices,
   DTOUpdatePropertieRequest,
   DTOUser,
+  DTOUserServices,
   DTOVerificationCodeRequest,
   DTOVerificationCodeResponce,
 } from './dto';
@@ -222,6 +240,62 @@ export const toUserFromDTOMapper = (dto: DTOUser): User => {
     firstName: dto.firstName,
     lastName: dto.lastName,
     surname: dto.surname,
+  };
+};
+
+export const toServicesFromDTOMapper = (dto: DTOServices): Services => {
+  return {
+    id: dto.id,
+    title: dto.title,
+    description: dto.description,
+    price: dto.price,
+  };
+};
+
+export const toUserServicesFromDTOMapper = (dto: DTOUserServices): UserServices => {
+  return {
+    id: dto.id,
+    createdAt: dto.createdAt,
+    serviceId: dto.additionalServiceId,
+    createdBy: toUserFromDTOMapper(dto.personalDataDto),
+    property: toPropertyFromDTOMapper(dto.property),
+    status: dto.status as ServiceStatus,
+  };
+};
+
+export const createUserServicesRequestMapper = (
+  value: CreateUserServicesRequest
+): DTOCreateUserServicesRequest => {
+  return {
+    propertyId: value.propertyId,
+    additionalServiceId: value.serviceId,
+  };
+};
+
+export const toAccrualsFromDTOMapper = (dto: DTOAccruals): Accruals => {
+  return {
+    id: dto.id,
+    createdAt: dto.createdAt,
+    accrualTopic: dto.services.map(toAccrualTopicFromDTOMapper),
+    accrualInterval: toPeriodFromDTOMapper(dto.period),
+    totalSum: dto.totalSum,
+    paidAmount: dto.paidAmount,
+    paidStatus: dto.paidStatus as AccrualStatus,
+    propertyId: dto.propertyId,
+  };
+};
+
+export const toPeriodFromDTOMapper = (dto: DTOPeriod): Period => {
+  return {
+    start: dto.start,
+    end: dto.end,
+  };
+};
+
+export const toAccrualTopicFromDTOMapper = (dto: DTOAccrualTopic): AccrualTopic => {
+  return {
+    name: dto.name,
+    code: dto.code,
   };
 };
 

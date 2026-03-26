@@ -2,18 +2,23 @@ import style from './InformationField.module.scss';
 
 type IInformationField = {
   lable?: React.ReactNode;
+  isStandartWrapper?: boolean;
   children: React.ReactNode;
 };
 
 export const InformationField = (props: IInformationField) => {
-  const { children, lable } = props;
+  const { children, isStandartWrapper = true, lable } = props;
 
   return (
     <div className={style['content']}>
-      <span className={style['content__lable']}>{lable}</span>
-      <div className={style['content__block']}>
-        <span className={style['content__value']}>{children}</span>
-      </div>
+      {lable ?? <span className={style['content__lable']}>{lable}</span>}
+      {isStandartWrapper ? (
+        <div className={style['content__block']}>
+          <span className={style['content__value']}>{children}</span>
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
 };

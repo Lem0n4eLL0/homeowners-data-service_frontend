@@ -174,19 +174,59 @@
 }
 
 .status {
+  &_completed,
+  &_processed,
+  &_sent,
+  &_paid,
+  &_not_paid {
+    text-wrap: noWrap;
+    text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
+  }
+
   &_completed {
     color: $status-completed-color;
-    text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
   }
 
   &_processed {
     color: $status-processed-color;
-    text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
   }
 
   &_sent {
     color: $status-sent-color;
-    text-shadow: 0 0 2px rgb(0, 0, 0, 0.2);
+  }
+
+  &_paid {
+    color: $status-paid-color;
+  }
+
+  &_not_paid {
+    color: $status-not-paid-color;
+  }
+}
+
+.status__block {
+  &_completed {
+    background-color: $status-completed-color;
+  }
+
+  &_processed {
+    background-color: $status-processed-color;
+  }
+
+  &_sent {
+    background-color: $status-sent-color;
+  }
+
+  &_other {
+    background-color: $color-bg-secondary;
+  }
+
+  &_paid {
+    background-color: $status-paid-color;
+  }
+
+  &_not_paid {
+    background-color: $status-not-paid-color;
   }
 }
 

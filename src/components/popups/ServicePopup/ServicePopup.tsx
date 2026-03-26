@@ -1,25 +1,26 @@
+import { Line } from '@/components/shells/Line';
 import clsx from 'clsx';
-import commonStyle from '@styles/common.module.scss';
-import style from './ApplicationPopup.module.scss';
-
 import { useParams } from 'react-router';
-import { useAppSelector } from '@/services/store';
-import { selectApplicationCompleted } from '@/services/slices/applications';
+import style from './ServicePopup.module.scss';
+import commonStyle from '@styles/common.module.scss';
 import { InformationField } from '@/components/InformationField';
 import { properieFormatter, userFormatter } from '@/utils/utils';
 import { format } from 'date-fns';
-import { Line } from '@/components/shells/Line';
+import { SERVICE_STATUSES } from '@/common/commonTypes';
+import { useAppSelector } from '@/services/store';
+import { selectUserService } from '@/services/slices/services';
 import { useMemo } from 'react';
-import { APPLICATION_STATUSES } from '@/api/apiTypes';
+import { PriceSummary } from '@/components/PriceSummary';
 
-export const ApplicationPopup = () => {
+export const ServicePopup = () => {
   const { id } = useParams();
-  const application = useAppSelector(selectApplicationCompleted(id!));
+
+  const service = useAppSelector(selectUserService(id!));
 
   const status = useMemo(() => {
     let className = '';
-    if (!application) return;
-    switch (application.status) {
+    if (!service) return;
+    switch (service.status) {
       case 'SENT':
         className = commonStyle['status__block_sent'];
         break;
@@ -34,28 +35,31 @@ export const ApplicationPopup = () => {
     }
     return (
       <span className={clsx(style['content__status'], className)}>
-        {APPLICATION_STATUSES[application.status]}
+        {SERVICE_STATUSES[service.status]}
       </span>
     );
-  }, [application]);
+  }, [service]);
 
-  if (application === undefined) {
+  if (service === undefined) {
     return <div className={style['loader']}>Загрузка...</div>;
   }
 
   return (
     <div className={clsx(style['content'], commonStyle['scroll'])}>
       {status}
-      <h2 className={style['content__title']}>{application.title}</h2>
+      <h2 className={style['content__title']}>{service.service.title}</h2>
       <Line size="218px" color="#E4DCD3" extraClassName={style['content__line']} />
       <div className={clsx(style['content__infornation'], commonStyle['scroll'])}>
-        <InformationField lable="Описание">{application.message}</InformationField>
-        <InformationField lable="Адрес">{properieFormatter(application.property)}</InformationField>
-        <InformationField lable="ФИО">{userFormatter(application.createdBy)}</InformationField>
+        <div className={style['content__price_wrapper']}>
+          <PriceSummary lable="Оплачено" price={+service.service.price} />
+        </div>
+        <InformationField lable="Описание">{service.service.description}</InformationField>
+        <InformationField lable="Адрес">{properieFormatter(service.property)}</InformationField>
+        <InformationField lable="ФИО">{userFormatter(service.createdBy)}</InformationField>
       </div>
 
       <span className={style['content__date']}>
-        {format(application.createdAt, 'dd.MM.yyyy/hh:mm')}
+        {format(service.createdAt, 'dd.MM.yyyy/hh:mm')}
       </span>
     </div>
   );
