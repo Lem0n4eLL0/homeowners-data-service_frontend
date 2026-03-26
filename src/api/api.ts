@@ -207,12 +207,15 @@ export const getUserServices = () => {
   });
 };
 
+export type DTOAccrualsResponce = {
+  content: Array<DTOAccruals>;
+};
 export const getAccruals = () => {
-  return fetchWithRefresh<Array<DTOAccruals>>(bulidURL(`accruals`), {
+  return fetchWithRefresh<DTOAccrualsResponce>(bulidURL(`accruals`), {
     method: HTTP_METHODS.GET,
     headers: baseHeaders,
   }).then(res => {
-    return res.map(toAccrualsFromDTOMapper);
+    return res.content.map(toAccrualsFromDTOMapper);
   });
 };
 

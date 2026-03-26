@@ -19,11 +19,12 @@ import {
   properieFormatter,
   statusAccrualsFormatter,
 } from '@/utils/utils';
+import { useLocation, useNavigate } from 'react-router';
 
 const sortAccrualsByYear = (accruals: Accruals[]): Map<string, Accruals[]> => {
   const result = new Map<string, Accruals[]>();
   accruals.forEach(el => {
-    const year = new Date(el.accrualInterval).getFullYear();
+    const year = new Date(el.accrualInterval.start).getFullYear();
     const arr = result.get(String(year));
     result.set(String(year), arr ? [...arr, el] : [el]);
   });
@@ -32,6 +33,8 @@ const sortAccrualsByYear = (accruals: Accruals[]): Map<string, Accruals[]> => {
 
 export const AccrualsPage = () => {
   const dispatch = useAppDispatch();
+  const navigator = useNavigate();
+  const location = useLocation();
   const { accruals } = useAppSelector(selectDataAccruals);
   const { properties } = useAppSelector(selectUser);
   const { getAccrualsStatus } = useAppSelector(selectStatusesAccruals);
@@ -60,7 +63,7 @@ export const AccrualsPage = () => {
       {
         key: 'accrualInterval',
         title: 'Операция',
-        render: value => formatChargeLabel(value),
+        render: value => formatChargeLabel(value.start),
       },
       {
         key: 'propertyId',
@@ -85,7 +88,11 @@ export const AccrualsPage = () => {
   );
 
   const accrualOpenHandler = (item: Accruals) => {
-    console.log(JSON.stringify(item));
+    void navigator(`${item.id}`, {
+      state: {
+        backgroundLocation: location,
+      },
+    });
   };
 
   if (getAccrualsStatus.status === 'PENDING') {

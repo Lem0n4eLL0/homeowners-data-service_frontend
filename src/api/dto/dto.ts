@@ -143,12 +143,18 @@ export type DTOAccrualTopic = {
   code: string;
 };
 
+export type DTOPeriod = {
+  start: string;
+  end: string;
+};
+
 export type DTOAccruals = {
   id: string;
   createdAt: string;
   services: Array<DTOAccrualTopic>;
-  date_s: string;
-  total_sum: number;
-  paid_status: string;
+  period: DTOPeriod;
+  totalSum: number;
+  paidAmount: number;
+  paidStatus: string;
   propertyId: string;
 };

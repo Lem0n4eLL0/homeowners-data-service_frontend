@@ -38,6 +38,7 @@
 
     &.content__link_active {
       color: $color-text-accent;
+      font-weight: 500;
       cursor: default;
 
       &:hover {

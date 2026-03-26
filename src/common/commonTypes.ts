@@ -77,12 +77,18 @@ export type AccrualTopic = {
   code: string;
 };
 
+export type Period = {
+  start: string;
+  end: string;
+};
+
 export type Accruals = {
   id: string;
   createdAt: string;
   accrualTopic: Array<AccrualTopic>;
-  accrualInterval: string;
+  accrualInterval: Period;
   totalSum: number;
+  paidAmount: number;
   paidStatus: AccrualStatus;
   propertyId: string;
 };

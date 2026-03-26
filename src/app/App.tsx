@@ -23,6 +23,7 @@ import { ServicesPage } from '@/components/pages/ServicesPage';
 import { ServicePopup } from '@/components/popups/ServicePopup';
 import { CreateServicePopup } from '@/components/popups/CreateServicePopup/CreateServicePopup';
 import { AccrualsPage } from '@/components/pages/AccrualsPage';
+import { AccrualsPopup } from '@/components/popups/AccrualsPopup';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -67,6 +68,11 @@ const App = () => {
 
       {backgroundLocation && (
         <Routes>
+          <Route path="/accruals">
+            <Route element={<Popup />}>
+              <Route path=":id" element={<AccrualsPopup />} />
+            </Route>
+          </Route>
           <Route path="/profile/properties">
             <Route element={<Popup />}>
               <Route path="add" element={<AddPropertyPopup />} />

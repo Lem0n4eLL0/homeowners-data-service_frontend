@@ -3,6 +3,7 @@ import {
   AccrualStatus,
   AccrualTopic,
   CreatePropertieRequest,
+  Period,
   Propertie,
   Services,
   ServiceStatus,
@@ -38,6 +39,7 @@ import {
   DTOCreateUserServicesRequest,
   DTOGetMeResponce,
   DTOPatchProfileRequest,
+  DTOPeriod,
   DTOProfileResponce,
   DTOPropertie,
   DTORefreshTokenResponce,
@@ -275,10 +277,18 @@ export const toAccrualsFromDTOMapper = (dto: DTOAccruals): Accruals => {
     id: dto.id,
     createdAt: dto.createdAt,
     accrualTopic: dto.services.map(toAccrualTopicFromDTOMapper),
-    accrualInterval: dto.date_s,
-    totalSum: dto.total_sum,
-    paidStatus: dto.paid_status as AccrualStatus,
+    accrualInterval: toPeriodFromDTOMapper(dto.period),
+    totalSum: dto.totalSum,
+    paidAmount: dto.paidAmount,
+    paidStatus: dto.paidStatus as AccrualStatus,
     propertyId: dto.propertyId,
+  };
+};
+
+export const toPeriodFromDTOMapper = (dto: DTOPeriod): Period => {
+  return {
+    start: dto.start,
+    end: dto.end,
   };
 };
 

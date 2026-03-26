@@ -2,10 +2,12 @@ import { APPLICATION_STATUSES, ApplicationStatus, User } from '@/api/apiTypes';
 import {
   ACCRUALS_STATUSES,
   AccrualStatus,
+  Period,
   Propertie,
   SERVICE_STATUSES,
 } from '@/common/commonTypes';
 import commonStyle from '@styles/common.module.scss';
+import { format } from 'date-fns';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function assertNever(_: never): void {
@@ -135,6 +137,16 @@ export const personalAccountNumberFormatter = (value: string): string => {
     })
     .slice(0, 10)
     .join('');
+};
+
+export const periodFormatter = (value: Period): string => {
+  const startDate = new Date(value.start);
+  const endDate = new Date(value.end);
+  return `${dateFormatter(startDate)} – ${dateFormatter(endDate)}`;
+};
+
+export const dateFormatter = (date: Date): string => {
+  return format(date, 'dd.MM.yyyy');
 };
 
 export const formatChargeLabel = (dateStr: string): string => {
