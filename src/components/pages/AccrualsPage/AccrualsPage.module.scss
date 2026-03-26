@@ -1,0 +1,20 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  padding-top: 48px;
+  min-height: 100%;
+}
+
+.loading {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  &__block {
+    height: 500px;
+    border-radius: 4px;
+  }
+}

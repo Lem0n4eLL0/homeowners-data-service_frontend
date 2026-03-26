@@ -13,15 +13,16 @@ type ILinksBar = {
   active: string;
   links: ILink[];
   extraClassName?: string;
+  linkGap?: string | number;
 };
 
 export const LinksBar = (props: ILinksBar) => {
-  const { active, extraClassName, links } = props;
+  const { active, extraClassName, links, linkGap } = props;
   const [activeLink, setActiveLink] = useState<string>(active);
 
   return (
     <div className={clsx(style['content'], extraClassName)}>
-      <ul className={style['content__list']}>
+      <ul className={style['content__list']} style={{ gap: linkGap }}>
         {links.map((el, index) => {
           return (
             <li key={`${index}-${el.name}`}>

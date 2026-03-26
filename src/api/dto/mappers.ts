@@ -1,5 +1,9 @@
 import {
+  Accruals,
+  AccrualStatus,
+  AccrualTopic,
   CreatePropertieRequest,
+  Period,
   Propertie,
   Services,
   ServiceStatus,
@@ -26,6 +30,8 @@ import {
   VerificationCodeResponce,
 } from '../apiTypes';
 import {
+  DTOAccruals,
+  DTOAccrualTopic,
   DTOApplication,
   DTOApplicationFull,
   DTOCreateApplicationsResponce,
@@ -33,6 +39,7 @@ import {
   DTOCreateUserServicesRequest,
   DTOGetMeResponce,
   DTOPatchProfileRequest,
+  DTOPeriod,
   DTOProfileResponce,
   DTOPropertie,
   DTORefreshTokenResponce,
@@ -262,6 +269,33 @@ export const createUserServicesRequestMapper = (
   return {
     propertyId: value.propertyId,
     additionalServiceId: value.serviceId,
+  };
+};
+
+export const toAccrualsFromDTOMapper = (dto: DTOAccruals): Accruals => {
+  return {
+    id: dto.id,
+    createdAt: dto.createdAt,
+    accrualTopic: dto.services.map(toAccrualTopicFromDTOMapper),
+    accrualInterval: toPeriodFromDTOMapper(dto.period),
+    totalSum: dto.totalSum,
+    paidAmount: dto.paidAmount,
+    paidStatus: dto.paidStatus as AccrualStatus,
+    propertyId: dto.propertyId,
+  };
+};
+
+export const toPeriodFromDTOMapper = (dto: DTOPeriod): Period => {
+  return {
+    start: dto.start,
+    end: dto.end,
+  };
+};
+
+export const toAccrualTopicFromDTOMapper = (dto: DTOAccrualTopic): AccrualTopic => {
+  return {
+    name: dto.name,
+    code: dto.code,
   };
 };
 

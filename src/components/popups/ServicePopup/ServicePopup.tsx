@@ -51,7 +51,7 @@ export const ServicePopup = () => {
       <Line size="218px" color="#E4DCD3" extraClassName={style['content__line']} />
       <div className={clsx(style['content__infornation'], commonStyle['scroll'])}>
         <div className={style['content__price_wrapper']}>
-          <PriceSummary lable="Стоимость" price={+service.service.price} />
+          <PriceSummary lable="Оплачено" price={+service.service.price} />
         </div>
         <InformationField lable="Описание">{service.service.description}</InformationField>
         <InformationField lable="Адрес">{properieFormatter(service.property)}</InformationField>

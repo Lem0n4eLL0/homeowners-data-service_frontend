@@ -11,6 +11,7 @@ import { appReduser } from './slices/app';
 import { listenerMiddleware } from './listeners/authListeners';
 import { applicationReduser } from './slices/applications';
 import { servicesReduser } from './slices/services';
+import { accrualsReduser } from './slices/accruals';
 
 const rootRedusers = combineSlices({
   auth: authReducer,
@@ -18,6 +19,7 @@ const rootRedusers = combineSlices({
   app: appReduser,
   application: applicationReduser,
   services: servicesReduser,
+  accruals: accrualsReduser,
 });
 
 export const store = configureStore({
