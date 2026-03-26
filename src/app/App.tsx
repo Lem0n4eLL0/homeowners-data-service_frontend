@@ -24,6 +24,7 @@ import { ServicePopup } from '@/components/popups/ServicePopup';
 import { CreateServicePopup } from '@/components/popups/CreateServicePopup/CreateServicePopup';
 import { AccrualsPage } from '@/components/pages/AccrualsPage';
 import { AccrualsPopup } from '@/components/popups/AccrualsPopup';
+import { ReadingsPage } from '@/components/pages/ReadingsPage';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -50,7 +51,7 @@ const App = () => {
         <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
           <Route element={<MainLayout header={<Header />} />}>
             <Route index element={<Navigate to="/profile" replace />} />
-            <Route path="readings" element={<div>Показания</div>} />
+            <Route path="readings" element={<ReadingsPage />} />
             <Route path="accruals" element={<AccrualsPage />} />
             <Route path="applications" element={<ApplicationsPage />} />
             <Route path="services" element={<ServicesPage />} />

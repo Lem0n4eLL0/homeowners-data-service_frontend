@@ -92,3 +92,27 @@ export type Accruals = {
   paidStatus: AccrualStatus;
   propertyId: string;
 };
+
+export const METER_TYPES = {
+  COLD_WATER: 'Холодная вода',
+  HOT_WATER: 'Горячая вода',
+  ELECTRICITY: 'Электричество',
+  GAS: 'Газ',
+  HEATING: 'Отопление',
+} as const;
+
+export type MeterType = keyof typeof METER_TYPES;
+
+export type Meter = {
+  id: string;
+  serialNumber: string;
+  type: MeterType;
+  propertyId: string;
+};
+
+export type IndicationsHistory = {
+  id: string;
+  createdAt: string;
+  meter: Meter;
+  value: number;
+};
