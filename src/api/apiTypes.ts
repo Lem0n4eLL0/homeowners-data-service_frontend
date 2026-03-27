@@ -1,4 +1,4 @@
-import { Propertie } from '@/common/commonTypes';
+import { MeterType, Propertie } from '@/common/commonTypes';
 
 export const HTTP_METHODS = {
   GET: 'GET',
@@ -153,4 +153,14 @@ export type ApplicationFull = {
 export type CreateUserServicesRequest = {
   propertyId: string;
   serviceId: string;
+};
+
+export type SendIndicationsRequest = {
+  meterId: string;
+  value: number;
+};
+
+export type CreateMeterRequest = {
+  type: MeterType;
+  serialNumber: string;
 };

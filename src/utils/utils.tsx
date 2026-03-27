@@ -2,6 +2,9 @@ import { APPLICATION_STATUSES, ApplicationStatus, User } from '@/api/apiTypes';
 import {
   ACCRUALS_STATUSES,
   AccrualStatus,
+  Meter,
+  METER_TYPES,
+  MeterType,
   Period,
   Propertie,
   SERVICE_STATUSES,
@@ -61,6 +64,18 @@ export const properieFormatter = (propertie: Propertie): string => {
   ].filter(Boolean);
 
   return parts.join(', ');
+};
+
+export const meterFormatter = (meter: Meter): string => {
+  return `${meterSerialNumberFormatter(meter.serialNumber)} - ${meterTypeFormatter(meter.type)}`;
+};
+
+export const meterTypeFormatter = (type: MeterType): string => {
+  return METER_TYPES[type];
+};
+
+export const meterSerialNumberFormatter = (serialNumber: string): string => {
+  return `№${serialNumber}`;
 };
 
 export const userFormatter = (user: User): React.ReactNode => {

@@ -12,17 +12,20 @@ export type ProfilePageStates =
 
 export type ApplicationsPageStates = 'ApplicationsPageCreate' | 'ApplicationsPageHistory';
 export type ServicesPageStates = 'ServicesPageCreate' | 'ServicesPageHistory';
+export type ReadingsPageStates = 'ReadingsPageMeters' | 'ReadingsPageHistory';
 
 type ProfileState = {
   profilePageState: ProfilePageStates;
   applicationsPageState: ApplicationsPageStates;
   servicesPageState: ServicesPageStates;
+  readingsPageStates: ReadingsPageStates;
 };
 
 const initialState: ProfileState = {
   profilePageState: 'ProfileNotRegistered',
   applicationsPageState: 'ApplicationsPageCreate',
   servicesPageState: 'ServicesPageCreate',
+  readingsPageStates: 'ReadingsPageMeters',
 };
 
 const appSlice = createSlice({
@@ -39,6 +42,9 @@ const appSlice = createSlice({
     ),
     setServicesPageState: create.reducer((state, action: PayloadAction<ServicesPageStates>) => {
       state.servicesPageState = action.payload;
+    }),
+    setReadingsPageState: create.reducer((state, action: PayloadAction<ReadingsPageStates>) => {
+      state.readingsPageStates = action.payload;
     }),
   }),
 
@@ -61,13 +67,22 @@ const appSlice = createSlice({
     selectProfilePageState: state => state.profilePageState,
     selectApplicationsPageState: state => state.applicationsPageState,
     selectServicesPageState: state => state.servicesPageState,
+    selectReadingsPageState: state => state.readingsPageStates,
   },
 });
 
 export const appReduser = appSlice.reducer;
 
-export const { setProfilePageState, setApplicationsPageState, setServicesPageState } =
-  appSlice.actions;
+export const {
+  setProfilePageState,
+  setApplicationsPageState,
+  setServicesPageState,
+  setReadingsPageState,
+} = appSlice.actions;
 
-export const { selectProfilePageState, selectApplicationsPageState, selectServicesPageState } =
-  appSlice.selectors;
+export const {
+  selectProfilePageState,
+  selectApplicationsPageState,
+  selectServicesPageState,
+  selectReadingsPageState,
+} = appSlice.selectors;

@@ -8,18 +8,21 @@ import {
 } from './apiHelp';
 import {
   CreateApplicationsRequest,
+  CreateMeterRequest,
   CreateUserServicesRequest,
   GetMeResponce,
   HTTP_METHODS,
   PatchProfileRequest,
   RefreshTokenResponce,
   RegistrationProfileRequest,
+  SendIndicationsRequest,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
   VerificationCodeRequest,
 } from './apiTypes';
 import {
   createApplicationsResponceMapper,
+  createMeterRequestToDTO,
   createPropertyToDTOMapper,
   createUserServicesRequestMapper,
   getMeResponceMapper,
@@ -27,10 +30,13 @@ import {
   refreshTokenResponceMapper,
   registrationProfileRequestMapper,
   registrationProfileResponceMapper,
+  sendIndicationsRequestToDTO,
   sendVerificationCodeRequestMapper,
   sendVerificationCodeResponceMapper,
   toAccrualsFromDTOMapper,
   toApplicationFullFromDTOMapper,
+  toIndicationsHistoryFromDTOMapper,
+  toMeterFromDTOMapper,
   toPropertyFromDTOMapper,
   toServicesFromDTOMapper,
   toUserServicesFromDTOMapper,
@@ -42,6 +48,8 @@ import {
 import {
   DTOAccruals,
   DTOApplicationFull,
+  DTOIndicationsHistory,
+  DTOMeter,
   DTOProfileResponce,
   DTOPropertie,
   DTORegistrationProfileResponce,
@@ -216,6 +224,44 @@ export const getAccruals = () => {
     headers: baseHeaders,
   }).then(res => {
     return res.content.map(toAccrualsFromDTOMapper);
+  });
+};
+
+export const getMeters = (propertyId: string) => {
+  return fetchWithRefresh<Array<DTOMeter>>(bulidURL(`meters/property/${propertyId}`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return res.map(toMeterFromDTOMapper);
+  });
+};
+
+export const createMeters = (body: CreateMeterRequest) => {
+  return fetchWithRefresh<DTOMeter>(bulidURL(`meters`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(createMeterRequestToDTO(body)),
+  }).then(res => {
+    return toMeterFromDTOMapper(res);
+  });
+};
+
+export const getIndicationsHistory = () => {
+  return fetchWithRefresh<Array<DTOIndicationsHistory>>(bulidURL(`meters/history`), {
+    method: HTTP_METHODS.GET,
+    headers: baseHeaders,
+  }).then(res => {
+    return res.map(toIndicationsHistoryFromDTOMapper);
+  });
+};
+
+export const sendIndicationsHistory = (body: SendIndicationsRequest) => {
+  return fetchWithRefresh<DTOIndicationsHistory>(bulidURL(`meters/indications`), {
+    method: HTTP_METHODS.POST,
+    headers: baseHeaders,
+    body: JSON.stringify(sendIndicationsRequestToDTO(body)),
+  }).then(res => {
+    return toIndicationsHistoryFromDTOMapper(res);
   });
 };
 

@@ -1,5 +1,5 @@
 import { FilterFunc } from '@/features/Filter';
-import { DateRange, Propertie, ServiceStatus } from './commonTypes';
+import { DateRange, Meter, MeterType, Propertie, ServiceStatus } from './commonTypes';
 import { ApplicationFull, ApplicationStatus } from '@/api/apiTypes';
 
 export const filterByDateRange = (range: DateRange): FilterFunc<{ createdAt: string }> => {
@@ -11,11 +11,25 @@ export const filterByDateRange = (range: DateRange): FilterFunc<{ createdAt: str
   };
 };
 
+export const filterByMeterType = (type: MeterType): FilterFunc<{ type: MeterType }> => {
+  return item => {
+    return type === item.type;
+  };
+};
+
 export const filterByPropertyID = <T extends { id: string }>(
   value: T
 ): FilterFunc<{ property: Propertie }> => {
   return item => {
     return item.property.id === value.id;
+  };
+};
+
+export const filterByMeterID = <T extends { id: string }>(
+  value: T
+): FilterFunc<{ meter: Meter }> => {
+  return item => {
+    return item.meter.id === value.id;
   };
 };
 

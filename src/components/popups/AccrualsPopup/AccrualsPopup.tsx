@@ -12,6 +12,7 @@ import { useMemo } from 'react';
 import { ACCRUALS_STATUSES } from '@/common/commonTypes';
 import { PriceSummary } from '@/components/PriceSummary';
 import { selectUser } from '@/services/slices/user';
+import { Loader } from '@/components/shells/Loader';
 
 export const AccrualsPopup = () => {
   const { id } = useParams();
@@ -46,7 +47,11 @@ export const AccrualsPopup = () => {
   }, [accruals]);
 
   if (accruals === undefined) {
-    return <div className={style['loader']}>Загрузка...</div>;
+    return (
+      <div className={style['loader']}>
+        <Loader loaderClass={clsx(commonStyle['loader'], commonStyle['loader_base_size'])} />
+      </div>
+    );
   }
 
   return (

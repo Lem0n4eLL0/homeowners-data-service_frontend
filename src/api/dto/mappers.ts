@@ -3,6 +3,9 @@ import {
   AccrualStatus,
   AccrualTopic,
   CreatePropertieRequest,
+  IndicationsHistory,
+  Meter,
+  MeterType,
   Period,
   Propertie,
   Services,
@@ -15,6 +18,7 @@ import {
   ApplicationFull,
   ApplicationStatus,
   CreateApplicationsRequest,
+  CreateMeterRequest,
   CreateUserServicesRequest,
   GetMeResponce,
   PatchProfileRequest,
@@ -23,6 +27,7 @@ import {
   RegistrationProfileRequest,
   RegistrationProfileResponce,
   RequestError,
+  SendIndicationsRequest,
   SendVerificationCodeRequest,
   SendVerificationCodeResponce,
   User,
@@ -35,9 +40,12 @@ import {
   DTOApplication,
   DTOApplicationFull,
   DTOCreateApplicationsResponce,
+  DTOCreateMeterRequest,
   DTOCreatePropertieRequest,
   DTOCreateUserServicesRequest,
   DTOGetMeResponce,
+  DTOIndicationsHistory,
+  DTOMeter,
   DTOPatchProfileRequest,
   DTOPeriod,
   DTOProfileResponce,
@@ -46,6 +54,7 @@ import {
   DTORegistrationProfileRequest,
   DTORegistrationProfileResponce,
   DTORequestError,
+  DTOSendIndicationsRequest,
   DTOSendVerificationCodeRequest,
   DTOSendVerificationCodeResponce,
   DTOServices,
@@ -296,6 +305,42 @@ export const toAccrualTopicFromDTOMapper = (dto: DTOAccrualTopic): AccrualTopic 
   return {
     name: dto.name,
     code: dto.code,
+  };
+};
+
+export const toMeterFromDTOMapper = (dto: DTOMeter): Meter => {
+  return {
+    id: dto.id,
+    serialNumber: dto.serialNumber,
+    type: dto.type as MeterType,
+    propertyId: dto.propertyId,
+  };
+};
+
+export const toIndicationsHistoryFromDTOMapper = (
+  dto: DTOIndicationsHistory
+): IndicationsHistory => {
+  return {
+    id: dto.id,
+    createdAt: dto.createdAt,
+    meter: toMeterFromDTOMapper(dto.meter),
+    value: dto.value,
+  };
+};
+
+export const sendIndicationsRequestToDTO = (
+  value: SendIndicationsRequest
+): DTOSendIndicationsRequest => {
+  return {
+    metersId: value.meterId,
+    value: value.value,
+  };
+};
+
+export const createMeterRequestToDTO = (value: CreateMeterRequest): DTOCreateMeterRequest => {
+  return {
+    type: value.type,
+    serialNumber: value.serialNumber,
   };
 };
 
