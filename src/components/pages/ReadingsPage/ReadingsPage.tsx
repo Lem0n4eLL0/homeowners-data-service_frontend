@@ -4,6 +4,8 @@ import style from './ReadingsPage.module.scss';
 import { LinksBar } from '@/components/LinksBar';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { selectReadingsPageState, setReadingsPageState } from '@/services/slices/app';
+import { ReadingsMeters } from './ReadingsMeters';
+import { ReadingsHistory } from './ReadingsHistory';
 
 export const ReadingsPage = () => {
   const dispatch = useAppDispatch();
@@ -33,9 +35,9 @@ export const ReadingsPage = () => {
           ]}
         />
         {readingsPageStates === 'ReadingsPageMeters' ? (
-          <div>ReadingsPageMeters</div>
+          <ReadingsMeters />
         ) : readingsPageStates === 'ReadingsPageHistory' ? (
-          <div>ReadingsPageHistory</div>
+          <ReadingsHistory />
         ) : (
           <>Error</>
         )}

@@ -25,6 +25,7 @@ import { CreateServicePopup } from '@/components/popups/CreateServicePopup/Creat
 import { AccrualsPage } from '@/components/pages/AccrualsPage';
 import { AccrualsPopup } from '@/components/popups/AccrualsPopup';
 import { ReadingsPage } from '@/components/pages/ReadingsPage';
+import { AddMeter } from '@/components/popups/AddMeter';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -69,6 +70,11 @@ const App = () => {
 
       {backgroundLocation && (
         <Routes>
+          <Route path="/readings">
+            <Route element={<Popup />}>
+              <Route path="meter/add" element={<AddMeter />} />
+            </Route>
+          </Route>
           <Route path="/accruals">
             <Route element={<Popup />}>
               <Route path=":id" element={<AccrualsPopup />} />

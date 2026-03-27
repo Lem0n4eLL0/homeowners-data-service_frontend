@@ -13,7 +13,7 @@ type PropertyId = string;
 
 type MetersState = {
   data: {
-    meters: Map<PropertyId, Meter[]>;
+    meters: Record<PropertyId, Array<Meter>>;
     indicationsHistory: Array<IndicationsHistory>;
   };
   statuses: {
@@ -26,7 +26,7 @@ type MetersState = {
 
 const initialState: MetersState = {
   data: {
-    meters: new Map(),
+    meters: {},
     indicationsHistory: [],
   },
   statuses: {
@@ -53,7 +53,7 @@ const metersSlice = createSlice({
       fulfilled: (state, action) => {
         state.statuses.getMetersStatus.status = 'SUCCESS';
         state.statuses.getMetersStatus.error = undefined;
-        state.data.meters.set(action.meta.arg, action.payload);
+        state.data.meters[action.meta.arg] = action.payload;
       },
     }),
     createMeters: create.asyncThunk(createMeters, {
@@ -68,8 +68,8 @@ const metersSlice = createSlice({
       fulfilled: (state, action) => {
         state.statuses.createMetersStatus.status = 'SUCCESS';
         state.statuses.createMetersStatus.error = undefined;
-        const data = state.data.meters.get(action.payload.propertyId) ?? [];
-        state.data.meters.set(action.payload.propertyId, [...data, action.payload]);
+        const data = state.data.meters[action.payload.propertyId] ?? [];
+        state.data.meters[action.payload.propertyId] = [...data, action.payload];
       },
     }),
     getIndicationsHistory: create.asyncThunk(getIndicationsHistory, {
@@ -113,7 +113,7 @@ const metersSlice = createSlice({
 export const selectMetersState = (state: RootState) => state.meters;
 
 export const selectMeters = (id: PropertyId) =>
-  createSelector([selectMetersState], state => state.data.meters.get(id) ?? []);
+  createSelector([selectMetersState], state => state.data.meters[id]);
 
 export const metersReduser = metersSlice.reducer;
 
@@ -124,5 +124,5 @@ export const {
   sendIndicationsHistory: sendIndicationsHistoryMeters,
 } = metersSlice.actions;
 
-export const { selectStatuses: selectStatusesAccruals, selectData: selectDataAccruals } =
+export const { selectStatuses: selectStatusesMeters, selectData: selectDataMeters } =
   metersSlice.selectors;

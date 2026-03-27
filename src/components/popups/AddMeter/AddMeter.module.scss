@@ -1,0 +1,11 @@
+.content {
+  padding: 30px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 50px;
+    min-height: 0;
+  }
+}
