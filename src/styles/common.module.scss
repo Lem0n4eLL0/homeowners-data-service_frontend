@@ -135,6 +135,11 @@
   border-right-color: $loader-color-2;
   aspect-ratio: 1 / 1;
   animation: loader-animation 0.83s cubic-bezier(0.4, 0.2, 0.3, 0.8) infinite;
+
+  &_base_size {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 .loader_v2 {

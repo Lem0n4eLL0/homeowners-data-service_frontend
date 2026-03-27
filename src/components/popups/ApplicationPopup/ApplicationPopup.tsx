@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { Line } from '@/components/shells/Line';
 import { useMemo } from 'react';
 import { APPLICATION_STATUSES } from '@/api/apiTypes';
+import { Loader } from '@/components/shells/Loader';
 
 export const ApplicationPopup = () => {
   const { id } = useParams();
@@ -40,7 +41,11 @@ export const ApplicationPopup = () => {
   }, [application]);
 
   if (application === undefined) {
-    return <div className={style['loader']}>Загрузка...</div>;
+    return (
+      <div className={style['loader']}>
+        <Loader loaderClass={clsx(commonStyle['loader'], commonStyle['loader_base_size'])} />
+      </div>
+    );
   }
 
   return (

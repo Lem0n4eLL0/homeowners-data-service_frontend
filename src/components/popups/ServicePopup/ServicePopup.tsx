@@ -11,6 +11,7 @@ import { useAppSelector } from '@/services/store';
 import { selectUserService } from '@/services/slices/services';
 import { useMemo } from 'react';
 import { PriceSummary } from '@/components/PriceSummary';
+import { Loader } from '@/components/shells/Loader';
 
 export const ServicePopup = () => {
   const { id } = useParams();
@@ -41,7 +42,11 @@ export const ServicePopup = () => {
   }, [service]);
 
   if (service === undefined) {
-    return <div className={style['loader']}>Загрузка...</div>;
+    return (
+      <div className={style['loader']}>
+        <Loader loaderClass={clsx(commonStyle['loader'], commonStyle['loader_base_size'])} />
+      </div>
+    );
   }
 
   return (
