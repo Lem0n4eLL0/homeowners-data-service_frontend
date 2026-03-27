@@ -77,6 +77,16 @@ export const Header = () => {
             Новости
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="about"
+            className={({ isActive }) =>
+              clsx(style['content__link'], isActive && style['content__link_active'])
+            }
+          >
+            О проекте
+          </NavLink>
+        </li>
       </ul>
       <div className={style['content__account']}>
         <NavLink

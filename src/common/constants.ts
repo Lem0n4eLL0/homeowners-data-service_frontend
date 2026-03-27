@@ -105,3 +105,10 @@ export const TYPE_METER_BASE_OPTIONS = [
     label: METER_TYPES[el as MeterType],
   })),
 ];
+
+// Ошибки
+
+export const ERRORS = {
+  CLIENT: 'неизвестная ошибка ни клиенте',
+  TEAPOT: 'я — чайник',
+};

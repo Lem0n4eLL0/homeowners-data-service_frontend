@@ -6,10 +6,13 @@ import { useAppDispatch, useAppSelector } from '@/services/store';
 import { selectReadingsPageState, setReadingsPageState } from '@/services/slices/app';
 import { ReadingsMeters } from './ReadingsMeters';
 import { ReadingsHistory } from './ReadingsHistory';
+import { Navigate, useNavigate } from 'react-router';
+import { ERRORS } from '@/common/constants';
 
 export const ReadingsPage = () => {
   const dispatch = useAppDispatch();
   const readingsPageStates = useAppSelector(selectReadingsPageState);
+  const navigate = useNavigate();
 
   return (
     <div className={clsx(commonStyle['base_page_wrapper'], style['content_wrapper'])}>
@@ -39,7 +42,7 @@ export const ReadingsPage = () => {
         ) : readingsPageStates === 'ReadingsPageHistory' ? (
           <ReadingsHistory />
         ) : (
-          <>Error</>
+          <Navigate to="/error" state={{ error: { code: 418, message: ERRORS.TEAPOT } }} />
         )}
       </div>
     </div>
