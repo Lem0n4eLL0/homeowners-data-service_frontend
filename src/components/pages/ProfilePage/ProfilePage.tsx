@@ -12,12 +12,6 @@ export type ProfilePageStates =
 
 export const ProfilePage = () => {
   const profilePageState = useAppSelector(selectProfilePageState);
-  // const isProfileRegistered = useAppSelector(selectIsProfileRegistered);
-  // const {getProfileStatus} = useAppSelector(selectStatusesUser);
-
-  // if (!isProfileRegistered) {
-  //   return <Loader loaderClass={commonStyle['loader_bg']} />;
-  // }
 
   return (
     <div className={commonStyle['base_page_wrapper']}>

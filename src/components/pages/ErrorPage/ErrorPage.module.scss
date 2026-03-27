@@ -1,0 +1,21 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 24px;
+
+  &__code {
+    font-size: 52px;
+    font-weight: 500;
+    color: $error-color;
+  }
+
+  &__message {
+    font-size: 24px;
+    color: $color-text-primary;
+  }
+}

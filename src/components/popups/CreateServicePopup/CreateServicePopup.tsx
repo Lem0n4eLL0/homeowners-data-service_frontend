@@ -21,6 +21,7 @@ import { AppSelect, OptionType } from '@/components/forms/AppSelect/AppSelect';
 import { priceFormatter, properieFormatter } from '@/utils/utils';
 import { selectUser } from '@/services/slices/user';
 import { PriceSummary } from '@/components/PriceSummary';
+import { Loader } from '@/components/shells/Loader';
 
 type CreateServiceValidatedField = {
   address: Propertie | null;
@@ -92,7 +93,11 @@ export const CreateServicePopup = () => {
   const isLoading = createUserServicesStatus.status === 'PENDING';
 
   if (!service) {
-    return 'Error service not found';
+    return (
+      <div className={style['loader']}>
+        <Loader loaderClass={clsx(commonStyle['loader'], commonStyle['loader_base_size'])} />
+      </div>
+    );
   }
 
   return (

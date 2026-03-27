@@ -158,3 +158,27 @@ export type DTOAccruals = {
   paidStatus: string;
   propertyId: string;
 };
+
+export type DTOMeter = {
+  id: string;
+  serialNumber: string;
+  type: string;
+  propertyId: string;
+};
+
+export type DTOIndicationsHistory = {
+  id: string;
+  createdAt: string;
+  meter: DTOMeter;
+  value: number;
+};
+
+export type DTOSendIndicationsRequest = {
+  metersId: string;
+  value: number;
+};
+
+export type DTOCreateMeterRequest = {
+  type: string;
+  serialNumber: string;
+};

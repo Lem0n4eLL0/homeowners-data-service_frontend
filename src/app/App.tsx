@@ -24,6 +24,12 @@ import { ServicePopup } from '@/components/popups/ServicePopup';
 import { CreateServicePopup } from '@/components/popups/CreateServicePopup/CreateServicePopup';
 import { AccrualsPage } from '@/components/pages/AccrualsPage';
 import { AccrualsPopup } from '@/components/popups/AccrualsPopup';
+import { ReadingsPage } from '@/components/pages/ReadingsPage';
+import { AddMeter } from '@/components/popups/AddMeter';
+import { AboutPage } from '@/components/pages/AboutPage';
+import { AgreementPage } from '@/components/pages/AgreementPage';
+import { NewsPage } from '@/components/pages/NewsPage';
+import { ErrorPage } from '@/components/pages/ErrorPage';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -47,27 +53,39 @@ const App = () => {
   return (
     <>
       <Routes location={backgroundLocation || location}>
+        <Route element={<MainLayout header={<Header />} />}>
+          <Route path="about" element={<AboutPage />} />
+        </Route>
         <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
           <Route element={<MainLayout header={<Header />} />}>
             <Route index element={<Navigate to="/profile" replace />} />
-            <Route path="readings" element={<div>Показания</div>} />
+            <Route path="readings" element={<ReadingsPage />} />
             <Route path="accruals" element={<AccrualsPage />} />
             <Route path="applications" element={<ApplicationsPage />} />
             <Route path="services" element={<ServicesPage />} />
             <Route path="profile" element={<ProfilePage />} />
-            <Route path="news" element={<div>Новости</div>} />
+            <Route path="news" element={<NewsPage />} />
           </Route>
+        </Route>
+        <Route element={<MainLayout />}>
+          <Route path="agreement" element={<AgreementPage />}></Route>
         </Route>
         <Route element={<AuthProtector isRedirectAuthorized={true} redirectPath="/profile" />}>
           <Route element={<MainLayout />}>
             <Route path="auth" element={<AuthPage />}></Route>
           </Route>
         </Route>
-        <Route path="*" element={<div>Error page</div>}></Route>
+        <Route path="error" element={<ErrorPage />}></Route>
+        <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
 
       {backgroundLocation && (
         <Routes>
+          <Route path="/readings">
+            <Route element={<Popup />}>
+              <Route path="meter/add" element={<AddMeter />} />
+            </Route>
+          </Route>
           <Route path="/accruals">
             <Route element={<Popup />}>
               <Route path=":id" element={<AccrualsPopup />} />

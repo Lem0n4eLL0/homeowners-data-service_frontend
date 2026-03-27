@@ -15,6 +15,7 @@
   flex-direction: column;
   gap: 14px;
   line-height: 24px;
+  text-wrap: nowrap;
 
   &_content {
     font-weight: 500;
