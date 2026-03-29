@@ -35,7 +35,7 @@ export const CreateServices = () => {
     });
   };
 
-  if (getServicesStatus.status === 'PENDING') {
+  if (getServicesStatus.status === 'PENDING' || getServicesStatus.status === 'READY') {
     return (
       <div className={style['content']}>
         <Loader loaderClass={clsx(commonStyle['loader_bg'], style['loader'])} />

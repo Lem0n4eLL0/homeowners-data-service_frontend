@@ -41,9 +41,10 @@ export const ReadingsMeters = () => {
   const location = useLocation();
   const navigator = useNavigate();
 
-  const isGetMetersPending = getMetersStatus.status === 'PENDING';
+  const isGetMetersPending =
+    getMetersStatus.status === 'PENDING' || getMetersStatus.status === 'READY';
   useEffect(() => {
-    if (!meters && !isGetMetersPending) {
+    if (!meters && getMetersStatus.status !== 'PENDING') {
       void dispatch(getMetersMeters(selectedProperty.id));
     }
   }, [meters, dispatch]);

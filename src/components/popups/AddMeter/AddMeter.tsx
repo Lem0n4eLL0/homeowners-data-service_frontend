@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import style from './AddMeter.module.scss';
 import commonStyle from '@styles/common.module.scss';
-import { SyntheticEvent, useMemo } from 'react';
+import { SyntheticEvent, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
 import { useNavigate } from 'react-router';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
@@ -11,7 +11,11 @@ import {
   TYPE_METER_BASE_OPTIONS,
   VALIDATORS,
 } from '@/common/constants';
-import { createMetersMeters, selectStatusesMeters } from '@/services/slices/meters';
+import {
+  createMetersMeters,
+  resetCreateMetersStatus,
+  selectStatusesMeters,
+} from '@/services/slices/meters';
 import { MeterType } from '@/common/commonTypes';
 import { FormElement } from '@/components/forms/FormElement';
 import { AppSelect } from '@/components/forms/AppSelect';
@@ -34,6 +38,12 @@ export const AddMeter = () => {
   const dispatch = useAppDispatch();
   const { createMetersStatus } = useAppSelector(selectStatusesMeters);
   const navigator = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetCreateMetersStatus());
+    };
+  }, [dispatch]);
 
   const { isValid, errors, value, validate, updateField } = useValidator<CreateMeterScheme>({
     initialValue: {

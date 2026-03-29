@@ -90,7 +90,7 @@ export const HistoryApplications = () => {
     }
   }, [dispatch, isApplicationsInitializing]);
 
-  if (getApplicationHistory.status === 'PENDING') {
+  if (getApplicationHistory.status === 'PENDING' || getApplicationHistory.status === 'READY') {
     return (
       <div className={style['content']}>
         <Loader loaderClass={clsx(commonStyle['loader_bg'], style['loader'])} />
