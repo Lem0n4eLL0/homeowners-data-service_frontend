@@ -9,7 +9,7 @@ import {
   selectStatusesAccruals,
 } from '@/services/slices/accruals';
 import { Accruals } from '@/common/commonTypes';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Column, Table } from '@/components/shells/Table';
 import { format } from 'date-fns';
 import { selectUser } from '@/services/slices/user';
@@ -19,7 +19,7 @@ import {
   properieFormatter,
   statusAccrualsFormatter,
 } from '@/utils/utils';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
 const sortAccrualsByYear = (accruals: Accruals[]): Map<string, Accruals[]> => {
   const result = new Map<string, Accruals[]>();
@@ -35,17 +35,24 @@ export const AccrualsPage = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { accruals } = useAppSelector(selectDataAccruals);
   const { properties } = useAppSelector(selectUser);
   const { getAccrualsStatus } = useAppSelector(selectStatusesAccruals);
 
   const sortedAccruals = useMemo(() => sortAccrualsByYear(accruals), [accruals]);
-  const [firstactiveYear, availableYears] = useMemo(() => {
+
+  const [firstActiveYear, availableYears] = useMemo(() => {
     const years = Array.from(sortedAccruals.keys()).sort((a, b) => +b - +a);
     return [years[0] ?? '', years];
   }, [sortedAccruals]);
 
-  const [activeYear, setActiveYear] = useState<string>(firstactiveYear);
+  const urlYear = searchParams.get('year');
+  const currentActiveYear = urlYear && availableYears.includes(urlYear) ? urlYear : firstActiveYear;
+  const handleYearChange = (year: string) => {
+    setSearchParams({ year });
+  };
 
   useEffect(() => {
     if (getAccrualsStatus.status === 'READY') {
@@ -104,23 +111,17 @@ export const AccrualsPage = () => {
     );
   }
 
-  const currentActiveYear = activeYear === '' ? firstactiveYear : activeYear;
-
   return (
     <div className={clsx(commonStyle['base_page_wrapper'])}>
       <h1 className={commonStyle['base_page_title']}>Начисления</h1>
       <div className={style['content']}>
         <LinksBar
-          active={currentActiveYear}
-          links={availableYears.map(el => {
-            return {
-              name: el,
-              label: el,
-              onClick: () => {
-                setActiveYear(el);
-              },
-            };
-          })}
+          links={availableYears.map(year => ({
+            name: year,
+            label: year,
+            navigate: () => handleYearChange(year),
+            isActive: currentActiveYear === year,
+          }))}
           linkGap={32}
         />
         <Table

@@ -1,16 +1,11 @@
-import style from './AuthPage.module.scss';
+import style from './AuthLayout.module.scss';
 import commonStyle from '@styles/common.module.scss';
 import logoURL from '@assets/logo.svg';
 import { AppLinks } from '@/components/AppLinks';
 import { Line } from '@/components/shells/Line';
-import { ReactNode } from 'react';
+import { Outlet } from 'react-router';
 
-type IAuthPage = {
-  children: ReactNode;
-};
-
-export const AuthPage = (props: IAuthPage) => {
-  const { children } = props;
+export const AuthLayout = () => {
   return (
     <div className={style['content_wrapper']}>
       <div className={style['content']}>
@@ -19,7 +14,7 @@ export const AuthPage = (props: IAuthPage) => {
           alt="Центр экологических технологий"
           className={style['content__logo']}
         />
-        {children}
+        <Outlet />
         <div className={style['content__additional-info']}>
           <Line extraClassName={style['content__line']} />
           <a href="##" className={commonStyle['base_link']}>

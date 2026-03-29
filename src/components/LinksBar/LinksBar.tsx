@@ -1,43 +1,67 @@
 import clsx from 'clsx';
 import { Line } from '../shells/Line';
 import style from './LinksBar.module.scss';
-import { SyntheticEvent, useState } from 'react';
+import { NavLink } from 'react-router';
 
-type ILink = {
+export type ILinkBase = {
   name: string;
   label: string;
-  onClick: (e: SyntheticEvent<HTMLButtonElement>) => void;
 };
 
+export type ILinkTo = ILinkBase & {
+  to: string;
+  isActive?: never;
+  navigate?: never;
+};
+
+export type ILinkNavigate = ILinkBase & {
+  isActive: boolean;
+  navigate: () => void;
+  to?: never;
+};
+
+export type ILink = ILinkTo | ILinkNavigate;
+
 type ILinksBar = {
-  active: string;
   links: ILink[];
   extraClassName?: string;
   linkGap?: string | number;
 };
 
 export const LinksBar = (props: ILinksBar) => {
-  const { active, extraClassName, links, linkGap } = props;
-  const [activeLink, setActiveLink] = useState<string>(active);
-
+  const { extraClassName, links, linkGap } = props;
   return (
     <div className={clsx(style['content'], extraClassName)}>
       <ul className={style['content__list']} style={{ gap: linkGap }}>
-        {links.map((el, index) => {
+        {links.map(el => {
           return (
-            <li key={`${index}-${el.name}`}>
-              <button
-                className={clsx(
-                  style['content__link'],
-                  activeLink === el.name && style['content__link_active']
-                )}
-                onClick={e => {
-                  setActiveLink(el.name);
-                  el.onClick(e);
-                }}
-              >
-                {el.label}
-              </button>
+            <li key={el.name}>
+              {el.to ? (
+                <NavLink
+                  to={el.to}
+                  className={({ isActive }) =>
+                    clsx(
+                      style['content__link'],
+                      style['link'],
+                      isActive && style['content__link_active']
+                    )
+                  }
+                  end
+                >
+                  {el.label}
+                </NavLink>
+              ) : (
+                <button
+                  className={clsx(
+                    style['content__link'],
+                    style['buttons_bar'],
+                    el.isActive && style['content__link_active']
+                  )}
+                  onClick={el.navigate}
+                >
+                  {el.label}
+                </button>
+              )}
             </li>
           );
         })}
