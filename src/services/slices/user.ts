@@ -113,6 +113,7 @@ const userSlice = createSlice({
           ...state.data.user,
           ...action.payload,
         };
+        state.isProfileRegistered = true;
       },
     }),
 

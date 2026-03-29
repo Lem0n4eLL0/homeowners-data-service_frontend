@@ -11,6 +11,7 @@ import { RegistrationProfileRequest } from '@/api/apiTypes';
 import commonStyle from '@styles/common.module.scss';
 import { personalAccountNumberFormatter } from '@/utils/utils';
 import { VALIDATORS } from '@/common/constants';
+import { useNavigate } from 'react-router';
 
 const sendVerificationCodeFormScheme: ValidationScheme<RegistrationProfileRequest> = {
   lastName: VALIDATORS.LAST_NAME,
@@ -27,6 +28,7 @@ const sendVerificationCodeFormScheme: ValidationScheme<RegistrationProfileReques
 export const ProfileNotRegistered = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const navigate = useNavigate();
   const { registrationProfileStatus } = useAppSelector(selectStatusesUser);
   const { isValid, errors, value, validate, updateField } =
     useValidator<RegistrationProfileRequest>({
@@ -55,11 +57,14 @@ export const ProfileNotRegistered = () => {
   );
   const isRegistrationProfileLoading = registrationProfileStatus.status === 'PENDING';
 
-  const registrationFormHandler = (e: SyntheticEvent<HTMLFormElement>) => {
+  const registrationFormHandler = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = validate(true);
     if (result[0]) {
-      void dispatch(registrationProfileUser(value));
+      const result = await dispatch(registrationProfileUser(value));
+      if (result.meta.requestStatus === 'fulfilled') {
+        void navigate('/profile');
+      }
     }
   };
 

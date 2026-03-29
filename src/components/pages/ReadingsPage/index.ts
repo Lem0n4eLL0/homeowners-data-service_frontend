@@ -1,1 +1,0 @@
-export { ReadingsPage } from './ReadingsPage';

@@ -9,10 +9,12 @@ import { phoneFormatterView } from '@/utils/utils';
 import { SyntheticEvent } from 'react';
 import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
 import { selectUser } from '@/services/slices/user';
+import { selectProfilePageState } from '@/services/slices/app';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const profilePageState = useAppSelector(selectProfilePageState);
 
   const logoutFormHandler = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +25,8 @@ export const Header = () => {
     }
   };
 
+  const profilePath =
+    profilePageState === 'ProfileNotRegistered' ? 'profile/registration' : 'profile';
   return (
     <div className={style['content']}>
       <img src={logo} alt="Центр технических технологий" className={style['content__logo']} />
@@ -90,7 +94,7 @@ export const Header = () => {
       </ul>
       <div className={style['content__account']}>
         <NavLink
-          to="profile"
+          to={profilePath}
           className={({ isActive }) =>
             clsx(
               style['content__phone'],

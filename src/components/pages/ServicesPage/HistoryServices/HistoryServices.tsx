@@ -111,6 +111,7 @@ export const HistoryServices = () => {
 
   const filter = useFilter({ data: tableData });
   const isServicesInitializing = getServicesHistory.status !== 'READY';
+
   useEffect(() => {
     if (!isServicesInitializing) {
       void dispatch(getServicesHistoryServices());

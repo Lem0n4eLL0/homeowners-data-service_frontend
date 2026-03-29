@@ -46,7 +46,7 @@ export const ReadingsMeters = () => {
     if (!meters && !isGetMetersPending) {
       void dispatch(getMetersMeters(selectedProperty.id));
     }
-  }, [meters]);
+  }, [meters, dispatch]);
 
   const { isValid, errors, value, validate, updateField } = useValidator<SendIndicationsScheme>({
     initialValue: {
@@ -102,7 +102,7 @@ export const ReadingsMeters = () => {
   };
 
   const createMeterhandler = () => {
-    void navigator(`meter/add`, {
+    void navigator(`add`, {
       state: {
         backgroundLocation: location,
       },

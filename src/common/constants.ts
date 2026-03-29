@@ -112,3 +112,55 @@ export const ERRORS = {
   CLIENT: 'неизвестная ошибка ни клиенте',
   TEAPOT: 'я — чайник',
 };
+
+// Ссылки
+export const PAGES_LINKS = {
+  APPLICATION: {
+    title: 'Заявки',
+    links: [
+      {
+        name: 'ApplicationsPageCreate',
+        label: 'Cоздание заявки',
+        to: '/applications/create',
+      },
+      {
+        name: 'ApplicationsPageHistory',
+        label: 'История',
+        to: '/applications/history',
+      },
+    ],
+  },
+  READINGS: {
+    title: 'Показания',
+    links: [
+      {
+        name: 'ReadingsPageMeters',
+        label: 'Подать показания',
+        to: '/readings/meters',
+      },
+      {
+        name: 'ReadingsPageHistory',
+        label: 'История',
+        to: '/readings/history',
+      },
+    ],
+  },
+  SERVICES: {
+    title: 'Услуги',
+    links: [
+      {
+        name: 'ServicesPageCreate',
+        label: 'Выбор услуг',
+        to: '/services',
+      },
+      {
+        name: 'ServicesPageHistory',
+        label: 'История',
+        to: '/services/history',
+      },
+    ],
+  },
+  PROFILE: {
+    title: 'Профиль',
+  },
+};

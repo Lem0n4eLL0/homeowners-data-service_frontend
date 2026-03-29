@@ -1,0 +1,1 @@
+export { RegistrationProtector } from './RegistrationProtector';

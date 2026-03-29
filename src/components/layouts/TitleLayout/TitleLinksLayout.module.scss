@@ -1,0 +1,19 @@
+@use '@styles/_variables.scss' as *;
+
+.content {
+  padding-top: 48px;
+  height: 100%;
+
+  &__wrapper {
+    min-height: 100%;
+    width: 100%;
+    padding: 40px clamp(20px, calc(1.25rem + ((1vw - 7px) * 40.7407)), 152px);
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
+    color: $color-text-primary;
+  }
+}
