@@ -24,7 +24,6 @@ export const AccrualsPopup = () => {
     () => properties.find(el => el.id === accruals?.propertyId),
     [properties, accruals]
   );
-  console.log(property);
 
   const status = useMemo(() => {
     let className = '';
@@ -80,8 +79,8 @@ export const AccrualsPopup = () => {
           </ul>
         </InformationField>
 
-        <PriceSummary lable={'Начислено'} price={accruals.paidAmount} />
-        <PriceSummary lable={'Оплачено'} price={accruals.totalSum} />
+        <PriceSummary lable={'Начислено'} price={accruals.totalSum} />
+        <PriceSummary lable={'Оплачено'} price={accruals.paidAmount} />
       </div>
       <span className={style['content__date']}>
         {format(accruals.createdAt, 'dd.MM.yyyy/hh:mm')}

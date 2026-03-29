@@ -111,13 +111,14 @@ export const HistoryServices = () => {
 
   const filter = useFilter({ data: tableData });
   const isServicesInitializing = getServicesHistory.status !== 'READY';
+
   useEffect(() => {
     if (!isServicesInitializing) {
       void dispatch(getServicesHistoryServices());
     }
   }, [dispatch, isServicesInitializing]);
 
-  if (getServicesHistory.status === 'PENDING') {
+  if (getServicesHistory.status === 'PENDING' || getServicesHistory.status === 'READY') {
     return (
       <div className={style['content']}>
         <Loader loaderClass={clsx(commonStyle['loader_bg'], style['loader'])} />

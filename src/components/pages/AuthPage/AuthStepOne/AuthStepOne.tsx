@@ -17,6 +17,7 @@ import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 import clsx from 'clsx';
 import { selectUser } from '@/services/slices/user';
+import { useNavigate } from 'react-router';
 
 const sendVerificationCodeFormScheme: ValidationScheme<SendVerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -26,6 +27,7 @@ export const AuthStepOne = () => {
   const dispatch = useAppDispatch();
   const { phone } = useAppSelector(selectUser);
   const statuses = useAppSelector(selectStatusesAuth);
+  const navigate = useNavigate();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const { isValid, value, validate, updateField } = useValidator<SendVerificationCodeRequest>({
@@ -45,13 +47,16 @@ export const AuthStepOne = () => {
     inputRef.current?.focus();
   }, []);
 
-  const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const [isValide] = validate(true);
     if (!isValide) return;
 
-    void dispatch(sendVerificationCodeAuth(value));
+    const result = await dispatch(sendVerificationCodeAuth(value));
+    if (result.meta.requestStatus === 'fulfilled') {
+      void navigate('/auth-step-two');
+    }
   };
 
   const changePhoneHandler = (value: string) => {
@@ -64,7 +69,11 @@ export const AuthStepOne = () => {
   return (
     <div className={style['content']}>
       <h1 className={style['content__title']}>Вход в личный кабинет</h1>
-      <form name="auth_form_step_1" onSubmit={onSubmit} className={style['content__form']}>
+      <form
+        name="auth_form_step_1"
+        onSubmit={e => void onSubmit(e)}
+        className={style['content__form']}
+      >
         <div
           className={clsx(
             style['form__fields'],
