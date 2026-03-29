@@ -102,6 +102,10 @@ const metersSlice = createSlice({
         state.data.indicationsHistory.push(action.payload);
       },
     }),
+
+    resetCreateMetersStatus: create.reducer(state => {
+      state.statuses.createMetersStatus = READY_REQUEST_STATUS;
+    }),
   }),
 
   selectors: {
@@ -122,6 +126,7 @@ export const {
   createMeters: createMetersMeters,
   getIndicationsHistory: getIndicationsHistoryMeters,
   sendIndicationsHistory: sendIndicationsHistoryMeters,
+  resetCreateMetersStatus,
 } = metersSlice.actions;
 
 export const { selectStatuses: selectStatusesMeters, selectData: selectDataMeters } =

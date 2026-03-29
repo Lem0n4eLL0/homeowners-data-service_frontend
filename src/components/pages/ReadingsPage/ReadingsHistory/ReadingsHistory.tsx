@@ -86,7 +86,10 @@ export const ReadingsHistory = () => {
     }
   }, [dispatch, getIndicationsHistoryMeters]);
 
-  if (getIndicationsHistoryStatus.status === 'PENDING') {
+  if (
+    getIndicationsHistoryStatus.status === 'PENDING' ||
+    getIndicationsHistoryStatus.status === 'READY'
+  ) {
     return (
       <div className={style['content']}>
         <Loader loaderClass={clsx(commonStyle['loader_bg'], style['loader'])} />

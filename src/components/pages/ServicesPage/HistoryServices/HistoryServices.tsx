@@ -118,7 +118,7 @@ export const HistoryServices = () => {
     }
   }, [dispatch, isServicesInitializing]);
 
-  if (getServicesHistory.status === 'PENDING') {
+  if (getServicesHistory.status === 'PENDING' || getServicesHistory.status === 'READY') {
     return (
       <div className={style['content']}>
         <Loader loaderClass={clsx(commonStyle['loader_bg'], style['loader'])} />
