@@ -12,6 +12,8 @@ import { ErrorField } from '@/components/forms/ErrorField';
 import { Button } from '@/components/Button';
 import { PropertieList } from '@/components/PropertieList';
 import { selectProfilePageState, setProfilePageState } from '@/services/slices/app';
+import { useLocation } from 'react-router';
+import { useEffect } from 'react';
 
 const sendVerificationCodeFormScheme: ValidationScheme<PatchProfileRequest> = {
   lastName: VALIDATORS.LAST_NAME,
@@ -19,6 +21,10 @@ const sendVerificationCodeFormScheme: ValidationScheme<PatchProfileRequest> = {
   surname: VALIDATORS.SURNAME,
   email: VALIDATORS.EMAIL,
 };
+
+interface LocationState {
+  emailVerified?: boolean;
+}
 
 export const ProfileRegistered = () => {
   const dispatch = useAppDispatch();
@@ -66,6 +72,32 @@ export const ProfileRegistered = () => {
   };
 
   const isFormActive = profileState === 'UpdatingProfileInformation';
+
+  /////////////// необходимо для подтверждения (вроде)
+  const location = useLocation();
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('https://api.brigada-kanbanov.ru/api/v1/accounts/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+      await response.json();
+    } catch (error) {
+      console.error('Ошибка загрузки профиля:', error);
+    }
+  };
+
+  const state = location.state as LocationState | null;
+
+  useEffect(() => {
+    if (state?.emailVerified) {
+      console.log('Почта подтверждена!');
+      void fetchUserProfile();
+    }
+  }, [location.state]);
+  /////////////////////
 
   return (
     <div className={style['content']}>

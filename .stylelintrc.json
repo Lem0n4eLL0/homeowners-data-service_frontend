@@ -23,6 +23,13 @@
     "scss/load-no-partial-leading-underscore": null,
     "selector-class-pattern": null,
     "property-no-vendor-prefix": null,
-    "font-family-no-duplicate-names": null
+    "font-family-no-duplicate-names": null,
+
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ]
   }
 }
