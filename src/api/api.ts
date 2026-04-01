@@ -169,7 +169,7 @@ export const deletePropery = (id: string) => {
 };
 
 export const createApplication = (body: CreateApplicationsRequest) => {
-  return fetchWithRefresh<DTOApplicationFull>(bulidURL(`application`), {
+  return fetchWithRefresh<DTOApplicationFull>(bulidURL(`applications`), {
     method: HTTP_METHODS.POST,
     headers: baseHeaders,
     body: JSON.stringify(createApplicationsResponceMapper(body)),

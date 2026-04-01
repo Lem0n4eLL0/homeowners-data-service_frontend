@@ -64,6 +64,9 @@ const App = () => {
         <Route element={<MainLayout header={<Header />} />}>
           <Route path="about" element={<AboutPage />} />
         </Route>
+        <Route element={<MainLayout />}>
+          <Route path="agreement" element={<AgreementPage />} />
+        </Route>
         <Route element={<AuthProtector isRedirectAuthorized={false} redirectPath="/auth" />}>
           <Route element={<MainLayout header={<Header />} />}>
             <Route index element={<Navigate to="/profile" replace />} />
@@ -155,10 +158,6 @@ const App = () => {
 
             <Route path="news" element={<NewsPage />} />
           </Route>
-        </Route>
-
-        <Route element={<MainLayout />}>
-          <Route path="agreement" element={<AgreementPage />}></Route>
         </Route>
 
         <Route element={<AuthProtector isRedirectAuthorized={true} redirectPath="/profile" />}>
