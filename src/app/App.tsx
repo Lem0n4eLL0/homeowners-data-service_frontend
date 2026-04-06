@@ -189,7 +189,7 @@ const App = () => {
         <Routes>
           <Route path="/readings">
             <Route element={<Popup />}>
-              <Route path="meters/add" element={<AddMeter />} />
+              <Route path="meters/add/:propertyId" element={<AddMeter />} />
             </Route>
           </Route>
           <Route path="/accruals">
