@@ -103,7 +103,7 @@ export const ReadingsMeters = () => {
   };
 
   const createMeterhandler = () => {
-    void navigator(`add`, {
+    void navigator(`add/${selectedProperty.id}`, {
       state: {
         backgroundLocation: location,
       },

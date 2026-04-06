@@ -161,6 +161,7 @@ export type SendIndicationsRequest = {
 };
 
 export type CreateMeterRequest = {
+  propertyId: string;
   type: MeterType;
   serialNumber: string;
 };

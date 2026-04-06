@@ -3,7 +3,7 @@ import style from './AddMeter.module.scss';
 import commonStyle from '@styles/common.module.scss';
 import { SyntheticEvent, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/services/store';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import useValidator, { ValidationScheme } from '@/hooks/useValidator';
 import {
   emptyOption,
@@ -38,6 +38,7 @@ export const AddMeter = () => {
   const dispatch = useAppDispatch();
   const { createMetersStatus } = useAppSelector(selectStatusesMeters);
   const navigator = useNavigate();
+  const { propertyId } = useParams();
 
   useEffect(() => {
     return () => {
@@ -70,8 +71,12 @@ export const AddMeter = () => {
     e.preventDefault();
     const res = validate(true);
     if (res[0]) {
+      console.log('propertyId', propertyId);
+      console.log('value.type', value.type);
+      console.log('value.serialNumber', value.serialNumber);
       const res = await dispatch(
         createMetersMeters({
+          propertyId: propertyId!,
           type: value.type!,
           serialNumber: value.serialNumber,
         })
@@ -103,7 +108,7 @@ export const AddMeter = () => {
                   : null
               }
               onChange={el => updateField('type', el?.value?.type ?? null)}
-              placeholder="Выберете адрес"
+              placeholder="Выберете тип"
               isError={!!errors.type?.message}
               disabled={isRequestPending}
             />

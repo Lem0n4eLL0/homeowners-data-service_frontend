@@ -339,6 +339,7 @@ export const sendIndicationsRequestToDTO = (
 
 export const createMeterRequestToDTO = (value: CreateMeterRequest): DTOCreateMeterRequest => {
   return {
+    propertyId: value.propertyId,
     type: value.type,
     serialNumber: value.serialNumber,
   };

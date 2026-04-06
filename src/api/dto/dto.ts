@@ -179,6 +179,7 @@ export type DTOSendIndicationsRequest = {
 };
 
 export type DTOCreateMeterRequest = {
+  propertyId: string;
   type: string;
   serialNumber: string;
 };
