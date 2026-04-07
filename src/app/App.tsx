@@ -40,6 +40,7 @@ import { AuthStepOne } from '@/components/pages/AuthPage/AuthStepOne';
 import { AuthStepTwo } from '@/components/pages/AuthPage/AuthStepTwo';
 import { AuthPage } from '@/components/pages/AuthPage';
 import { RegistrationProtector } from '@/components/protectors/RegistrationProtector';
+import { EmailConfirmationPage } from '@pages/EmailConfirmation/EmailConfirmation';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -61,6 +62,7 @@ const App = () => {
   return (
     <>
       <Routes location={backgroundLocation || location}>
+        <Route path="/email-confirmation" element={<EmailConfirmationPage />} />
         <Route element={<MainLayout header={<Header />} />}>
           <Route path="about" element={<AboutPage />} />
         </Route>
@@ -214,6 +216,7 @@ const App = () => {
               <Route path="history/:id" element={<ServicePopup />} />
             </Route>
           </Route>
+          <Route path="/agreement" element={<AgreementPage />} />
         </Routes>
       )}
     </>

@@ -2,7 +2,7 @@
 
 > Frontend-приложение на стеке **React 19 + Vite + TypeScript**
 
-[![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)](https://react.dev)
+[![React](https://img.shields.io/b adge/React-19.2.3-61DAFB?logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-7.3.1-646CFF?logo=vite)](https://vitejs.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.1.6-3178C6?logo=typescript)](https://www.typescriptlang.org)
 [![Storybook](https://img.shields.io/badge/Storybook-10.2.8-FF4785?logo=storybook)](https://storybook.js.org)
