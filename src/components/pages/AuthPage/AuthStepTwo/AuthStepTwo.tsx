@@ -30,6 +30,7 @@ import { codeFormatter } from '@/utils/utils';
 import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 import { selectUser } from '@/services/slices/user';
+import { Link } from 'react-router';
 
 const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -99,7 +100,6 @@ export const AuthStepTwo = () => {
     }
   };
 
-  // Запрос на подтвержедение кода
   const verifyCode = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     void dispatch(verificationCodeAuth(value));
@@ -178,13 +178,13 @@ export const AuthStepTwo = () => {
           </FormElement>
           <span className={style['agreement__description']}>
             Я согласен c{' '}
-            <a href="##" className={commonStyle['base_link']}>
+            <Link to="/agreement" className={commonStyle['base_link']}>
               Пользовательским соглашением
-            </a>{' '}
+            </Link>{' '}
             и{' '}
-            <a href="##" className={commonStyle['base_link']}>
+            <Link to="/agreement" className={commonStyle['base_link']}>
               Политикой обработки персональных данных.
-            </a>
+            </Link>
           </span>
         </div>
       )}
