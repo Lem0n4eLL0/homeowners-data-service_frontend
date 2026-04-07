@@ -14,6 +14,7 @@ import { PropertieList } from '@/components/PropertieList';
 import { selectProfilePageState, setProfilePageState } from '@/services/slices/app';
 import { useLocation } from 'react-router';
 import { useEffect } from 'react';
+import { LOCAL_STORAGE_ACCESS_TOKEN_ALIAS } from '@/common/constants';
 
 const sendVerificationCodeFormScheme: ValidationScheme<PatchProfileRequest> = {
   lastName: VALIDATORS.LAST_NAME,
@@ -80,7 +81,7 @@ export const ProfileRegistered = () => {
     try {
       const response = await fetch('https://api.brigada-kanbanov.ru/api/v1/accounts/profile', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_ALIAS)}`,
         },
       });
       await response.json();
@@ -93,7 +94,6 @@ export const ProfileRegistered = () => {
 
   useEffect(() => {
     if (state?.emailVerified) {
-      console.log('Почта подтверждена!');
       void fetchUserProfile();
     }
   }, [location.state]);

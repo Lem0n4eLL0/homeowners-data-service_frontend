@@ -5,6 +5,7 @@ import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import House from '@assets/dom.webp';
 
 const DefaultIcon = L.icon({
   iconUrl: markerIcon,
@@ -134,10 +135,7 @@ export const AboutPage = () => {
               </p>
             </div>
             <div className={styles['missionImage']}>
-              <img
-                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop"
-                alt="Современный жилой комплекс"
-              />
+              <img src={House} alt="Современный жилой комплекс" />
             </div>
           </div>
         </div>

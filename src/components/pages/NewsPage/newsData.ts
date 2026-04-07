@@ -7,6 +7,9 @@ import block from '@assets/block.webp';
 import max from '@assets/max.webp';
 import diploma from '@assets/diploma.webp';
 import fire from '@assets/fire.webp';
+import calc from '@assets/calc.webp';
+import sobr from '@assets/sobr.webp';
+import rubish from '@assets/rubish.webp';
 
 export interface INewsItem {
   id: number;
@@ -81,18 +84,17 @@ export const newsPool: INewsItem[] = [
   },
   {
     id: 8,
-    title: 'Внимание: штормовое предупреждение',
-    date: '01 Апр 2026',
-    image: 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=400&h=250&fit=crop',
-    description:
-      'По данным МЧС, 2-3 апреля ожидается сильный ветер до 20 м/с. Просим убрать с балконов предметы, которые могут быть унесены ветром.',
-    category: 'Актуальное',
+    title: 'Собрание собственников: повестка и дата',
+    date: '05 Мар 2026',
+    image: sobr,
+    description: '10 марта в 19:00 во дворе состоится собрание собственников Титькина 37',
+    category: 'Мероприятия',
   },
   {
     id: 9,
     title: 'Приём заявок на субсидии по оплате ЖКУ',
-    date: '25 Мар 2026',
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=250&fit=crop',
+    date: '3 Мар 2026',
+    image: calc,
     description:
       'С 1 апреля УК совместно с соцзащитой начинает приём документов на оформление субсидий. Консультации по тел. +7 (495) 123-45-67.',
     category: 'Законодательство',
@@ -110,31 +112,23 @@ export const newsPool: INewsItem[] = [
     id: 11,
     title: 'Новые правила раздельного сбора мусора',
     date: '15 Фев 2026',
-    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=400&h=250&fit=crop',
+    image: rubish,
     description:
       'С 1 марта во дворе устанавливаются контейнеры для раздельного сбора: пластик, стекло, бумага, общие отходы. Памятка жильцам — в приложении УК.',
     category: 'Законодательство',
   },
+
   {
     id: 12,
-    title: 'Ремонт межпанельных швов в корпусе В',
-    date: '10 Фев 2026',
-    image: 'https://images.unsplash.com/photo-1632759145351-1d592919f522?w=400&h=250&fit=crop',
-    description:
-      'Для устранения протечек и улучшения теплоизоляции проводятся работы по герметизации швов. Доступ альпинистов с фасада здания.',
-    category: 'Ремонт и обслуживание',
-  },
-  {
-    id: 13,
     title: 'Собрание собственников: повестка и дата',
     date: '05 Фев 2026',
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=250&fit=crop',
+    image: sobr,
     description:
       '20 февраля в 19:00 в актовом зале состоится ОСШ. На повестке: выбор способа управления, утверждение сметы, благоустройство двора.',
     category: 'Мероприятия',
   },
   {
-    id: 14,
+    id: 13,
     title: 'Профилактика пожарной безопасности',
     date: '01 Фев 2026',
     image: fire,
@@ -143,16 +137,7 @@ export const newsPool: INewsItem[] = [
     category: 'Безопасность',
   },
   {
-    id: 15,
-    title: 'Индексация пенсий и социальных выплат в РФ',
-    date: '25 Янв 2026',
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=250&fit=crop',
-    description:
-      'С 1 февраля 2024 года страховые пенсии проиндексированы на 7,5%. Подробности на сайте Пенсионного фонда РФ.',
-    category: 'Актуальное',
-  },
-  {
-    id: 16,
+    id: 14,
     title: 'Титькина 37, отключение горячей воды',
     date: '15 Янв 2026',
     image: water,
@@ -161,16 +146,16 @@ export const newsPool: INewsItem[] = [
     category: 'Коммунальные услуги',
   },
   {
-    id: 17,
+    id: 15,
     title: 'График вывоза крупногабаритного мусора',
     date: '15 Дек 2025',
-    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=400&h=250&fit=crop',
+    image: rubish,
     description:
       'Вывоз КГМ осуществляется по четвергам. Заявки принимаются через приложение УК или по телефону диспетчера до 12:00 дня вывоза.',
     category: 'Коммунальные услуги',
   },
   {
-    id: 18,
+    id: 16,
     title: 'Ленина 12, отключение холодной воды',
     date: '15 Янв 2026',
     image: water,
@@ -179,22 +164,13 @@ export const newsPool: INewsItem[] = [
     category: 'Коммунальные услуги',
   },
   {
-    id: 19,
+    id: 17,
     title: 'Изменения в порядке передачи показаний счетчиков',
     date: '25 Ноя 2025',
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=250&fit=crop',
+    image: calc,
     description:
       'С 1 декабря показания принимаются только через приложение УК, сайт или чат-бот. Телефон диспетчера — только для экстренных случаев.',
     category: 'Коммунальные услуги',
-  },
-  {
-    id: 20,
-    title: 'Курс рубля и тарифы на импортные комплектующие',
-    date: '20 Ноя 2025',
-    image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=400&h=250&fit=crop',
-    description:
-      'В связи с колебаниями валютного курса возможно незначительное изменение стоимости запчастей для лифтов и насосного оборудования.',
-    category: 'Актуальное',
   },
 ];
 
