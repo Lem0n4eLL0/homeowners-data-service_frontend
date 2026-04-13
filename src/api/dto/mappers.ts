@@ -332,7 +332,7 @@ export const sendIndicationsRequestToDTO = (
   value: SendIndicationsRequest
 ): DTOSendIndicationsRequest => {
   return {
-    metersId: value.meterId,
+    meterId: value.meterId,
     value: value.value,
   };
 };
