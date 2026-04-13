@@ -174,7 +174,7 @@ export type DTOIndicationsHistory = {
 };
 
 export type DTOSendIndicationsRequest = {
-  metersId: string;
+  meterId: string;
   value: number;
 };
 
