@@ -33,9 +33,11 @@ export type DateRange = {
 };
 
 export const SERVICE_STATUSES = {
-  SENT: 'Отправлена',
-  PROCESSED: 'В обработке',
+  PENDING: 'Отправлена',
+  ACCEPTED: 'Принята',
+  IN_PROGRESS: 'В процессе',
   COMPLETED: 'Выполнена',
+  CANCELLED: 'Отклонена',
 } as const;
 
 export type ServiceStatus = keyof typeof SERVICE_STATUSES;

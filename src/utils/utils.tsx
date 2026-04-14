@@ -83,13 +83,15 @@ export const userFormatter = (user: User): React.ReactNode => {
 };
 
 export const statusApplicationFormatter = (status: ApplicationStatus): React.ReactNode => {
-  const value = SERVICE_STATUSES[status];
+  const value = SERVICE_STATUSES[status] ?? 'Неизвестно';
   switch (status) {
     case 'COMPLETED':
+    case 'ACCEPTED':
       return <span className={commonStyle['status_completed']}>{value}</span>;
-    case 'PROCESSED':
+    case 'PENDING':
+    case 'IN_PROGRESS':
       return <span className={commonStyle['status_processed']}>{value}</span>;
-    case 'SENT':
+    case 'CANCELLED':
       return <span className={commonStyle['status_sent']}>{value}</span>;
     default:
       return value;
@@ -97,13 +99,15 @@ export const statusApplicationFormatter = (status: ApplicationStatus): React.Rea
 };
 
 export const statusServicesFormatter = (status: ApplicationStatus): React.ReactNode => {
-  const value = APPLICATION_STATUSES[status];
+  const value = APPLICATION_STATUSES[status] ?? 'Неизвестно';
   switch (status) {
     case 'COMPLETED':
+    case 'ACCEPTED':
       return <span className={commonStyle['status_completed']}>{value}</span>;
-    case 'PROCESSED':
+    case 'PENDING':
+    case 'IN_PROGRESS':
       return <span className={commonStyle['status_processed']}>{value}</span>;
-    case 'SENT':
+    case 'CANCELLED':
       return <span className={commonStyle['status_sent']}>{value}</span>;
     default:
       return value;
@@ -111,7 +115,7 @@ export const statusServicesFormatter = (status: ApplicationStatus): React.ReactN
 };
 
 export const statusAccrualsFormatter = (status: AccrualStatus): React.ReactNode => {
-  const value = ACCRUALS_STATUSES[status];
+  const value = ACCRUALS_STATUSES[status] ?? 'Неизвестно';
   switch (status) {
     case 'PAID':
       return <span className={commonStyle['status_paid']}>{value}</span>;
