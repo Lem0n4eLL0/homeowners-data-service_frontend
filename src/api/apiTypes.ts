@@ -123,9 +123,11 @@ export type User = {
 };
 
 export const APPLICATION_STATUSES = {
-  SENT: 'Отправлена',
-  PROCESSED: 'В обработке',
+  PENDING: 'Отправлена',
+  ACCEPTED: 'Принята',
+  IN_PROGRESS: 'В процессе',
   COMPLETED: 'Выполнена',
+  CANCELLED: 'Отклонена',
 } as const;
 
 export type ApplicationStatus = keyof typeof APPLICATION_STATUSES;
