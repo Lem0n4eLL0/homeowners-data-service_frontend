@@ -169,7 +169,8 @@ export type DTOMeter = {
 export type DTOIndicationsHistory = {
   id: string;
   createdAt: string;
-  meter: DTOMeter;
+  propertyId: string;
+  meter: Omit<DTOMeter, 'propertyId'>;
   value: number;
 };
 
