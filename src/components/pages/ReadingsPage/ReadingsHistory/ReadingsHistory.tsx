@@ -73,7 +73,7 @@ export const ReadingsHistory = () => {
       id: el.id,
       createdAt: el.createdAt,
       type: el.meter.type,
-      property: properties.find(prop => prop.id === el.meter.propertyId)!,
+      property: properties.find(prop => prop.id === el.propertyId)!,
       value: el.value,
     };
   });

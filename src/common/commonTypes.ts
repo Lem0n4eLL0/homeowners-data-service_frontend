@@ -115,6 +115,7 @@ export type Meter = {
 export type IndicationsHistory = {
   id: string;
   createdAt: string;
-  meter: Meter;
+  propertyId: string;
+  meter: Omit<Meter, 'propertyId'>;
   value: number;
 };

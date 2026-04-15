@@ -323,7 +323,12 @@ export const toIndicationsHistoryFromDTOMapper = (
   return {
     id: dto.id,
     createdAt: dto.createdAt,
-    meter: toMeterFromDTOMapper(dto.meter),
+    propertyId: dto.propertyId,
+    meter: {
+      id: dto.meter.id,
+      serialNumber: dto.meter.serialNumber,
+      type: dto.meter.type as MeterType,
+    },
     value: dto.value,
   };
 };
