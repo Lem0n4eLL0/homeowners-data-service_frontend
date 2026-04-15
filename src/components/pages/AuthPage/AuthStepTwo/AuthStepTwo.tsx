@@ -30,7 +30,7 @@ import { codeFormatter } from '@/utils/utils';
 import { ErrorField } from '@/components/forms/ErrorField';
 import { PageRequestError } from '@/common/commonTypes';
 import { selectUser } from '@/services/slices/user';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> = {
   phone: likeRegExp(PHONE_REGEXP, 'Неверный формат телефона'),
@@ -40,6 +40,7 @@ const sendVerificationCodeFormScheme: ValidationScheme<VerificationCodeRequest> 
 
 export const AuthStepTwo = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { phone } = useAppSelector(selectUser);
   const { sendCodeStatus, verifyCodeStatus } = useAppSelector(selectStatusesAuth);
   const isUserExist = useAppSelector(selectIsAccountExists);
@@ -59,8 +60,6 @@ export const AuthStepTwo = () => {
     validateOnChange: true,
   });
 
-  console.log(errors);
-  console.log(value);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const requestError: PageRequestError = {
@@ -75,6 +74,7 @@ export const AuthStepTwo = () => {
 
   const changePhoneNumber = () => {
     dispatch(backToStepOne());
+    void navigate('/auth-step-one');
   };
 
   const onChangeCode = (e: ChangeEvent<HTMLInputElement>) => {
